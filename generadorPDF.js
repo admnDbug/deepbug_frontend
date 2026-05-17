@@ -198,9 +198,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // --- EXTRACCIÓN DE DATOS P5 ---
-            const d5_form   = p5 ? p5.datos_formulario : {};
-            const scoreBMWP = d5_form.puntaje_bmwp_total || 0;
-            const familias  = d5_form.carrito || [];
+            // --- EXTRACCIÓN DE DATOS P5 ---
+            // Modificado para leer la nueva estructura de producción de MongoDB y Cloudinary
+            const d5_protocolo = p5 ? p5.datos_protocolo_5 : {};
+            const scoreBMWP    = d5_protocolo ? (d5_protocolo.sumatoria_total_bmwp || 0) : 0;
+            const familiasRaw  = d5_protocolo ? (d5_protocolo.familias_encontradas || []) : [];
+
+            // Mapeamos al formato original para que tus tablas sigan dibujándose idénticas
+            const familias = familiasRaw.map(f => ({
+                nombre: f.nombre_familia,
+                cantidad: f.cantidad,
+                valor_bmwp: f.valor_bmwp
+            }));
 
             // Tabla de clasificación BMWP/MEX completa
             const tablaBMWP = [
