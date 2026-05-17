@@ -1,5 +1,5 @@
 // --- generadorPdf.js ---
-// Motor dedicado exclusivamente a la compilación y descarga de reportes PDF adaptado a producción.
+// Motor dedicado exclusivamente a la compilación y descarga de reportes PDF.
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnPDF = document.getElementById('btn-descargar-pdf');
@@ -24,10 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#contenedor-colaboradores .fw-bold').forEach(el => listaColabs.push(el.textContent));
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
-            // 2. Extraer Protocolos de la BD en Render
-            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { 
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            // 2. Extraer Protocolos de BD
+            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
             const p1 = protocolos.find(p => p.protocolo_numero === 1 && p.estado === 'aprobado');
@@ -36,24 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const p4 = protocolos.find(p => p.protocolo_numero === 4 && p.estado === 'aprobado');
             const p5 = protocolos.find(p => p.protocolo_numero === 5 && p.estado === 'aprobado');
 
-            // --- EXTRACCIÓN DE DATOS P1 (Plan de Monitoreo) ---
+            // --- EXTRACCIÓN DE DATOS P1 ---
             const d1 = p1 ? p1.datos_formulario : {};
             const d1_gen = d1.datos_generales || {};
             const d1_est = d1.identificacion?.estaciones || [];
             const d1_par = d1.parametros_in_situ || {};
             const d1_res = d1.responsables || {};
             const d1_mat = d1.verificacion_materiales || {};
-            const d1_eq  = d1_mat.equipos || {};
-
             const listParametrosInSitu = ['Conductividad', 'pH', 'Temperatura', 'Oxígeno disuelto', 'Salinidad', 'Turbiedad'];
-            const listEquiposFijos = ['Flujómetro', 'Termómetro', 'Conductivímetro', 'Multiparámetros', 'GPS'];
+            const listEquipos = ['Flujómetro', 'Termómetro', 'Conductivímetro', 'Multiparámetros', 'GPS', 'Cámara fotográfica'];
             const listInsumos = ['Red tipo D', 'Envases plásticos', 'Caja de Herramienta', 'R. Triangular', 'Frascos fisicoq.', 'Tijeras', 'Celular', 'Cinta métrica', 'Bolsas herméticas', 'Lápices', 'C. fluorescentes', 'Tabla anot.', 'Lupas', 'Viales de plásticos', 'Alcohol', 'Tamices', 'Pilotos indelebles', 'C. adhesiva', 'Etiquetas', 'Pinzas entomol.', 'Guantes', 'Bandejas blancas', 'Mascarillas', 'Botellas de lavado'];
 
-            // --- EXTRACCIÓN DE DATOS P2 (Fisicoquímica) ---
+            // --- EXTRACCIÓN DE DATOS P2 ---
             const d2_form = p2 ? p2.datos_formulario : {};
             const d2 = d2_form.textos || {};
             const getActives = (obj) => obj ? Object.keys(obj).filter(k => obj[k]).join(', ') || '--' : '--';
 
+            // Checkboxes P2
             const clima = getActives(d2_form.clima);
             const bosques = getActives(d2_form.bosques);
             const sucesional = getActives(d2_form.sucesional);
@@ -67,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const olor = getActives(d2_form.olor);
             const color = getActives(d2_form.color);
 
+            // HTML de la Fotografía del P2
             const imgP2Html = d2_form.foto_url
                 ? `<div style="text-align: center; margin: 15px 0;">
                      <img src="${d2_form.foto_url}" style="max-height: 250px; border-radius: 8px; border: 1px solid #dee2e6; object-fit: contain;">
@@ -76,8 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
                      <i class="fas fa-camera" style="font-size: 20px; display: block; margin-bottom: 5px;"></i> Sin fotografía registrada en el sitio
                    </div>`;
 
-            // --- EXTRACCIÓN DE DATOS P3 (Matrices de Hábitat) ---
+            // --- EXTRACCIÓN DE DATOS P3 ---
             const d3 = p3 ? p3.datos_formulario : {};
+            const gradienteActivo = d3.tipo_gradiente || 'Alto';
             const puntajesAlto = d3.puntajes_alto || {};
             const puntajesBajo = d3.puntajes_bajo || {};
             const scoreAltoTotal = d3.puntaje_total_alto || 0;
@@ -96,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 10: { alto: "10. Amplitud de la vegetación ribereña", bajo: "10. Amplitud de la vegetación ribereña" }
             };
 
+            // Función generadora de tablas del P3
             function generarTablaP3(tipo, puntajesObj, puntajeTotal) {
                 let rowsHTML = '';
                 for (let i = 1; i <= 10; i++) {
@@ -141,22 +141,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
 
-            // --- EXTRACCIÓN DE DATOS P4 (Multihábitat) ---
+            // --- EXTRACCIÓN DE DATOS P4 ---
             const d4_form = p4 ? p4.datos_formulario : {};
             const d4_textos = d4_form.textos || {};
             const d4_fauna = d4_form.fauna_asociada || {};
-            const d4_text_otros = d4_textos['otros_habitat'] || '--'; 
             const d4_estim = d4_form.estimacion_preliminar || {};
 
             const llavesFauna = ['Perifiton', 'Algas filament.', 'Macrófitas', 'Macroinvertebrados', 'Peces', 'Porífera'];
             const llavesEstimacion = ['Gasteropoda', 'Bivalvia', 'Turbellaria', 'Oligochaeta', 'Hirudinea', 'Diptera', 'Amphipoda', 'Isopoda', 'Cangrejo', 'Camarón', 'Ephemeroptera', 'Plecoptera', 'Odonata', 'Hemiptera', 'Megaloptera', 'Trichoptera', 'Lepidoptera', 'Coleoptera'];
 
+            // Etiqueta de abundancia según escala 0–4
             const etiquetaAbundancia = (val) => {
                 const v = parseInt(val) || 0;
                 const etiquetas = ['Ausente', 'Rara (1-3)', 'Común (3-9)', 'Abundante (>10)', 'Dominante (>50)'];
                 return etiquetas[v] || '--';
             };
 
+            // Parsear "otros hábitats" del formato "Nombre:valor, Nombre2:valor2"
+            const otrosHabitatRows = (() => {
+                const raw = d4_textos['otros_habitat'] || '';
+                if (!raw.trim()) return '';
+                return raw.split(', ').map(item => {
+                    const [nombre, val] = item.split(':');
+                    return `
+                        <tr>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${nombre || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6; text-align: center;">${val || '0'}%</td>
+                        </tr>
+                    `;
+                }).join('');
+            })();
+
+            // Generar filas de tabla para fauna/estimación.
+            // Cada fila es su propio <tbody> con page-break-inside:avoid para que html2pdf
+            // nunca corte el contenido visual de una fila, pero sí permita saltos ENTRE filas.
             function generarFilasMetrica(llaves, dataObj) {
                 return llaves.map(llave => {
                     const val = parseInt(dataObj[llave]) || 0;
@@ -179,22 +197,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).join('');
             }
 
-            // --- CORRECCIÓN CLAVE: EXTRACCIÓN DE DATOS P5 DESDE MONGOUSE ---
-            const d5_root    = p5 ? p5.datos_protocolo_5 : {}; 
-            const scoreBMWP  = d5_root ? d5_root.sumatoria_total_bmwp || 0 : 0;
-            const familias   = d5_root ? d5_root.familias_encontradas || [] : [];
+            // --- EXTRACCIÓN DE DATOS P5 ---
+            const d5_form   = p5 ? p5.datos_formulario : {};
+            const scoreBMWP = d5_form.puntaje_bmwp_total || 0;
+            const familias  = d5_form.carrito || [];
 
+            // Tabla de clasificación BMWP/MEX completa
             const tablaBMWP = [
                 { min: 151, max: Infinity, categoria: 'Excelente',           calidad: 'Aguas muy limpias, no contaminadas',        color: '#0d6efd' },
-                { min: 78,  max: 150,      categoria: 'Buena',               calidad: 'Aguas de calidad buena, no alteradas o poco alteradas', color: '#198754' },
-                { min: 59,  max: 77,       categoria: 'Regular',             calidad: 'Aguas de calidad regular, moderadamente afectadas',    color: '#ffc107' },
-                { min: 39,  max: 58,       categoria: 'Contaminada',         calidad: 'Aguas contaminadas, impacto evidente',       color: '#fd7e14' },
-                { min: 20,  max: 38,       categoria: 'Muy contaminada',     calidad: 'Aguas muy contaminadas, fuerte impacto urbano/industrial', color: '#d63384' },
+                { min: 120, max: 150,      categoria: 'Buena',               calidad: 'Aguas no contaminadas o poco alteradas',     color: '#198754' },
+                { min: 78,  max: 119,      categoria: 'Regular / Aceptable', calidad: 'Aguas con evidencia moderada de impacto',    color: '#20c997' },
+                { min: 59,  max: 77,       categoria: 'Dudosa / Crítica',    calidad: 'Aguas moderadamente contaminadas',           color: '#ffc107' },
+                { min: 39,  max: 58,       categoria: 'Contaminada',         calidad: 'Aguas contaminadas',                         color: '#fd7e14' },
+                { min: 20,  max: 38,       categoria: 'Muy contaminada',     calidad: 'Aguas muy contaminadas',                     color: '#d63384' },
                 { min: 0,   max: 19,       categoria: 'Extr. contaminada',   calidad: 'Aguas extremadamente contaminadas',          color: '#dc3545' },
             ];
-            const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max) || tablaBMWP[tablaBMWP.length - 1];
+            const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max)
+                              || tablaBMWP[tablaBMWP.length - 1];
 
-            // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML
+            // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
             docHTML.style.padding = '40px';
             docHTML.style.fontFamily = 'Arial, sans-serif';
@@ -206,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="margin: 5px 0 0 0; color: #6c757d; font-size: 11px; letter-spacing: 1px;">SISTEMA DE BIOMONITOREO DE MACROINVERTEBRADOS</p>
                 </div>
 
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-001. PLAN DE MUESTREO (LOGÍSTICA CORREGIDA)</h2>
+                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-001. PLAN DE MUESTREO</h2>
                 
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales</h3>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
@@ -295,57 +316,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 </table>
 
-                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Verificación de Materiales e Insumos</h3>
-                <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 12px; page-break-inside: avoid;">
-                    <tr style="background: #f8f9fa;">
-                        <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 50%;">Criterio de Control de Equipos</th>
-                        <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 15%;">Estado</th>
-                        <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 35%;">Causa (Si aplica)</th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 5px; border: 1px solid #dee2e6;">Verificar adecuación de los embalajes</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: ${d1_eq.adecuacion ? 'green' : 'red'}">${d1_eq.adecuacion ? 'OK' : 'NO'}</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; color: #555;">${d1_eq.adecuacion_txt || '--'}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 5px; border: 1px solid #dee2e6;">Limpieza profunda de los equipos e instrumental</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: ${d1_eq.limpieza ? 'green' : 'red'}">${d1_eq.limpieza ? 'OK' : 'NO'}</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; color: #555;">${d1_eq.limpieza_txt || '--'}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 5px; border: 1px solid #dee2e6;">Verificación metrológica de los instrumentos</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: ${d1_eq.metrologica ? 'green' : 'orange'}">${d1_eq.metrologica ? 'Aprobado' : 'Pendiente'}</td>
-                        <td style="padding: 5px; border: 1px solid #dee2e6; color: #666;">Obs general: ${d1_eq.observacion || '--'}</td>
-                    </tr>
-                </table>
-
+                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Verificación de Materiales</h3>
                 <div style="font-size: 10px; margin-bottom: 8px;">
-                    <strong>Equipos y Patrones de Verificación Preparados:</strong><br>
-                    <div style="display: flex; flex-wrap: wrap; margin-top: 5px; background: #fafafa; padding: 8px; border: 1px solid #dee2e6; border-radius: 4px;">
-                        ${listEquiposFijos.map(eq => {
-                            const llevaEq = d1_eq[eq] ? 'Lleva Equipo ✓' : 'No lleva';
-                            const llevaPatron = d1_eq[`Patron_${eq}`] ? 'Con Patrones ✓' : 'Sin patrones';
+                    <strong>a) Equipos y Herramientas:</strong><br>
+                    <div style="display: flex; flex-wrap: wrap; margin-top: 5px;">
+                        ${listEquipos.map(eq => {
+                            const checked = d1_mat.equipos?.[eq] ? 'X' : '';
+                            const bg = checked ? '#e9ecef' : 'transparent';
                             return `
-                            <div style="width: 50%; margin-bottom: 6px; font-size: 10px;">
-                                <b>• ${eq}:</b> <span style="color: #198754;">${llevaEq}</span> | <span style="color: #2b5c8f;">${llevaPatron}</span>
+                            <div style="width: 33%; margin-bottom: 6px; display: flex; align-items: center;">
+                                <div style="width: 12px; height: 12px; border: 1px solid #555; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: bold; margin-right: 6px; background-color: ${bg};">${checked}</div> 
+                                <span>${eq}</span>
                             </div>`;
                         }).join('')}
-                        <div style="width: 50%; font-size: 10px;"><b>• Cámara fotográfica:</b> <span style="color: #198754;">${d1_eq['Cámara fotográfica'] ? 'Lleva ✓' : 'No lleva'}</span></div>
                     </div>
                 </div>
-
-                <div style="font-size: 10px; margin-bottom: 15px; page-break-inside: avoid;">
-                    <strong>Insumos Básicos y Cantidades Cargadas:</strong><br>
+                <div style="font-size: 10px; margin-bottom: 15px;">
+                    <strong>b) Insumos (Cantidades preparadas):</strong><br>
                     <div style="display: flex; flex-wrap: wrap; margin-top: 5px;">
-                        ${listInsumos.map(ins => `<div style="width: 25%; border-bottom: 1px dotted #ccc; padding-bottom: 2px; margin-bottom: 4px; padding-right: 10px;"><strong>${ins}:</strong> ${d1_mat.insumos?.[ins] || '0'}</div>`).join('')}
+                        ${listInsumos.map(ins => `<div style="width: 25%; border-bottom: 1px dotted #ccc; padding-bottom: 2px; margin-bottom: 4px; padding-right: 10px;"><strong>${ins}:</strong> ${d1_mat.insumos?.[ins] || '--'}</div>`).join('')}
                     </div>
-                    ${(d1_mat.otros_insumos && d1_mat.otros_insumos.length > 0) ? `
-                        <div style="margin-top: 8px; background: #e9ecef; padding: 6px; border-radius: 4px;">
-                            <b>Otros Insumos Extra:</b> ${d1_mat.otros_insumos.map(oi => `${oi.nombre} (${oi.cantidad} Uds)`).join(', ')}
-                        </div>
-                    ` : ''}
                 </div>
 
+                <!-- ====== P-002 ====== -->
                 <div style="page-break-before: always;"></div>
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-002. CARACTERIZACIÓN VISUAL Y FISICOQUÍMICA</h2>
                 
@@ -500,15 +493,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span><strong style="color: #2b5c8f;">Morfología Pozas:</strong> ${d2.morf_pozas || '--'}%</span>
                 </div>
 
+                <!-- ====== P-003 ====== -->
                 <div style="page-break-before: always;"></div>
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-003. CARACTERIZACIÓN DEL HÁBITAT</h2>
+                <p style="font-size: 11px; color: #666; margin-bottom: 15px;">Se muestran las matrices de evaluación para ambos gradientes (Alto y Bajo).</p>
                 
                 ${generarTablaP3('Alto', puntajesAlto, scoreAltoTotal)}
                 ${generarTablaP3('Bajo', puntajesBajo, scoreBajoTotal)}
 
+                <!-- ====== P-004 ====== -->
                 <div style="page-break-before: always;"></div>
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-004. MUESTREO MULTIHÁBITAT</h2>
 
+                <!-- 4.1 Tipos de hábitat -->
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Tipos de Hábitat y Porcentajes</h3>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; page-break-inside: avoid;">
                     <tr style="background: #e9ecef;">
@@ -537,12 +534,15 @@ document.addEventListener('DOMContentLoaded', () => {
                             </td>
                         </tr>`;
                     }).join('')}
+                    ${otrosHabitatRows ? `
+                        <tr style="background: #fafafa;">
+                            <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; color: #2b5c8f; font-size: 10px;">Otros hábitats registrados:</td>
+                        </tr>
+                        ${otrosHabitatRows}
+                    ` : ''}
                 </table>
 
-                <div style="font-size: 10px; margin-bottom: 15px; background: #f8f9fa; padding: 10px; border: 1px dashed #dee2e6; border-radius: 6px;">
-                    <b>Otros hábitats reportados:</b> ${d4_text_otros}
-                </div>
-
+                <!-- 4.2 Arrastres -->
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Número de Arrastres por Hábitat</h3>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center; page-break-inside: avoid;">
                     <tr style="background: #e9ecef;">
@@ -563,7 +563,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tr>
                 </table>
 
+                <!-- 4.3 Fauna asociada -->
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Fauna Asociada</h3>
+                <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
+                    Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
+                </div>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                     <thead>
                         <tr style="background: #e9ecef;">
@@ -576,8 +580,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${generarFilasMetrica(llavesFauna, d4_fauna)}
                 </table>
 
+                <!-- 4.4 Estimación preliminar — salto de página propio para garantizar que la tabla entera sea visible -->
                 <div style="page-break-before: always;"></div>
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
+                <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
+                    Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
+                </div>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                     <thead>
                         <tr style="background: #e9ecef;">
@@ -590,20 +598,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${generarFilasMetrica(llavesEstimacion, d4_estim)}
                 </table>
 
+                <!-- 4.5 Observaciones -->
                 ${d4_textos['observaciones'] ? `
                 <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Observaciones o Comentarios</h3>
                 <div style="font-size: 10px; border: 1px solid #dee2e6; padding: 10px; border-radius: 4px; background: #fafafa; margin-bottom: 20px; white-space: pre-wrap;">${d4_textos['observaciones']}</div>
                 ` : ''}
 
+                <!-- ====== P-005 ====== -->
                 <div style="page-break-before: always;"></div>
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP/MEX)</h2>
 
-                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Familias de Macroinvertebrados Registradas en Laboratorio</h3>
+                <!-- 5.1 Tabla de familias registradas -->
+                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Familias de Macroinvertebrados Registradas</h3>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 5px;">
                     <thead>
                         <tr style="background: #2b5c8f; color: white;">
                             <th style="padding: 6px 8px; border: 1px solid #1a4a7a; text-align: left; width: 50%;">Familia Identificada</th>
-                            <th style="padding: 6px 8px; border: 1px solid #1a4a7a; text-align: center; width: 25%;">Cantidad Organismos</th>
+                            <th style="padding: 6px 8px; border: 1px solid #1a4a7a; text-align: center; width: 25%;">Individuos</th>
                             <th style="padding: 6px 8px; border: 1px solid #1a4a7a; text-align: center; width: 25%;">Índice BMWP</th>
                         </tr>
                     </thead>
@@ -611,16 +622,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         ? familias.map((f, idx) => `
                             <tbody style="page-break-inside: avoid;">
                                 <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8f9fa'};">
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; font-weight: bold;">${f.nombre_familia || '--'}</td>
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center;">${f.cantidad || 1}</td>
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: #198754;">${f.valor_bmwp || 0} pts</td>
+                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; font-weight: bold;">${f.nombre || '--'}</td>
+                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center;">${f.cantidad || 0}</td>
+                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: #198754;">${f.valor_bmwp || 0}</td>
                                 </tr>
                             </tbody>`).join('')
                         : `<tbody><tr><td colspan="3" style="padding: 10px; border: 1px solid #dee2e6; text-align: center; color: #6c757d; font-style: italic;">Sin familias registradas en este protocolo</td></tr></tbody>`
                     }
+                    <!-- Fila de totales -->
                     <tbody style="page-break-inside: avoid;">
                         <tr style="background: #e9ecef;">
-                            <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: right;">TOTALES EN LA MUESTRA:</th>
+                            <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: right;">TOTALES:</th>
                             <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: center;">
                                 ${familias.reduce((acc, f) => acc + (parseInt(f.cantidad) || 0), 0)}
                             </th>
@@ -630,21 +642,28 @@ document.addEventListener('DOMContentLoaded', () => {
                         </tr>
                     </tbody>
                 </table>
+                <p style="font-size: 9px; color: #6c757d; margin-bottom: 20px;">
+                    * El índice BMWP/MEX asigna un puntaje a cada familia según su tolerancia a la contaminación. La sumatoria total determina la calidad biológica del cuerpo de agua.
+                </p>
 
-                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 12px;">2. Resultado Diagnóstico de Calidad Biológica</h3>
+                <!-- 5.2 Resultado y clasificación -->
+                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 12px;">2. Resultado BMWP/MEX y Calidad Biológica</h3>
+
+                <!-- Tarjeta de puntaje obtenido -->
                 <div style="border: 2px solid ${clasifActual.color}; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 20px; page-break-inside: avoid;">
                     <div style="flex: 0 0 auto; text-align: center; min-width: 90px;">
-                        <div style="font-size: 9px; color: #6c757d; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Índice Final</div>
+                        <div style="font-size: 9px; color: #6c757d; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Puntaje BMWP</div>
                         <div style="font-size: 30px; font-weight: bold; color: ${clasifActual.color}; line-height: 1.1;">${scoreBMWP}</div>
                         <div style="font-size: 9px; color: #6c757d;">puntos</div>
                     </div>
                     <div style="flex: 1; border-left: 2px solid #dee2e6; padding-left: 18px;">
-                        <div style="font-size: 13px; font-weight: bold; color: ${clasifActual.color}; margin-bottom: 4px;">CALIDAD BIOLÓGICA: ${clasifActual.categoria.toUpperCase()}</div>
-                        <div style="font-size: 11px; color: #333;"><b>Diagnóstico:</b> ${clasifActual.calidad}</div>
+                        <div style="font-size: 13px; font-weight: bold; color: ${clasifActual.color}; margin-bottom: 4px;">${clasifActual.categoria.toUpperCase()}</div>
+                        <div style="font-size: 11px; color: #333;">${clasifActual.calidad}</div>
                     </div>
                 </div>
 
-                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Escala de Interpretación de Calidad BMWP/MEX</h3>
+                <!-- Tabla de clasificación completa BMWP/MEX -->
+                <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Escala de Clasificación BMWP/MEX</h3>
                 <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 20px; page-break-inside: avoid;">
                     <thead>
                         <tr style="background: #e9ecef;">
@@ -673,6 +692,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </tbody>
                 </table>
 
+                <!-- Pie de página del reporte -->
                 <div style="margin-top: 30px; border-top: 2px solid #dee2e6; padding-top: 12px; font-size: 9px; color: #6c757d; display: flex; justify-content: space-between;">
                     <span>Deep Bug &mdash; Sistema de Biomonitoreo de Macroinvertebrados</span>
                     <span>Generado el: ${new Date().toLocaleDateString('es-PA', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -680,10 +700,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            // 4. Parámetros y descarga con blindaje CORS para Cloudinary
+            // 4. Parámetros y descarga
             const opcionesConfig = {
                 margin: 10,
-                filename: `Reporte_${nombreProyecto.replace(/\\s+/g, '_')}.pdf`,
+                filename: `Reporte_${nombreProyecto.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
