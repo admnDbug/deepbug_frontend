@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
-            docHTML.style.padding = '10px 30px'; // Ajuste de padding para maximizar área de impresión
+            docHTML.style.padding = '0px 20px'; // Ajuste estratégico para maximizar impresión sin dejar huecos raros
             docHTML.style.fontFamily = 'Arial, sans-serif';
             docHTML.style.color = '#333';
 
@@ -238,54 +238,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-001. PLAN DE MUESTREO</h2>
                 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Proyecto:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreProyecto}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Zona de Estudio:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreZona}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Contacto:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${d1_gen.contacto || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Provincia(s):</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${d1_gen.provincia || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Objetivo:</td>
                             <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6;">${d1_gen.objetivo || '--'}</td>
                         </tr>
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Identificación (Estaciones)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">N° Control</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Lugar</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Tipo Muestra</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Fecha</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Hora</th>
-                        </tr>
-                        ${d1_est.length > 0 ? d1_est.map(e => `
-                        <tr>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.control || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.lugar || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.tipo_muestra || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.fecha || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.hora || '--'}</td>
-                        </tr>
-                        `).join('') : '<tr><td colspan="5" style="padding: 4px; border: 1px solid #dee2e6; text-align: center;">Sin estaciones registradas</td></tr>'}
+                        <thead>
+                            <tr style="background: #e9ecef;">
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">N° Control</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Lugar</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Tipo Muestra</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Fecha</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${d1_est.length > 0 ? d1_est.map(e => `
+                            <tr style="page-break-inside: avoid;">
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${e.control || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${e.lugar || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${e.tipo_muestra || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${e.fecha || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${e.hora || '--'}</td>
+                            </tr>
+                            `).join('') : '<tr><td colspan="5" style="padding: 4px; border: 1px solid #dee2e6; text-align: center;">Sin estaciones registradas</td></tr>'}
+                        </tbody>
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Parámetros a evaluar (In Situ)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 15px; text-align: center; table-layout: fixed; word-wrap: break-word;">
-                        <thead style="display: table-row-group;">
+                        <thead>
                             <tr style="background: #e9ecef;">
                                 <th style="border: 1px solid #dee2e6; border-bottom: none; text-align: left; width: 18%; vertical-align: top;"><div style="margin-top: 8px; margin-left: 4px;">Parámetro</div></th>
                                 <th style="border: 1px solid #dee2e6; border-bottom: none; width: 10%; vertical-align: top;"><div style="margin-top: 8px;">Unidad</div></th>
@@ -302,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <tbody>
                             ${listParametrosInSitu.map(param => {
                                 const dataP = d1_par[param] || {};
-                                return `<tr style="line-height: 1.1;">
+                                return `<tr style="line-height: 1.1; page-break-inside: avoid;">
                                     <td style="padding: 4px; border: 1px solid #dee2e6; text-align: left; font-weight: bold; word-break: break-word;">${param}</td>
                                     <td style="padding: 4px; border: 1px solid #dee2e6; word-break: break-word;">${dataP.unidad || '--'}</td>
                                     ${[1,2,3,4,5,6,7,8].map(i => `<td style="padding: 4px; border: 1px solid #dee2e6; word-break: break-word;">${dataP[`e${i}`] || '--'}</td>`).join('')}
@@ -313,16 +317,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Responsables</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 25%;">Conductor:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 25%;">${d1_res.conductor || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 25%;">Fecha plan:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 25%;">${d1_res.fecha_elaboracion_plan || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Investigador Responsable:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6;">${responsable}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Técnicos (Equipo):</td>
@@ -333,9 +337,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Verificación de Materiales</h3>
-                    <div style="font-size: 10px; margin-bottom: 8px;">
+                    <div style="font-size: 10px; margin-bottom: 8px; page-break-inside: avoid;">
                         <strong>a) Equipos y Herramientas:</strong><br>
                         <div style="display: flex; flex-wrap: wrap; margin-top: 5px;">
                             ${listEquipos.map(eq => {
@@ -349,7 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             }).join('')}
                         </div>
                     </div>
-                    <div style="font-size: 10px; margin-bottom: 15px;">
+                    <div style="font-size: 10px; margin-bottom: 15px; page-break-inside: avoid;">
                         <strong>b) Insumos (Cantidades preparadas):</strong><br>
                         <div style="display: flex; flex-wrap: wrap; margin-top: 5px;">
                             ${listInsumos.map(ins => `<div style="width: 25%; border-bottom: 1px dotted #ccc; padding-bottom: 2px; margin-bottom: 4px; padding-right: 10px;"><strong>${ins}:</strong> ${d1_mat.insumos?.[ins] || '--'}</div>`).join('')}
@@ -357,65 +361,63 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div class="html2pdf__page-break"></div>
-
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-002. CARACTERIZACIÓN VISUAL Y FISICOQUÍMICA</h2>
+                <h2 style="page-break-before: always; color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-002. CARACTERIZACIÓN VISUAL Y FISICOQUÍMICA</h2>
                 
                 <div style="page-break-inside: avoid; margin-bottom: 15px; text-align: center;">
                     ${imgP2Html}
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales y Localización</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">N° Control:</td><td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${d2.n_control || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Nombre Río:</td><td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${d2.nombre_rio || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">ID Estación:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.id_estacion || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Orden Río:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.orden_rio || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Cuenca:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.cuenca || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Altura:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.altura || '--'} msnm</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Lat / Lng:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.latitud || '--'} , ${d2.longitud || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Localidad:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.localidad || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Provincia:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.provincia || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Distrito/Correg:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.distrito || '--'} / ${d2.corregimiento || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Llenado por:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.llenado_por || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Fecha/Hora:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.fecha || '--'} - ${d2.hora || '--'} ${d2_form.horario || ''}</td>
                         </tr>
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Clima y Cuerpo de Agua</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 25%;">Clima Actual:</td><td style="padding: 4px; border: 1px solid #dee2e6; width: 25%;">${clima}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 25%;">Lluvia 7 días previos:</td><td style="padding: 4px; border: 1px solid #dee2e6; width: 25%;">${d2_form.lluvias || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Nubosidad / Temp Amb:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.nubosidad || '--'}% / ${d2.temp_amb || '--'}°C</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Subsistema / Tipología:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2_form.subsistema || '--'} / ${d2_form.tipologia || '--'}</td>
                         </tr>
-                        <tr>
+                        <tr style="page-break-inside: avoid;">
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Temp Agua (Radio):</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2_form.temp_agua_radio || '--'}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6;">Área Cuenca:</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.area_cuenca || '--'} Kms</td>
                         </tr>
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Cobertura Boscosa y Usos de la Tierra</h3>
-                    <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
+                    <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px; page-break-inside: avoid;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px; background: #fafafa;">
                             <strong style="color: #2b5c8f;">Bosques:</strong> ${bosques}<br>
                             <strong style="color: #2b5c8f;">Estado Sucesional:</strong> ${sucesional}<br>
@@ -429,9 +431,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Descargas y Modificaciones</h3>
-                    <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-inside: avoid;">4. Descargas y Modificaciones</h3>
+                    <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px; page-break-inside: avoid;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
                             <strong style="color: #2b5c8f;">Descargas de Efluentes:</strong> ${descargas}<br>
                             <strong style="color: #2b5c8f;">Tipo de Efluente:</strong> ${tipo_efluente}<br>
@@ -439,7 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <strong style="color: #2b5c8f;">Especies/Cobertura:</strong> ${d2.esp_dominantes || '--'} / ${d2.porcentaje_veg || '--'}%
                         </div>
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
-                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong>br>
+                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong><br>
                             Residuos: ${d2_form.residuos||'--'} | Canalizado: ${d2_form.canalizado||'--'} | Presas: ${d2_form.presas||'--'}<br>
                             Rectificación: ${d2_form.rectificacion||'--'} | Aceites: ${d2_form.aceites||'--'} | Extracciones: ${d2_form.extracciones||'--'}<br>
                             <strong style="color: #2b5c8f; margin-top: 5px; display: inline-block;">Erosión Local:</strong> ${d2_form.erosion || '--'}
@@ -447,76 +449,84 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Calidad del Agua (In Situ P2)</h3>
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-inside: avoid;">5. Calidad del Agua (In Situ P2)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Temp (°C)</th><th style="padding: 4px; border: 1px solid #dee2e6;">TDS</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Ox. Disuelto</th><th style="padding: 4px; border: 1px solid #dee2e6;">Nitrito</th><th style="padding: 4px; border: 1px solid #dee2e6;">Turbiedad</th>
-                        </tr>
-                        <tr>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_temp || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_tds || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_od || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_nitrito || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_turb || '--'}</td>
-                        </tr>
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Nitrato</th><th style="padding: 4px; border: 1px solid #dee2e6;">pH</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Salinidad</th><th style="padding: 4px; border: 1px solid #dee2e6;">Conductividad</th><th style="padding: 4px; border: 1px solid #dee2e6;">Fosfatos</th>
-                        </tr>
-                        <tr>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_nitrato || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_ph || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_salinidad || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_cond || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_fosfatos || '--'}</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="padding: 4px; border: 1px solid #dee2e6; background: #e9ecef;">Equipos Utilizados:</th>
-                            <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_equipos || '--'}</td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" style="padding: 4px; border: 1px solid #dee2e6; background: #e9ecef;">Olores / Colores:</th>
-                            <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6;">${olor} / ${color}</td>
-                        </tr>
+                        <thead>
+                            <tr style="background: #e9ecef; page-break-inside: avoid;">
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Temp (°C)</th><th style="padding: 4px; border: 1px solid #dee2e6;">TDS</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Ox. Disuelto</th><th style="padding: 4px; border: 1px solid #dee2e6;">Nitrito</th><th style="padding: 4px; border: 1px solid #dee2e6;">Turbiedad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="page-break-inside: avoid;">
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_temp || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_tds || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_od || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_nitrito || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_turb || '--'}</td>
+                            </tr>
+                            <tr style="background: #e9ecef; page-break-inside: avoid;">
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Nitrato</th><th style="padding: 4px; border: 1px solid #dee2e6;">pH</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Salinidad</th><th style="padding: 4px; border: 1px solid #dee2e6;">Conductividad</th><th style="padding: 4px; border: 1px solid #dee2e6;">Fosfatos</th>
+                            </tr>
+                            <tr style="page-break-inside: avoid;">
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_nitrato || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_ph || '--'}</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_salinidad || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_cond || '--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_fosfatos || '--'}</td>
+                            </tr>
+                            <tr style="page-break-inside: avoid;">
+                                <th colspan="2" style="padding: 4px; border: 1px solid #dee2e6; background: #e9ecef;">Equipos Utilizados:</th>
+                                <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6;">${d2.ca_equipos || '--'}</td>
+                            </tr>
+                            <tr style="page-break-inside: avoid;">
+                                <th colspan="2" style="padding: 4px; border: 1px solid #dee2e6; background: #e9ecef;">Olores / Colores:</th>
+                                <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6;">${olor} / ${color}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
                 <div style="page-break-inside: avoid; margin-bottom: 15px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">6. Mediciones Estructurales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
-                        <tr style="background: #2b5c8f; color: white;">
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Dimensión</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Métrica</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">P1</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">P2</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">P3</th>
-                        </tr>
-                        <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Ancho (m)</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p3||'--'}</td>
-                        </tr>
-                        <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Profundidad (m)</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p3||'--'}</td>
-                        </tr>
-                        <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Velocidad (m/s)</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p3||'--'}</td>
-                        </tr>
-                        <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p3||'--'}</td>
-                        </tr>
+                        <thead>
+                            <tr style="background: #2b5c8f; color: white;">
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Dimensión</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">Métrica</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">P1</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">P2</th>
+                                <th style="padding: 4px; border: 1px solid #dee2e6;">P3</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Ancho (m)</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m0_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m50_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.ancho_m100_p3||'--'}</td>
+                            </tr>
+                            <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Profundidad (m)</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m0_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m50_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.prof_m100_p3||'--'}</td>
+                            </tr>
+                            <tr><td rowspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; background: #f8f9fa; vertical-align: middle;">Velocidad (m/s)</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M0</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m0_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M50</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m50_p3||'--'}</td>
+                            </tr>
+                            <tr><td style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold;">M100</td>
+                                <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p1||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p2||'--'}</td><td style="padding: 4px; border: 1px solid #dee2e6;">${d2.vel_m100_p3||'--'}</td>
+                            </tr>
+                        </tbody>
                     </table>
 
                     <div style="font-size: 10px; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px; background: #fafafa; display: flex; justify-content: space-around;">
@@ -526,86 +536,90 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div class="html2pdf__page-break"></div>
-
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-003. CARACTERIZACIÓN DEL HÁBITAT</h2>
+                <h2 style="page-break-before: always; color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-003. CARACTERIZACIÓN DEL HÁBITAT</h2>
                 <p style="font-size: 11px; color: #666; margin-bottom: 15px;">Se muestran las matrices de evaluación para ambos gradientes (Alto y Bajo).</p>
                 
                 ${generarTablaP3('Alto', puntajesAlto, scoreAltoTotal)}
                 ${generarTablaP3('Bajo', puntajesBajo, scoreBajoTotal)}
 
-                <div class="html2pdf__page-break"></div>
-
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-004. MUESTREO MULTIHÁBITAT</h2>
+                <h2 style="page-break-before: always; color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-004. MUESTREO MULTIHÁBITAT</h2>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Tipos de Hábitat y Porcentajes</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 55%;">Hábitat</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 15%;">Porcentaje (%)</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 30%;">Representación visual</th>
-                        </tr>
-                        ${[
-                            ['H1. Sustrato duro en rápidos',  d4_textos['porcentaje_h1']],
-                            ['H2. Detrito vegetal',           d4_textos['porcentaje_h2']],
-                            ['H3. Orillas vegetadas',         d4_textos['porcentaje_h3']],
-                            ['H4. Macrófitas acuáticas',      d4_textos['porcentaje_h4']],
-                            ['H5. Arena u otros sedimentos finos', d4_textos['porcentaje_h5']],
-                        ].map(([nombre, pct]) => {
-                            const v = parseInt(pct) || 0;
-                            const filled = Math.round(v / 10);
-                            const bar = Array.from({length: 10}, (_, i) =>
-                                `<td style="width:10%;height:12px;background:${i < filled ? '#198754' : '#dee2e6'};border:1px solid #fff;"></td>`
-                            ).join('');
-                            return `
-                            <tr>
-                                <td style="padding: 5px; border: 1px solid #dee2e6;">${nombre}</td>
-                                <td style="padding: 5px; border: 1px solid #dee2e6; text-align: center; font-weight: bold;">${v}%</td>
-                                <td style="padding: 3px; border: 1px solid #dee2e6;">
-                                    <table style="width:100%;border-collapse:collapse;"><tr>${bar}</tr></table>
-                                </td>
-                            </tr>`;
-                        }).join('')}
-                        ${otrosHabitatRows ? `
-                            <tr style="background: #fafafa;">
-                                <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; color: #2b5c8f; font-size: 10px;">Otros hábitats registrados:</td>
+                        <thead>
+                            <tr style="background: #e9ecef;">
+                                <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 55%;">Hábitat</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 15%;">Porcentaje (%)</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 30%;">Representación visual</th>
                             </tr>
-                            ${otrosHabitatRows}
-                        ` : ''}
+                        </thead>
+                        <tbody>
+                            ${[
+                                ['H1. Sustrato duro en rápidos',  d4_textos['porcentaje_h1']],
+                                ['H2. Detrito vegetal',           d4_textos['porcentaje_h2']],
+                                ['H3. Orillas vegetadas',         d4_textos['porcentaje_h3']],
+                                ['H4. Macrófitas acuáticas',      d4_textos['porcentaje_h4']],
+                                ['H5. Arena u otros sedimentos finos', d4_textos['porcentaje_h5']],
+                            ].map(([nombre, pct]) => {
+                                const v = parseInt(pct) || 0;
+                                const filled = Math.round(v / 10);
+                                const bar = Array.from({length: 10}, (_, i) =>
+                                    `<td style="width:10%;height:12px;background:${i < filled ? '#198754' : '#dee2e6'};border:1px solid #fff;"></td>`
+                                ).join('');
+                                return `
+                                <tr style="page-break-inside: avoid;">
+                                    <td style="padding: 5px; border: 1px solid #dee2e6;">${nombre}</td>
+                                    <td style="padding: 5px; border: 1px solid #dee2e6; text-align: center; font-weight: bold;">${v}%</td>
+                                    <td style="padding: 3px; border: 1px solid #dee2e6;">
+                                        <table style="width:100%;border-collapse:collapse;"><tr>${bar}</tr></table>
+                                    </td>
+                                </tr>`;
+                            }).join('')}
+                            ${otrosHabitatRows ? `
+                                <tr style="background: #fafafa; page-break-inside: avoid;">
+                                    <td colspan="3" style="padding: 4px; border: 1px solid #dee2e6; font-weight: bold; color: #2b5c8f; font-size: 10px;">Otros hábitats registrados:</td>
+                                </tr>
+                                ${otrosHabitatRows}
+                            ` : ''}
+                        </tbody>
                     </table>
                 </div>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Número de Arrastres por Hábitat</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">H1. Sustrato duro</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">H2. Detrito vegetal</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">H3. Orillas veg.</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">H4. Macrófitas</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">H5. Sedimentos finos</th>
-                            <th style="padding: 5px; border: 1px solid #dee2e6;">Método de colecta</th>
-                        </tr>
-                        <tr>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h1'] || '0'}</td>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h2'] || '0'}</td>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h3'] || '0'}</td>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h4'] || '0'}</td>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h5'] || '0'}</td>
-                            <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['metodo_colecta'] || 'Red de mano tipo D (500 µm)'}</td>
-                        </tr>
+                        <thead>
+                            <tr style="background: #e9ecef;">
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">H1. Sustrato duro</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">H2. Detrito vegetal</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">H3. Orillas veg.</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">H4. Macrófitas</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">H5. Sedimentos finos</th>
+                                <th style="padding: 5px; border: 1px solid #dee2e6;">Método de colecta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="page-break-inside: avoid;">
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h1'] || '0'}</td>
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h2'] || '0'}</td>
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h3'] || '0'}</td>
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h4'] || '0'}</td>
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['arrastre_h5'] || '0'}</td>
+                                <td style="padding: 5px; border: 1px solid #dee2e6;">${d4_textos['metodo_colecta'] || 'Red de mano tipo D (500 µm)'}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
 
                 <div style="margin-bottom: 25px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Fauna Asociada</h3>
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-inside: avoid;">3. Fauna Asociada</h3>
                     <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <thead>
-                            <tr style="background: #e9ecef;">
+                            <tr style="background: #e9ecef; page-break-inside: avoid;">
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 30%;">Organismo</th>
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 10%;">Valor</th>
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 25%;">Categoría</th>
@@ -617,13 +631,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div style="margin-bottom: 25px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-before: auto;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-inside: avoid;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
                     <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <thead>
-                            <tr style="background: #e9ecef;">
+                            <tr style="background: #e9ecef; page-break-inside: avoid;">
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 30%;">Taxón</th>
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: center; width: 10%;">Valor</th>
                                 <th style="padding: 5px; border: 1px solid #dee2e6; text-align: left; width: 25%;">Categoría</th>
@@ -641,9 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 ` : ''}
 
-                <div class="html2pdf__page-break"></div>
-
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP/MEX)</h2>
+                <h2 style="page-break-before: always; color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP/MEX)</h2>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Familias de Macroinvertebrados Registradas</h3>
@@ -655,26 +667,28 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <th style="padding: 6px 8px; border: 1px solid #1a4a7a; text-align: center; width: 25%;">Índice BMWP</th>
                             </tr>
                         </thead>
-                        ${familias.length > 0
-                            ? familias.map((f, idx) => `
-                                <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8f9fa'};">
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; font-weight: bold;">${f.nombre || '--'}</td>
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center;">${f.cantidad || 0}</td>
-                                    <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: #198754;">${f.valor_bmwp || 0}</td>
-                                </tr>`).join('')
-                            : `<tr><td colspan="3" style="padding: 10px; border: 1px solid #dee2e6; text-align: center; color: #6c757d; font-style: italic;">Sin familias registradas en este protocolo</td></tr>`
-                        }
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: right;">TOTALES:</th>
-                            <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: center;">
-                                ${familias.reduce((acc, f) => acc + (parseInt(f.cantidad) || 0), 0)}
-                            </th>
-                            <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: center; font-size: 12px; color: #2b5c8f;">
-                                ${scoreBMWP} pts
-                            </th>
-                        </tr>
+                        <tbody>
+                            ${familias.length > 0
+                                ? familias.map((f, idx) => `
+                                    <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8f9fa'}; page-break-inside: avoid;">
+                                        <td style="padding: 5px 8px; border: 1px solid #dee2e6; font-weight: bold;">${f.nombre || '--'}</td>
+                                        <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center;">${f.cantidad || 0}</td>
+                                        <td style="padding: 5px 8px; border: 1px solid #dee2e6; text-align: center; font-weight: bold; color: #198754;">${f.valor_bmwp || 0}</td>
+                                    </tr>`).join('')
+                                : `<tr style="page-break-inside: avoid;"><td colspan="3" style="padding: 10px; border: 1px solid #dee2e6; text-align: center; color: #6c757d; font-style: italic;">Sin familias registradas en este protocolo</td></tr>`
+                            }
+                            <tr style="background: #e9ecef; page-break-inside: avoid;">
+                                <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: right;">TOTALES:</th>
+                                <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: center;">
+                                    ${familias.reduce((acc, f) => acc + (parseInt(f.cantidad) || 0), 0)}
+                                </th>
+                                <th style="padding: 6px 8px; border: 1px solid #dee2e6; text-align: center; font-size: 12px; color: #2b5c8f;">
+                                    ${scoreBMWP} pts
+                                </th>
+                            </tr>
+                        </tbody>
                     </table>
-                    <p style="font-size: 9px; color: #6c757d;">
+                    <p style="font-size: 9px; color: #6c757d; page-break-inside: avoid;">
                         * El índice BMWP/MEX asigna un puntaje a cada familia según su tolerancia a la contaminación. La sumatoria total determina la calidad biológica del cuerpo de agua.
                     </p>
                 </div>
@@ -710,7 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 const esActual = (scoreBMWP >= r.min && scoreBMWP <= r.max);
                                 const rango = r.max === Infinity ? `> ${r.min}` : `${r.min} – ${r.max}`;
                                 return `
-                                <tr style="background-color: ${esActual ? r.color + '22' : 'transparent'}; font-weight: ${esActual ? 'bold' : 'normal'};">
+                                <tr style="background-color: ${esActual ? r.color + '22' : 'transparent'}; font-weight: ${esActual ? 'bold' : 'normal'}; page-break-inside: avoid;">
                                     <td style="padding: 5px 8px; border: 1px solid #dee2e6; color: ${r.color}; font-weight: bold;">
                                         ${esActual ? '▶ ' : ''}${r.categoria}
                                 </td>
