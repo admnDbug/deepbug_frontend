@@ -1,0 +1,169 @@
+:root {
+    --accordion-bg: #8beeb5; 
+    --chip-bg: #f0ede4; 
+}
+
+.card-img-top {
+    width: auto;
+}
+
+/* =========================================
+   Contenedor de Chips y Barra de Scroll 
+   ========================================= */
+.chip-container { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+    overflow-x: auto; 
+    padding-bottom: 12px;
+}
+
+/* Diseño del Scrollbar Horizontal */
+.chip-container::-webkit-scrollbar { 
+    height: 8px; 
+    display: block; 
+}
+.chip-container::-webkit-scrollbar-track { 
+    background: #f1f1f1; 
+    border-radius: 4px; 
+}
+.chip-container::-webkit-scrollbar-thumb { 
+    background: #8beeb5;
+    border-radius: 4px; 
+}
+.chip-container::-webkit-scrollbar-thumb:hover { 
+    background: #8beeb5; 
+}
+
+/* Diseño de cada Chip individual */
+.protocol-chip {
+    background-color: var(--chip-bg);
+    border: 1px solid #d1cebd;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.3s;
+    color: #333;
+}
+.protocol-chip.active { 
+    background-color: #8beeb5; 
+    color: black; 
+    border-color: #8beeb5; 
+}
+
+/* =========================================
+   Estilos de las Secciones (Modo Pestañas)
+   ========================================= */
+.protocol-section {
+    display: none; /* Ocultas por defecto */
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.protocol-section.active-section {
+    display: block; /* Solo se muestra la sección activa */
+}
+.section-header-title {
+    background-color: var(--accordion-bg);
+    color: black;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   Tipografía y Campos del Formulario
+   ========================================= */
+.form-label-title { 
+    font-weight: bold; 
+    color: black; 
+    font-size: 0.9rem; 
+    margin-top: 10px; 
+    margin-bottom: 5px; 
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 3px; 
+}
+.custom-check-group { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+}
+.form-control-inline { 
+    display: inline-block; 
+    width: auto; 
+    min-width: 60px; 
+    height: 24px; 
+    padding: 0 5px; 
+    font-size: 0.8rem;
+}
+
+.form-check-input {
+    border-color: #333;
+}
+
+.btn-modificar {
+    background-color: #2196f3 !important;
+    border: none;
+    border-radius: 30px !important; /* Bordes muy redondeados */
+    padding: 8px 25px; /* Un poco de aire a los lados */
+    transition: all 0.3s ease;
+}
+
+.btn-modificar:hover {
+    background-color: #1976d2 !important;
+    transform: translateY(-2px); /* Un pequeño efecto de levante al pasar el mouse */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+/* Aplicamos lo mismo al botón de guardar para que no desentone */
+#btnGuardarGlobal {
+    border-radius: 30px !important;
+}
+
+#label-veg-acuatica {
+    font-weight: bold;
+}
+
+.measurement-block {
+    background: #f4f4f4c5;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.measurement-grid {
+    display: grid;
+    grid-template-columns: 60px repeat(3, 1fr);
+    gap: 8px;
+    align-items: center;
+}
+
+.measurement-grid .header {
+    font-weight: bold;
+    text-align: center;
+    font-size: small;
+}
+
+.measurement-grid .row-label {
+    font-weight: bold;
+    text-align: center;
+    font-size: small;
+}
+
+.measurement-grid input {
+    height: 30px;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.measurement-block h6 {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: medium;
+}

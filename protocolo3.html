@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo 3 - Deep Bug</title>
+
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/protocolotres.css">
+    <style>
+        .score-input:disabled { background-color: #f8f9fa; color: #495057; border-color: #e9ecef; }
+        .score-input { text-align: center; font-weight: bold; }
+        /* Pequeño ajuste para que las cajitas dobles quepan bien en su diseño */
+        .input-mini { width: 55px !important; padding: 2px 4px !important; height: 30px; font-size: 13px; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+  <div class="d-flex">
+        <div class="sidebar d-flex flex-column">
+            <div class="sidebar-brand">
+                <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+                <span class="brand-text">Deep Bug</span>
+            </div>
+            <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+                <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+                <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+                <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+            </nav>
+        </div>
+
+        <div class="main-content flex-grow-1">
+
+            <div class="top-header">
+                <div>
+                    <h4 class="mb-0 text-primary fw-bold d-flex align-items-center">
+                        Protocolo 3
+                        <a href="#" id="link-proyecto-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar al Proyecto">
+                            <i class="fas fa-arrow-left"></i> <span id="nombre-proyecto-nav">Cargando...</span>
+                        </a>
+                    </h4>
+                    <small class="text-primary fw-bold" id="estado-texto">Caracterización del hábitat</small>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+                </div>
+            </div>
+
+            <div class="container-fluid px-4 py-4 mt-2">
+
+                <div class="row align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm mx-0">
+                    <div class="col-md-4 d-flex align-items-center gap-2">
+                        <i class="fas fa-water text-primary fa-2x me-2"></i>
+                        <div class="position-relative w-100">
+                            <label class="small fw-bold text-muted mb-1 d-block">Tipo de Gradiente</label>
+                            <select id="tipo_gradiente" class="gradiente-select pe-4 fw-bold text-primary border-0 bg-transparent w-100 p-0" style="appearance: none; outline: none; cursor: pointer;" disabled>
+                                <option value="Alto">Gradiente Alto</option>
+                                <option value="Bajo">Gradiente Bajo</option>
+                            </select>
+                            <i class="fas fa-chevron-down text-primary position-absolute" style="right: 5px; top: 70%; transform: translateY(-50%); pointer-events: none;"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 d-flex justify-content-end align-items-center gap-3">
+                        <div data-role="Responsable">
+                            <button id="btnModificar" class="btn btn-modificar text-white fw-bold shadow-sm rounded-pill px-4" style="display: none;">
+                                <i class="fas fa-edit me-2"></i> Modificar puntajes
+                            </button>
+                            <button id="btnGuardar" class="btn btn-success text-white fw-bold shadow-sm rounded-pill px-4" style="display: none;">
+                                <i class="fas fa-save me-2"></i> Guardar y Sincronizar
+                            </button>
+                        </div>
+                        <div id="badgeTotal" class="badge-total shadow-sm mb-0 px-4 py-2 rounded-pill bg-success text-white fw-bold">
+                            Total: <span id="totalScore">0</span> / 200
+                        </div>
+                    </div>
+                </div>
+
+                <div class="habitat-table bg-white rounded-4 shadow-sm overflow-hidden">
+                    <div class="table-header-row row align-items-center mx-0 shadow-sm bg-light py-3 border-bottom">
+                        <div class="col-5 text-start fw-bold text-muted small">Parámetro Evaluado</div>
+                        <div class="col-2 text-center fw-bold text-muted small">Puntaje</div>
+                        <div class="col-2 text-center fw-bold text-muted small">Nivel</div>
+                        <div class="col-3 text-center fw-bold text-muted small">Información</div>
+                    </div>
+
+                    <div id="contenedor-parametros">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center shadow border-0 rounded-4">
+                <div class="modal-body p-4">
+                    <h2 id="modalNivelTitulo" class="fw-bold mb-3">ÓPTIMO</h2>
+                    <p id="modalDescripcion" class="text-muted">Más de 70% de sustrato es estable...</p>
+                    <button type="button" class="btn btn-aceptar-modal shadow-sm mt-3 px-5 rounded-pill" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="protocolo3.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Proyecto</title>
+    
+    <script src="head-loader.js"></script>
+
+    <link rel="stylesheet" href="css/crearproyecto.css">
+</head>
+<body>
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content w-100">
+        
+        <div class="top-header">
+            <h4 class="mb-0 text-primary fw-bold">Crear Proyecto</h4>
+            <div class="d-flex align-items-center gap-2">
+                <div class="dropdown">
+                    <button 
+                        class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-user-circle fa-lg text-primary"></i>
+                        <span class="fw-bold text-dark">Usuario</span>
+                        <i class="fas fa-chevron-down text-primary"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user-edit fa-lg text-primary me-2"></i>Mi perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="fas fa-door-closed fa-lg text-primary me-2"></i>Cerrar sesión</a></li>
+                    </ul>
+                    </div>
+                <!-- Cambiar para que se actualice el usuario automaticamente y cierre sesion funcional-->
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-5">
+                            
+                            <div class="text-center mb-4">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex p-3 mb-3">
+                                    <i class="fas fa-leaf fa-2x"></i> 
+                                </div>
+                                <h3 class="fw-bold">Nuevo Biomonitoreo</h3>
+                                <p class="text-muted">Inicia un nuevo proyecto asignando su zona de estudio.</p>
+                            </div>
+
+                            <form id="formCrearProyecto">
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold text-dark">Zona de Estudio</label>
+                                    <select id="zonaSelect" class="form-select form-select-lg border-2 shadow-none" required>
+                                        <option value="">Cargando zonas...</option>
+                                    </select>
+                                    <div class="form-text mt-2">
+                                        <i class="fas fa-info-circle me-1"></i>Si no ves tu zona, se debe crear primero en el catálogo.
+                                    </div>
+                                </div>
+
+                                <div class="mb-5">
+                                    <label class="form-label fw-bold text-dark">Nombre del Proyecto</label>
+                                    <input type="text" id="nombreProyecto" class="form-control form-control-lg border-2 shadow-none" placeholder="Ej. Evaluación Río Bravo 2026" autocomplete="off" required>
+                                </div>
+
+                                <button type="submit" id="btnGuardarFinal" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold disabled" style="pointer-events: none;">
+                                    <i class="fas fa-rocket me-2"></i> Crear Proyecto
+                                </button>
+                                
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="roles.js"></script>
+<script src="crearproyecto.js"></script>
+</body>
+</html>

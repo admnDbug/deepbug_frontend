@@ -1,0 +1,204 @@
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding-bottom: 50px;
+}
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e3f2fd;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+}
+
+.family-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 25px;
+}
+
+.family-btn-add {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 40px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+.family-btn-add:hover {
+    background-color: #4cae68;
+    color: white;
+}
+
+
+.family-table-header {
+    background-color: #2196F3;
+    color: white;
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.family-header-sub {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+.family-table-row {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-size: 0.85rem;
+    color: #555;
+    text-align: center;
+}
+.family-table-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.family-col-name { flex: 2; text-align: left; padding-left: 20px; }
+.family-col-orden { flex: 1; }
+.family-col-tamano { flex: 1.5; }
+.family-col-val2 { flex: 1.5; }
+.family-col-val3 { flex: 1.5; }
+
+
+
+
+
+
+
+    /* =========================================
+    ESTILOS DEL MODAL "Añadir Familia"
+    ========================================= */
+
+.family-modal-content {
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.family-modal-title {
+    color: #1565c0;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+/* Área de carga de imagen (Dashed) */
+.family-upload-area {
+    border: 2px dashed #5bc579; 
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+    color: #5bc579;
+    font-weight: 700;
+    margin-bottom: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+.family-upload-area:hover {
+    background-color: #f0fdf4;
+}
+.family-upload-icon {
+    font-size: 1.5rem;
+}
+
+.family-modal-label {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #000;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.family-modal-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.family-modal-textarea {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 25px;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.family-btn-submit {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 0;
+    font-weight: 700;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+.family-btn-submit:hover {
+    background-color: #4cae68;
+}
+
+
+@media (max-width: 992px) {
+    .family-table-header { display: none; }
+    .family-table-row {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 15px;
+    }
+    .family-col-name, .family-col-orden, .family-col-val1, .family-col-val2, .family-col-val3 {
+        width: 100%;
+        padding-left: 0;
+        text-align: left;
+    }
+    .family-col-name::before { content: "Familia: "; font-weight: bold; color: #2196F3; }
+    .family-col-orden::before { content: "Orden: "; font-weight: bold; color: #2196F3; }
+    .family-col-val1::before { content: "BMWP Sierra Gorda: "; font-weight: bold; color: #2196F3; }
+    .family-col-val2::before { content: "BMWP Balsas Río: "; font-weight: bold; color: #2196F3; }
+    .family-col-val3::before { content: "BMWP Río Bravo: "; font-weight: bold; color: #2196F3; }
+}
+
+@media (max-width: 768px) {
+    .sidebar { width: 0; overflow: hidden; }
+    .main-content { margin-left: 0; width: 100%; }
+}

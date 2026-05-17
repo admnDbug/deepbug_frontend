@@ -1,0 +1,146 @@
+body {
+    margin: 0px;
+    font-family: sans-serif;
+}
+ 
+
+        .createAccount-header-bar {
+            background: linear-gradient(90deg, #3bb768 0%, #006eb3 100%);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .createAccount-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 50px; /* ajusta según tu diseño */
+            height: auto;
+        }
+
+        .brand-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800; /* ExtraBold */
+            font-size: 1.3rem;
+            color: #ffffff; /* o blanco si tu header es oscuro */
+        }
+
+        .createAccount-btn-header-login {
+            background-color: rgba(91, 197, 121, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 30px;
+            font-weight: 600;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+        .createAccount-btn-header-login:hover {
+            background-color: #4cae68;
+            color: white;
+        }
+
+        .createAccount-main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .createAccount-form-wrapper {
+            width: 100%;
+            max-width: 800px; 
+            text-align: center;
+        }
+
+        .createAccount-title {
+            font-weight: 800;
+            font-size: 2rem;
+            color: #000;
+            margin-bottom: 50px;
+        }
+
+        .createAccount-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 50px;
+            row-gap: 20px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .createAccount-label {
+            display: block;
+            font-weight: 800;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #000;
+        }
+
+        .createAccount-input-wrapper {
+            position: relative;
+        }
+
+        .createAccount-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .createAccount-input:focus {
+            border-color: #2196F3;
+        }
+
+        .createAccount-password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            cursor: pointer;
+        }
+
+        .createAccount-btn-primary {
+            width: 100%;
+            max-width: 500px; 
+            background-color: #2196F3; 
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 0;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+            margin: 0 auto;
+            display: block;
+            text-decoration: none;
+        }
+        .createAccount-btn-primary:hover {
+            background-color: #1976D2;
+        }
+
+
+        @media (max-width: 768px) {
+            .createAccount-form-grid {
+                grid-template-columns: 1fr; 
+            }
+            .createAccount-header-bar { padding: 15px 20px; }
+            .createAccount-title { font-size: 1.5rem; margin-bottom: 30px; }
+        }
+    

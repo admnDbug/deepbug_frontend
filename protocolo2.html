@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo 2 - Deep Bug</title>
+
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/protocolodos.css">
+
+    <style>
+        .proto-input:disabled { background-color: #f8f9fa; color: #495057; border-color: #e9ecef; }
+        .protocol-section { display: none; }
+        .protocol-section.active-section { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .foto-container { border: 2px dashed #0d6efd; border-radius: 12px; height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-color: #f8f9fa; cursor: pointer; overflow: hidden; position: relative; }
+        .foto-container img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
+        .foto-container i { font-size: 3rem; color: #0d6efd; z-index: 2; }
+        .foto-container span { margin-top: 10px; font-weight: bold; color: #0d6efd; z-index: 2; }
+        .foto-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 2; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+        .foto-container:hover .foto-overlay { opacity: 1; }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+
+        <div class="top-header">
+            <div>
+                <h4 class="mb-0 text-primary fw-bold d-flex align-items-center">
+                        Protocolo 2
+                        <a href="#" id="link-proyecto-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar al Proyecto">
+                            <i class="fas fa-arrow-left"></i> <span id="nombre-proyecto-nav">Cargando...</span>
+                        </a>
+                    </h4>
+                <small class="text-primary fw-bold" id="estado-texto">Caracterización visual y fisicoquímica</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 py-4">
+            <div class="row">
+                
+                <div class="col-lg-3 mb-4">
+                    <div data-role="Responsable">
+                        <button id="btnModificar" class="btn btn-primary rounded-pill px-4 w-100 fw-bold py-2 mb-2" style="display: none;">
+                            <i class="fas fa-edit me-2"></i>Modificar datos
+                        </button>
+                        <button id="btnGuardar" class="btn btn-success rounded-pill px-4 w-100 fw-bold py-2" style="display: none;">
+                            <i class="fas fa-save me-2"></i>Guardar y Sincronizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="border rounded-4 p-4 bg-white shadow-sm" style="border-color: #e0e0e0 !important;">
+
+                        <div class="mb-4">
+                            <input type="file" id="foto-upload" accept="image/*" style="display: none;">
+                            <div class="foto-container" id="foto-preview">
+                                <i class="fas fa-camera"></i>
+                                <span>Subir fotografía del sitio</span>
+                                <div class="foto-overlay"><i class="fas fa-edit text-white"></i></div>
+                            </div>
+                            <div class="mt-3 text-center">
+                                <label class="small fw-bold text-primary mb-1">Código de Fotografía</label>
+                                <input type="text" class="form-control form-control-sm proto-input txt-dinamico mx-auto text-center w-50" id="codigo_foto" placeholder="Ej: FOTO-001" disabled>
+                            </div>
+                        </div>
+
+                        <div class="chip-container mb-4 pb-2" id="chips-nav" style="overflow-x: auto; white-space: nowrap;">
+                            <div class="protocol-chip active" data-target="sec1">Datos Generales</div>
+                            <div class="protocol-chip" data-target="sec3">Condiciones Climáticas</div>
+                            <div class="protocol-chip" data-target="sec5">Cuerpo de Agua</div>
+                            <div class="protocol-chip" data-target="sec6">Cobertura Boscosa</div>
+                            <div class="protocol-chip" data-target="sec7">Descargas</div>
+                            <div class="protocol-chip" data-target="sec8">Veg. Acuática</div>
+                            <div class="protocol-chip" data-target="sec9">Calidad del Agua</div>
+                            <div class="protocol-chip" data-target="sec10">Mediciones</div>
+                        </div>
+
+                        <form id="form-protocolo2">
+                            <div class="protocol-section active-section" id="sec1">
+                                <h5 class="section-header-title">Datos Generales y Localización</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="small fw-bold">N° Control</label><input type="text" class="form-control proto-input txt-dinamico" id="n_control" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Nombre del Río</label><input type="text" class="form-control proto-input txt-dinamico" id="nombre_rio" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">ID Estación</label><input type="text" class="form-control proto-input txt-dinamico" id="id_estacion" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Orden del Río</label><input type="text" class="form-control proto-input txt-dinamico" id="orden_rio" disabled></div>
+                                    <div class="col-md-12"><label class="small fw-bold">Cuenca</label><input type="text" class="form-control proto-input txt-dinamico" id="cuenca" disabled></div>
+                                    
+                                    <div class="col-md-6"><label class="small fw-bold text-danger">Latitud (Decimal)</label><input type="number" step="any" class="form-control proto-input txt-dinamico input-coord" id="latitud" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold text-danger">Longitud (Decimal)</label><input type="number" step="any" class="form-control proto-input txt-dinamico input-coord" id="longitud" disabled></div>
+                                    
+                                    <div class="col-md-4"><label class="small fw-bold">Provincia</label><input type="text" class="form-control proto-input txt-dinamico" id="provincia" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Distrito</label><input type="text" class="form-control proto-input txt-dinamico" id="distrito" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Corregimiento</label><input type="text" class="form-control proto-input txt-dinamico" id="corregimiento" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Localidad</label><input type="text" class="form-control proto-input txt-dinamico" id="localidad" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Proyecto</label><input type="text" class="form-control proto-input txt-dinamico" id="proyecto" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Altura (msnm)</label><input type="number" class="form-control proto-input txt-dinamico" id="altura" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Llenado por</label><input type="text" class="form-control proto-input txt-dinamico" id="llenado_por" disabled></div>
+                                    
+                                    <div class="col-md-4"><label class="small fw-bold">Fecha</label><input type="text" class="form-control proto-input txt-dinamico" id="fecha" placeholder="DD/MM/YYYY" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Hora</label><input type="time" class="form-control proto-input txt-dinamico" id="hora" disabled></div>
+                                    <div class="col-md-4">
+                                        <label class="small fw-bold">Horario</label>
+                                        <select class="form-select proto-input" id="horario" disabled>
+                                            <option value="AM">AM</option><option value="PM">PM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec3">
+                                <h5 class="section-header-title">Condiciones Climáticas</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <label class="small fw-bold mb-2">Clima actual:</label>
+                                        <div class="d-flex flex-wrap gap-3" id="cont-clima"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="small fw-bold">¿Lluvias 7 días previos?</label>
+                                        <select class="form-select proto-input" id="lluvias" disabled><option value="Sí">Sí</option><option value="No">No</option></select>
+                                    </div>
+                                    <div class="col-md-4"><label class="small fw-bold">Nubosidad (%)</label><input type="number" class="form-control proto-input txt-dinamico" id="nubosidad" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Temp. Amb. (°C)</label><input type="number" step="any" class="form-control proto-input txt-dinamico" id="temp_amb" disabled></div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec5">
+                                <h5 class="section-header-title">Característica del cuerpo de agua</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="small fw-bold">Subsistema del río</label>
+                                        <select class="form-select proto-input" id="subsistema" disabled><option value="Perenne">Perenne</option><option value="Intermitente">Intermitente</option><option value="Estacional">Estacional</option></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small fw-bold">Temperatura del agua</label>
+                                        <select class="form-select proto-input" id="temp_agua_radio" disabled><option value="Agua fría">Agua fría</option><option value="Agua tibia">Agua tibia</option></select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small fw-bold">Tipología del curso</label>
+                                        <select class="form-select proto-input" id="tipologia" disabled><option value="Parte Alta">Parte Alta</option><option value="Parte Media">Parte Media</option><option value="Parte Baja">Parte Baja</option></select>
+                                    </div>
+                                    <div class="col-md-6"><label class="small fw-bold">Área de cuenca (Kms)</label><input type="number" class="form-control proto-input txt-dinamico" id="area_cuenca" disabled></div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec6">
+                                <h5 class="section-header-title">Cobertura boscosa y uso de la tierra</h5>
+                                <div class="row">
+                                    <div class="col-md-4 border-end">
+                                        <label class="small fw-bold text-primary">Bosques</label><div id="cont-bosques" class="mb-2"></div>
+                                        <label class="small fw-bold text-primary">Estado sucesional</label><div id="cont-sucesional" class="mb-2"></div>
+                                        <label class="small fw-bold text-primary">Veg. Arbustiva</label><div id="cont-veg_arbustiva"></div>
+                                    </div>
+                                    <div class="col-md-4 border-end ps-3">
+                                        <label class="small fw-bold text-primary">Cultivos permanentes</label><div id="cont-cult_perm" class="mb-2"></div>
+                                        <input type="text" class="form-control form-control-sm mb-3 proto-input txt-dinamico" id="otros_perm" placeholder="Otros perm..." disabled>
+                                        <label class="small fw-bold text-primary">Cultivos anuales</label><div id="cont-cult_anuales" class="mb-2"></div>
+                                        <input type="text" class="form-control form-control-sm proto-input txt-dinamico" id="otros_anuales" placeholder="Otros anuales..." disabled>
+                                    </div>
+                                    <div class="col-md-4 ps-3">
+                                        <label class="small fw-bold text-primary">Otros usos</label><div id="cont-otros_usos" class="mb-2"></div>
+                                        <input type="text" class="form-control form-control-sm proto-input txt-dinamico" id="otros_usos_texto" placeholder="Especifique otros usos..." disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec7">
+                                <h5 class="section-header-title">Descargas y modificaciones</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="small fw-bold">Descargas de efluentes</label><div id="cont-descargas" class="mb-3 d-flex flex-column gap-1"></div>
+                                        <label class="small fw-bold">Tipo de efluentes</label><div id="cont-tipo_efluente" class="d-flex flex-column gap-1"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small fw-bold d-block border-bottom pb-2 mb-2">Modificaciones al cuerpo (Sí/No)</label>
+                                        <div class="row g-2">
+                                            <div class="col-6"><label class="small">Residuos sólidos</label><select class="form-select form-select-sm proto-input select-sn" id="residuos" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-6"><label class="small">Rectificación</label><select class="form-select form-select-sm proto-input select-sn" id="rectificacion" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-6"><label class="small">Canalizado</label><select class="form-select form-select-sm proto-input select-sn" id="canalizado" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-6"><label class="small">Presencia aceites</label><select class="form-select form-select-sm proto-input select-sn" id="aceites" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-6"><label class="small">Extracciones</label><select class="form-select form-select-sm proto-input select-sn" id="extracciones" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-6"><label class="small">Presencia presas</label><select class="form-select form-select-sm proto-input select-sn" id="presas" disabled><option value="No">No</option><option value="Sí">Sí</option></select></div>
+                                            <div class="col-12 mt-3"><label class="small fw-bold">Erosión local</label><select class="form-select form-select-sm proto-input" id="erosion" disabled><option value="Ninguna">Ninguna</option><option value="Moderada">Moderada</option><option value="Severa">Severa</option></select></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec8">
+                                <h5 class="section-header-title">Vegetación acuática</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label class="small fw-bold">Dominancia</label><div id="cont-veg_acuatica" class="d-flex flex-column gap-1"></div></div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3"><label class="small fw-bold">Especies dominantes</label><input type="text" class="form-control proto-input txt-dinamico" id="esp_dominantes" disabled></div>
+                                        <div><label class="small fw-bold">% de cobertura</label><input type="number" class="form-control proto-input txt-dinamico" id="porcentaje_veg" disabled></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec9">
+                                <h5 class="section-header-title">Calidad del agua</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-3"><label class="small fw-bold">Temp (C°)</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_temp" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">TDS</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_tds" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Oxíg. disuelto</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_od" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Nitrito</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_nitrito" disabled></div>
+        
+                                    <div class="col-md-3"><label class="small fw-bold">Turbiedad</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_turb" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Nitrato</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_nitrato" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">pH</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_ph" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Salinidad</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_salinidad" disabled></div>
+        
+                                    <div class="col-md-3"><label class="small fw-bold">Conductividad</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_cond" disabled></div>
+                                    <div class="col-md-3"><label class="small fw-bold">Fosfatos</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_fosfatos" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Equipos utilizados</label><input type="text" class="form-control proto-input txt-dinamico" id="ca_equipos" disabled></div>
+
+                                    <div class="col-md-6 border-top pt-3 mt-3"><label class="small fw-bold">Olores del agua</label><div id="cont-olor" class="d-flex flex-wrap gap-2"></div></div>
+                                    <div class="col-md-6 border-top pt-3 mt-3"><label class="small fw-bold">Color del agua</label><div id="cont-color" class="d-flex flex-wrap gap-2"></div></div>
+                                </div>
+                            </div>
+
+                            <div class="protocol-section" id="sec10">
+                                <h5 class="section-header-title">Mediciones para caracterizar el cuerpo de agua</h5>
+                                
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-bordered text-center align-middle small">
+                                        <thead class="table-light">
+                                            <tr><th>Dimensión</th><th>Métrica</th><th>P1</th><th>P2</th><th>P3</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td rowspan="3" class="fw-bold">Ancho (m)</td>
+                                                <td class="fw-bold text-primary">M0</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m0_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m0_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m0_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M50</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m50_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m50_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m50_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M100</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m100_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m100_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="ancho_m100_p3" disabled></td>
+                                            </tr>
+                                            
+                                            <tr><td rowspan="3" class="fw-bold">Profundidad (m)</td>
+                                                <td class="fw-bold text-primary">M0</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m0_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m0_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m0_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M50</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m50_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m50_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m50_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M100</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m100_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m100_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="prof_m100_p3" disabled></td>
+                                            </tr>
+
+                                            <tr><td rowspan="3" class="fw-bold">Velocidad (m/s)</td>
+                                                <td class="fw-bold text-primary">M0</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m0_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m0_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m0_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M50</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m50_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m50_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m50_p3" disabled></td>
+                                            </tr>
+                                            <tr><td class="fw-bold text-primary">M100</td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m100_p1" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m100_p2" disabled></td>
+                                                <td><input type="number" class="form-control form-control-sm proto-input txt-dinamico" id="vel_m100_p3" disabled></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-4"><label class="small fw-bold">Cobertura dosel</label><select class="form-select proto-input" id="dosel" disabled><option value="Abierta">Abierta</option><option value="Cubierta">Cubierta</option></select></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Morf. Rápidos (%)</label><input type="number" class="form-control proto-input txt-dinamico" id="morf_rapidos" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Morf. Pozas (%)</label><input type="number" class="form-control proto-input txt-dinamico" id="morf_pozas" disabled></div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="protocolo2.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zonas</title>
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/zonas.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head> 
+<body>
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content w-100">
+        
+        <div class="top-header">
+            <h4 class="mb-0 text-primary fw-bold">Zonas</h4>
+            <div class="d-flex align-items-center gap-2">
+                <div class="dropdown">
+                    <button 
+                        class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-user-circle fa-lg text-primary"></i>
+                        <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+                        <i class="fas fa-chevron-down text-primary"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user-edit fa-lg text-primary me-2"></i>Mi perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="btnCerrarSesion"><i class="fas fa-door-closed fa-lg text-primary me-2"></i>Cerrar sesión</a></li>
+                    </ul>
+                    </div>
+                <!-- Cambiar para que se actualice el usuario automaticamente y cierre sesion funcional-->
+            </div>
+        </div>
+
+        <div class="container-fluid px-4">
+            <div class="zone-header-actions">
+                <a type="button" href="agregarzona.html" class="zone-btn-add"><i class="fas fa-folder-plus"></i>Agregar zona</a>
+            </div>
+
+            
+            <div class="zone-table-header">
+                <div class="zone-col-name">Nombre de la Zona</div>
+                <div class="zone-col-loc">Ubicación</div>
+                <div class="zone-col-coord">Coordenadas</div> 
+                <div class="zone-col-fam">Familias</div>
+                <div class="zone-col-act" style="text-align: center; width: 80px;">Acciones</div>
+            </div>
+
+            <div id="contenedorZonasLista"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="roles.js"></script>
+<script src="zonas.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2bb673, #1e5799);
+}
+
+/* CONTENEDOR */
+.splash-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* LOGO */
+.logo {
+  width: 120px;
+  animation: moveLogo 2s ease forwards;
+  animation-delay: 1s;
+}
+
+/* TEXTO */
+.title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: white;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: showText 2s ease forwards;
+  animation-delay: 1s;
+}
+
+/* 🔥 ANIMACIONES */
+
+/* Logo inicia centrado → se mueve a la izquierda */
+@keyframes moveLogo {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-60px);
+  }
+}
+
+/* Texto aparece suavemente */
+@keyframes showText {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

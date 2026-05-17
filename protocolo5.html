@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo 5 - Deep Bug</title>
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/protocolocinco.css">
+    <style>
+        /* Pequeño ajuste para las imágenes del carrito */
+        .img-family-protocol { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6; background-color: #f8f9fa; }
+        .protocolFive-icon-wrapper { display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; }
+        .foto-overlay-mini { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; opacity: 0; transition: 0.2s; }
+        .protocolFive-icon-wrapper:hover .foto-overlay-mini { opacity: 1; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content flex-grow-1">
+        
+        <div class="top-header">
+            <div>
+                <h4 class="mb-0 text-primary fw-bold d-flex align-items-center">
+                        Protocolo 5
+                        <a href="#" id="link-proyecto-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar al Proyecto">
+                            <i class="fas fa-arrow-left"></i> <span id="nombre-proyecto-nav">Cargando...</span>
+                        </a>
+                    </h4>
+                <small class="text-primary fw-bold" id="estado-texto">Conteo y Valor BMWP/Mex</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 py-4">
+            
+            <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div data-role="Responsable">
+                    <button id="btnModificar" class="btn btn-primary rounded-pill px-4 me-2" style="display: none; background-color: #2b5c8f;">
+                        <i class="fas fa-edit me-2"></i>Modificar datos
+                    </button>
+                    <button id="btnGuardar" class="btn btn-success rounded-pill px-4" style="display: none; background-color: #2ea043;">
+                        <i class="fas fa-save me-2"></i>Guardar y Sincronizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 mb-5">
+                    <h5 class="protocolFive-section-title">Familias en la Muestra</h5>
+                    <div id="analysisContainer" class="d-flex flex-column gap-3 mb-3">
+                        </div>
+                    <div class="protocolFive-total-score shadow-sm rounded-4 text-center py-3" id="totalBmwpLabel">
+                        BMWP/MX: 0
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div data-role="Responsable" class="mb-4">
+                        <div id="adminSearchSection" class="opacity-50" style="pointer-events: none; transition: 0.3s;">
+                            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                                <h6 class="fw-bold text-primary mb-3"><i class="fas fa-search me-2"></i>Catálogo de Familias</h6>
+                                <input type="text" id="familySearch" class="form-control form-control-sm rounded-pill mb-3 bg-light" placeholder="Habilita la edición para buscar...">
+                                <div id="catalogList" class="p-2 border rounded" style="max-height: 250px; overflow-y: auto; background: white;">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-start mb-3">
+                        <div class="protocolFive-info-box shadow-sm" id="totalQualityBox">
+                            Total de índice BMWP/MEX: 0
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-4 shadow-sm overflow-hidden border">
+                        <div class="protocolFive-table-header bg-light border-bottom">
+                            <div class="col-p5-cat fw-bold text-muted small">Categoría</div>
+                            <div class="col-p5-range fw-bold text-muted small">Rango</div>
+                            <div class="col-p5-quality fw-bold text-muted small">Calidad Biológica</div>
+                            <div class="col-p5-color fw-bold text-muted small">Color</div>
+                        </div>
+
+                        <div class="protocolFive-table-row p-3 align-items-center" id="resultRow">
+                            <div class="col-p5-cat fw-bold" id="resClass">-</div>
+                            <div class="col-p5-range" id="resRange">-</div>
+                            <div class="col-p5-quality small" id="resQuality">Sin datos</div>
+                            <div class="col-p5-color text-center">
+                                <span class="protocolFive-color-dot shadow-sm" id="resDot"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalImagenGrande" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-transparent border-0">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center p-0">
+                <img src="" id="imgGrandeSource" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh;">
+                <p id="imgGrandeCaption" class="text-white mt-3 fw-bold fs-5"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="protocolo5.js"></script>
+</body>
+</html>

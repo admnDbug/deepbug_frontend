@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar zona</title>
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/agregarzona.css">
+</head>
+<body>
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content w-100">
+        
+        <div class="top-header">
+            <h4 class="mb-0 text-primary fw-bold">Agregar zona</h4>
+            <div class="d-flex align-items-center gap-2">
+                <div class="dropdown">
+                    <button 
+                        class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-user-circle fa-lg text-primary"></i>
+                        <span class="fw-bold text-dark">Usuario</span>
+                        <i class="fas fa-chevron-down text-primary"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user-edit fa-lg text-primary me-2"></i>Mi perfil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html"><i class="fas fa-door-closed fa-lg text-primary me-2"></i>Cerrar sesión</a></li>
+                    </ul>
+                    </div>
+                <!-- Cambiar para que se actualice el usuario automaticamente y cierre sesion funcional-->
+            </div>
+        </div>
+
+        <div class="container-fluid px-4">
+            
+            <div class="row">
+                
+                <div class="col-lg-7">
+                    
+                    <h5 class="addZones-section-title">Datos Generales</h5>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="addZones-subtitle">Nombre de la Zona:</label>
+                            <input type="text" class="addZones-input">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="addZones-subtitle">Coordenadas:</label>
+                            <input type="text" class="addZones-input">
+                        </div>
+                    </div>
+
+                    <label class="addZones-subtitle">Ubicación</label>
+                    <input type="text" class="addZones-input">
+
+                    <label class="addZones-subtitle">Descripción:</label>
+                    <textarea class="addZones-textarea"></textarea>
+
+                    <h5 class="addZones-section-title">Agregar Familias</h5>
+                    
+                    <div class="addZones-reg-row">
+                        <div class="addZones-reg-list" style="flex: 2;">
+                            <!-- Hacer que esta linea se actualice conforme se añadan familias a la bd -->
+                            <label class="addZones-subtitle">Seleccionar Familia:</label>
+                            <div class="form-group">
+                                <select>
+                                    <option>Heteragrionidae</option>
+                                    <option>Ceratopogonidae</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="addZones-subtitle">Valor BMWP/MEX</label>
+                            <input type="text" class="addZones-input mb-0" placeholder="Valor">
+                        </div>
+                        <div class="addZones-reg-btn">
+                            <!-- Hacer que este boton las agregue al listado de la derecha y primero se tienen que agregar las familias a familias-->
+                            <button class="addZones-btn-register">Registrar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="addZones-right-panel">
+                        <h5 class="addZones-panel-title">Familias agregadas</h5>
+
+                        <div class="addZones-product-card">
+                            <i class="far fa-times-circle addZones-card-close"></i>
+                            
+                            <div class="addZones-card-img-box">
+                                <img src="img/bicho1.jpg" alt="Insecto" class="addZones-card-img">
+                            </div>
+                            
+                            <div class="addZones-card-content">
+                                <h6 class="addZones-card-title">Ceratopogonidae</h6>
+                                <p class="addZones-card-subtitle">Orden D | Valor 4</p>
+                            </div>
+                        </div>
+
+                        <div class="addZones-product-card">
+                            <i class="far fa-times-circle addZones-card-close"></i>
+                            
+                            <div class="addZones-card-img-box">
+                                <img src="img/bicho2.jpg" alt="Insecto" class="addZones-card-img">
+                            </div>
+                            
+                            <div class="addZones-card-content">
+                                <h6 class="addZones-card-title">Heteragrionidae</h6>
+                                <p class="addZones-card-subtitle">Orden D | Valor 4</p>
+                            </div>
+                        </div>
+
+                        <div class="addZones-product-card">
+                            <i class="far fa-times-circle addZones-card-close"></i>
+                            
+                            <div class="addZones-card-img-box">
+                                <img src="img/bicho2.jpg" alt="Insecto" class="addZones-card-img">
+                            </div>
+                            
+                            <div class="addZones-card-content">
+                                <h6 class="addZones-card-title">Heteragrionidae</h6>
+                                <p class="addZones-card-subtitle">Orden D | Valor 4</p>
+                            </div>
+                        </div>
+
+                        <div class="addZones-product-card">
+                            <i class="far fa-times-circle addZones-card-close"></i>
+                            
+                            <div class="addZones-card-img-box">
+                                <img src="img/bicho2.jpg" alt="Insecto" class="addZones-card-img">
+                            </div>
+                            
+                            <div class="addZones-card-content">
+                                <h6 class="addZones-card-title">Heteragrionidae</h6>
+                                <p class="addZones-card-subtitle">Orden D | Valor 4</p>
+                            </div>
+                        </div>
+
+                        <div class="zone-save-actions">
+                            <!-- Hacer que la zona si se guarde en la base de datos -->
+                            <a type="button" href="zonas.html" class="zone-btn-save"></i>Guardar zona</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="agregarzona.js"></script>
+<script src="roles.js"></script>
+</body>
+</html>

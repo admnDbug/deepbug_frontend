@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    
+    <link rel="stylesheet" href="css/login.css">
+  
+</head>
+<body>
+
+    <header class="login-header-bar">
+        <div class="login-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        <a href="registro.html" class="login-btn-header-register">Registrate</a>
+    </header>
+
+    <main class="login-main-container">
+        <div class="login-form-wrapper">
+            
+            <h1 class="login-title">Iniciar Sesión</h1>
+
+            <form id="formLogin">
+                <div class="login-input-group text-start">
+                    <label class="login-label">Correo:</label>
+                    <input type="email" id="emailLogin" class="login-input" placeholder="correo.electronico@gmail.com" required>
+                </div>
+
+                <div class="login-input-group text-start position-relative">
+                    <label class="login-label">Contraseña:</label>
+                    <input type="password" id="passwordLogin" class="login-input" placeholder="Escribe tu contraseña" required>
+                </div>
+
+                <div class="login-checkbox-wrapper">
+                    <input type="checkbox" id="rememberMe" class="login-checkbox">
+                    <label for="rememberMe" class="login-checkbox-label">Recordar mi correo</label>
+                </div>
+
+                <button type="submit" class="btn login-btn-primary" style="width: 100%; border: none; cursor: pointer;">Iniciar Sesión</button>
+
+                <p class="login-footer-text">
+                    ¿No te has registrado? <a href="registro.html" class="login-link-register">Regístrate</a>
+                </p>
+                
+                <a href="#" class="login-link-forgot" onclick="alert('Funcionalidad en desarrollo para la versión final.')">¿Olvidaste tu contraseña?</a>
+            </form>
+        </div>
+    </main>
+    <script src="login.js"></script>
+</body>
+</html>

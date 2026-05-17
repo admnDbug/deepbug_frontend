@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regístrate</title>
+
+    <link rel="stylesheet" href="css/registro.css">
+</head>
+<body>
+
+    <header class="createAccount-header-bar">
+        <div class="createAccount-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        <a href="login.html" class="createAccount-btn-header-login">Iniciar Sesión</a>
+    </header>
+
+    <main class="createAccount-main-container">
+        <div class="createAccount-form-wrapper">
+            
+            <h1 class="createAccount-title">Registrate</h1>
+
+            <!-- Faltaban los id del formulario -->
+            <form id="formRegistro">
+                <div class="createAccount-form-grid">
+                    <div>
+                        <label class="createAccount-label">Nombre(s):</label>
+                        <input type="text" id="nombre" class="createAccount-input" placeholder="Nombre" required>
+                    </div>
+                    <div>
+                        <label class="createAccount-label">Apellidos:</label>
+                        <input type="text" id="apellidos" class="createAccount-input" placeholder="Apellidos" required>
+                    </div>
+
+                    <div>
+                        <label class="createAccount-label">Institución:</label>
+                        <input type="text" id="institucion" class="createAccount-input" placeholder="Institución" required>
+                    </div>
+                    <div>
+                        <label class="createAccount-label">Correo Electrónico:</label>
+                        <input type="email" id="email" class="createAccount-input" placeholder="correo.electronico@correo.com" required>
+                    </div>
+
+                    <div class="createAccount-input-wrapper">
+                        <label class="createAccount-label">Contraseña</label>
+                        <div class="position-relative">
+                            <input type="password" id="password" class="createAccount-input" placeholder="Contraseña" required>
+                            <i class="fas fa-eye-slash createAccount-password-toggle"></i>
+                        </div>
+                    </div>
+                    <div class="createAccount-input-wrapper">
+                        <label class="createAccount-label">Confirmar Contraseña:</label>
+                        <div class="position-relative">
+                            <input type="password" id="confirmPassword" class="createAccount-input" placeholder="Repite tu contraseña" required>
+                            <i class="fas fa-eye-slash createAccount-password-toggle"></i>
+                        </div>
+                    </div>
+                    <div style="grid-column: span 2;"> <label class="createAccount-label" style="color: #0b4b2f;">Código de Invitación (Obligatorio):</label>
+                        <input type="text" id="codigo" class="createAccount-input" placeholder="Ingresa el código proporcionado por tu profesor" style="border: 2px solid #0b4b2f;" required>
+                    </div>
+                    <div class="createAccount-input-wrapper">
+                </div>
+                
+                <button type="submit" class="createAccount-btn-primary" style="width: 100%; border: none; cursor: pointer;">Regístrate</button>
+            </form>
+        </div>
+    </main>
+    <script src="registro.js"></script>
+</body>
+</html>

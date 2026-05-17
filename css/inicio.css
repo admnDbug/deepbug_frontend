@@ -1,0 +1,47 @@
+.linknuevoproyecto {
+    text-decoration: none;
+}
+
+.index-modal-content {
+    border-radius: 20px; 
+    border: none;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.index-modal-title {
+    color: #006eb3; 
+    font-weight: 800; 
+    font-size: 1.5rem;
+}
+
+.index-modal-label {
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #000;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.index-modal-input {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.index-modal-btn {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 0;
+    font-weight: 600;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+.index-modal-btn:hover {
+    background-color: #4cae68;
+    color: white;
+}

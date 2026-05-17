@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Deep Bug</title>
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/perfil.css">
+    <link rel="stylesheet" href="css/editarperfil.css">
+    <style>
+        .perfil-input:disabled { background-color: transparent; border: 1px dashed transparent; color: #495057; font-weight: 500; appearance: none; -webkit-appearance: none; }
+        .perfil-input:enabled { background-color: #fff; border: 1px solid #ced4da; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content w-100">
+        
+        <div class="top-header">
+            <h4 class="mb-0 text-primary fw-bold">Mi perfil</h4>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold" id="btnCerrarSesion">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <div class="container px-4 py-2">
+            
+            <div class="d-flex justify-content-end mb-3" id="contenedorBtnAdmin" style="display: none !important;">
+                <button class="profile-btn-admin shadow-sm" data-bs-toggle="modal" data-bs-target="#adminModal">Volverme Responsable</button>
+            </div>
+
+            <div class="text-center mb-4">
+                <div class="profile-avatar-box shadow-sm mx-auto d-flex align-items-center justify-content-center">
+                    <i class="fas fa-user fa-2x text-white"></i>
+                </div>
+                <h3 class="profile-name-title mt-3" id="displayNombre">Cargando...</h3>
+                <p class="profile-email-text text-muted" id="displayCorreo">cargando@correo.com</p>
+                <span class="badge bg-primary px-3 py-2 rounded-pill" id="displayRol">Cargando Rol...</span>
+            </div>
+
+            <div class="form-container bg-white shadow-sm rounded-4 p-4 mx-auto" style="max-width: 800px;">
+                <h3 class="section-title text-primary"><i class="fas fa-id-card me-2"></i>Información Personal</h3>
+                
+                <form id="formPerfil">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-12">
+                            <label class="small fw-bold text-muted mb-1">Nombre Completo:</label>
+                            <input type="text" class="form-control perfil-input form-control-lg" id="p_nombre" disabled required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small fw-bold text-muted mb-1">Correo Electrónico:</label>
+                            <input type="email" class="form-control perfil-input form-control-lg" id="p_email" disabled required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="small fw-bold text-muted mb-1">Institución:</label>
+                            <input type="text" class="form-control perfil-input form-control-lg" id="p_institucion" disabled required>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center flex-wrap gap-3 pt-3 border-top">
+                        <button type="button" id="btnEditarPerfil" class="profile-action-btn-green px-4"><i class="fas fa-edit me-2"></i>Editar Información</button>
+                        <button type="submit" id="btnGuardarPerfil" class="btn btn-success rounded-pill px-4 fw-bold" style="display: none;"><i class="fas fa-save me-2"></i>Guardar Cambios</button>
+                        <button type="button" class="profile-action-btn-blue px-4" data-bs-toggle="modal" data-bs-target="#passwordModal"><i class="fas fa-key me-2"></i>Cambiar Contraseña</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content profile-modal-content p-4 border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center">
+                <h3 class="profile-modal-title mb-2 text-primary">Vuélvete Responsable</h3>
+                <p class="text-muted small mb-4">Por favor ingresa tu código de autorización</p>
+                <div class="text-start mb-4">
+                    <label class="profile-modal-label fw-bold small">Código Secreto:</label>
+                    <input type="password" id="inputCodigoAdmin" class="form-control rounded-pill text-center" placeholder="******">
+                </div>
+                <button type="button" id="btnAscenderAdmin" class="btn btn-primary w-100 rounded-pill fw-bold py-2">Ingresar Código</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4 border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0 pb-0">
+                <h4 class="modal-title fw-bold text-primary"><i class="fas fa-lock me-2"></i>Seguridad</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formPassword">
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Contraseña Actual</label>
+                        <input type="password" id="passActual" class="form-control bg-light" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold text-muted">Nueva Contraseña</label>
+                        <input type="password" id="passNueva" class="form-control bg-light" required minlength="6">
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold text-muted">Confirmar Nueva Contraseña</label>
+                        <input type="password" id="passConfirmar" class="form-control bg-light" required minlength="6">
+                    </div>
+                    <button type="submit" id="btnGuardarPassword" class="btn btn-primary w-100 rounded-pill fw-bold py-2">Actualizar Contraseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+/* Estilos Globales */
+        body {
+            background-color: #fff;
+            font-family: sans-serif;
+        }
+
+        /* Estilos de la Barra Lateral (Sidebar) */
+        .sidebar {
+            min-height: 100vh;
+            width: 250px;
+            background: linear-gradient(180deg, #3bb768 0%, #006eb3 100%); /* Degradado Verde a Azul */
+            color: white;
+            position: fixed;
+        }
+
+        .sidebar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 40px; /* ajusta según tu diseño */
+            height: auto;
+        }
+
+        .brand-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800; /* ExtraBold */
+            font-size: 1.3rem;
+            color: #ffffff; /* o blanco si tu header es oscuro */
+        }
+
+        .nav-link {
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: #e0e0e0;
+        }
+
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 5px solid #2e7d32;
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            margin-left: 250px; 
+            padding: 20px;
+        }
+
+        /* Header superior */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 20px;
+            background-color: #e3f2fd; 
+            padding: 15px 30px;
+            margin: -20px -20px 20px -20px;
+        }
+
+        /* Dropdown */
+        .dropdown-item{
+            font-family: sans-serif;
+            color: #006eb3;
+        }
+
+
+        .dropdown button:focus {
+            box-shadow: none;
+        }
+
+        .dropdown-menu {
+            /* font-family: sans-serif;
+            color: #006eb3; */
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        /* Botón Unirse */
+        .btn-join {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 40px;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-join:hover {
+            background-color: #45a049;
+            color: white;
+        }
+
+        /* Tarjetas de Proyecto */
+        .Nuevo-proyecto {
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            border: 1px dashed #4CAF50;
+            border-radius: 15px;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            align-items: center;
+            height: 239.8px;
+        }
+
+        .Nuevo-proyecto:hover {
+            transform: translateY(-5px);
+        }
+
+        .nuevoproyecto-icon {
+            color: #4CAF50;
+        }
+
+        .nuevoproyecto-card-title {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .project-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 15px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            color: #2196F3;
+        }
+
+        .card-title {
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .info-text {
+            font-size: 0.75rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Caja de usuario dentro de la tarjeta */
+        .user-box {
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .user-box i {
+            font-size: 1.5rem;
+            color: #1976D2;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: #1565C0;
+            margin: 0;
+        }
+
+        .user-role {
+            font-size: 0.7rem;
+            color: #64b5f6;
+            margin: 0;
+        }
+
+        .btn-pdf {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: none;
+        }
+        .btn-pdf:hover {
+            background-color: #45a049;
+            color: white;
+        }
+        

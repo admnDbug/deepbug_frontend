@@ -1,0 +1,70 @@
+.form-container {
+  padding: 30px;
+  max-width: 1100px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.section-title {
+  color: #1e6bb8;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.small {
+  flex: 0.5;
+}
+
+label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input, select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #2bb673;
+  background-color: white;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+
+.profile-action-btn-green {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 500;
+    text-decoration: none;
+}
+.profile-action-btn-green:hover {
+    background-color: #4cae68;
+    color: white;
+}

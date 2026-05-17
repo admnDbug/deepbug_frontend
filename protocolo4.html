@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo 4 - Deep Bug</title>
+
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/protocolocuatro.css">
+    <style>
+        .proto-input:disabled { background-color: #f8f9fa; color: #495057; border-color: #e9ecef; }
+        .scale-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .scale-btn { width: 35px; height: 35px; border-radius: 8px; transition: 0.2s; }
+        .scale-btn.active { background-color: #0d6efd !important; color: white !important; border-color: #0d6efd !important; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="d-flex">
+    
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content flex-grow-1">
+        
+        <div class="top-header">
+            <div>
+                <h4 class="mb-0 text-primary fw-bold d-flex align-items-center">
+                        Protocolo 4
+                        <a href="#" id="link-proyecto-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar al Proyecto">
+                            <i class="fas fa-arrow-left"></i> <span id="nombre-proyecto-nav">Cargando...</span>
+                        </a>
+                    </h4>
+                <small class="text-primary fw-bold" id="estado-texto">Muestreo multihábitat</small>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 py-4">
+            
+            <div class="mb-4 d-flex align-items-center justify-content-between">
+                <div data-role="Responsable">
+                    <button id="btnModificar" class="btn btn-primary rounded-pill px-4 me-2" style="display: none; background-color: #2b5c8f;">
+                        <i class="fas fa-edit me-2"></i>Modificar datos
+                    </button>
+                    <button id="btnGuardar" class="btn btn-success rounded-pill px-4" style="display: none; background-color: #2ea043;">
+                        <i class="fas fa-save me-2"></i>Guardar y Sincronizar
+                    </button>
+                </div>
+            </div>
+
+            <div class="accordion shadow-sm" id="protocolFourAccordion">
+                
+                <div class="protocolFour-accordion-item">
+                    <button class="protocolFour-accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHabitat">
+                        <span>Tipos de hábitat y arrastres</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="collapseHabitat" class="collapse show" data-bs-parent="#protocolFourAccordion">
+                        <div class="protocolFour-accordion-body p-4 bg-white">
+                            <p class="small fw-bold text-primary mb-3">Determinación de los tipos de hábitat y su porcentaje:</p>
+                            <div class="row g-4 mb-4">
+                                <div class="col-md-6 habitat-item">
+                                    <label class="small fw-bold">Hábitat 1. Sustrato duro en rápidos</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="number" id="porcentaje_h1" class="form-control habitat-pct proto-input txt-dinamico" value="0" disabled>
+                                        <div class="progress-container-deep"><div class="progress-fill bg-success" style="width: 0%"></div></div>
+                                        <span class="small">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 habitat-item">
+                                    <label class="small fw-bold">Hábitat 2. Detrito vegetal</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="number" id="porcentaje_h2" class="form-control habitat-pct proto-input txt-dinamico" value="0" disabled>
+                                        <div class="progress-container-deep"><div class="progress-fill bg-success" style="width: 0%"></div></div>
+                                        <span class="small">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 habitat-item">
+                                    <label class="small fw-bold">Hábitat 3. Orillas vegetadas</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="number" id="porcentaje_h3" class="form-control habitat-pct proto-input txt-dinamico" value="0" disabled>
+                                        <div class="progress-container-deep"><div class="progress-fill bg-success" style="width: 0%"></div></div>
+                                        <span class="small">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 habitat-item">
+                                    <label class="small fw-bold">Hábitat 4. Macrófitas acuáticas</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="number" id="porcentaje_h4" class="form-control habitat-pct proto-input txt-dinamico" value="0" disabled>
+                                        <div class="progress-container-deep"><div class="progress-fill bg-success" style="width: 0%"></div></div>
+                                        <span class="small">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 habitat-item">
+                                    <label class="small fw-bold">Hábitat 5. Arena u otros sedimentos finos</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="number" id="porcentaje_h5" class="form-control habitat-pct proto-input txt-dinamico" value="0" disabled>
+                                        <div class="progress-container-deep"><div class="progress-fill bg-success" style="width: 0%"></div></div>
+                                        <span class="small">%</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="small fw-bold">Otros hábitats (Especifique)</label>
+                                    <input type="text" id="otros_habitat" class="form-control proto-input txt-dinamico" placeholder="Ej. Lodo, Rocas grandes..." disabled>
+                                </div>
+
+                            </div>
+
+                            <hr>
+                            <p class="small fw-bold text-primary mt-4">Cálculo del número de arrastres por hábitat:</p>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Hábitat 1. Sustrato duro en rápidos</label>
+                                    <input type="number" id="arrastre_h1" class="form-control rounded-pill proto-input txt-dinamico" value="0" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Hábitat 2. Detrito vegetal</label>
+                                    <input type="number" id="arrastre_h2" class="form-control rounded-pill proto-input txt-dinamico" value="0" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Hábitat 3. Orillas vegetadas</label>
+                                    <input type="number" id="arrastre_h3" class="form-control rounded-pill proto-input txt-dinamico" value="0" disabled>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Hábitat 4. Macrófitas acuáticas</label>
+                                    <input type="number" id="arrastre_h4" class="form-control rounded-pill proto-input txt-dinamico" value="0" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Hábitat 5. Arena u otros sedimentos finos</label>
+                                    <input type="number" id="arrastre_h5" class="form-control rounded-pill proto-input txt-dinamico" value="0" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="small fw-bold">Método de colecta</label>
+                                    <input type="text" id="metodo_colecta" class="form-control rounded-pill proto-input txt-dinamico" value="Red de mano tipo D (500 µm)" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="protocolFour-accordion-item mt-2">
+                    <button class="protocolFour-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFauna">
+                        <span>Fauna asociada</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="collapseFauna" class="collapse" data-bs-parent="#protocolFourAccordion">
+                        <div class="protocolOne-accordion-body p-4 bg-white">
+                            <div class="metric-legend-deep mb-4 p-2 rounded bg-light border text-center small fw-bold">
+                                <span class="mx-2">0: Ausente</span>|<span class="mx-2">1: Rara (1-3)</span>|<span class="mx-2">2: Común (3-9)</span>|<span class="mx-2">3: Abundante (>10)</span>|<span class="mx-2">4: Dominante (>50)</span>
+                            </div>
+                            <div id="contenedor-fauna"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="protocolFour-accordion-item mt-2">
+                    <button class="protocolFour-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEstimacion">
+                        <span>Estimación preliminar en campo</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="collapseEstimacion" class="collapse" data-bs-parent="#protocolFourAccordion">
+                        <div class="protocolOne-accordion-body p-4 bg-white">
+                            <div class="metric-legend-deep mb-4 p-2 rounded bg-light border text-center small fw-bold">
+                                <span class="mx-2">0: Ausente</span>|<span class="mx-2">1: Rara (1-3)</span>|<span class="mx-2">2: Común (3-9)</span>|<span class="mx-2">3: Abundante (>10)</span>|<span class="mx-2">4: Dominante (>50)</span>
+                            </div>
+                            <div id="contenedor-estimacion"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="protocolFour-accordion-item mt-2">
+                    <button class="protocolFour-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseObs">
+                        <span>Observaciones o comentarios</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div id="collapseObs" class="collapse" data-bs-parent="#protocolFourAccordion">
+                        <div class="protocolOne-accordion-body p-4 bg-white">
+                            <textarea id="observaciones" class="form-control proto-input txt-dinamico" rows="4" disabled></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="protocolo4.js"></script>
+</body>
+</html>

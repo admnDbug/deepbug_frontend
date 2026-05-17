@@ -1,0 +1,263 @@
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding-bottom: 50px;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e3f2fd;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+}
+
+
+
+.createProject-accordion-item {
+    margin-bottom: 15px;
+    border: none;
+    background: transparent;
+}
+
+.createProject-accordion-button {
+    background-color: #d4f8e8; 
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #145a32;
+    width: 100%;
+    text-align: left;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.createProject-accordion-button:not(.collapsed) {
+    background-color: #bbf7d0; 
+}
+
+.createProject-accordion-button:hover {
+    background-color: #bbf7d0;
+}
+
+.createProject-accordion-button .fa-chevron-down {
+    transition: transform 0.3s;
+}
+.createProject-accordion-button:not(.collapsed) .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.createProject-accordion-body {
+    padding: 20px 10px;
+    background-color: #fff;
+}
+
+.createProject-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #000;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.createProject-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.createProject-select {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+.createProject-btn-save-small {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: block;
+    margin-left: auto; 
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.createProject-btn-save-small:hover {
+    background-color: #4cae68;
+}
+
+
+.createProject-right-panel {
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 25px;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.createProject-panel-title {
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #000;
+}
+
+.createProject-invite-input {
+    flex: 1;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.createProject-collab-add {
+    font-size: 20px;
+    color: #4cae68;
+    cursor: pointer;
+    padding-bottom: 20px;
+}
+
+.createProject-collab-add:hover{
+    color: #28a745;
+}
+
+.createProject-empty-state {
+    text-align: center;
+    color: #999;
+    margin: 40px 0;
+}
+.createProject-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+.createProject-empty-text {
+    font-size: 0.85rem;
+}
+
+.createProject-collab-list {
+    margin-bottom: 20px;
+}
+
+.createProject-collab-item {
+    background-color: #e3f2fd; 
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.createProject-collab-avatar {
+    background-color: #1565c0;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-right: 15px;
+}
+
+.createProject-collab-info {
+    flex: 1;
+}
+.createProject-collab-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #1565c0;
+    margin: 0;
+}
+.createProject-collab-email {
+    font-size: 0.7rem;
+    color: #555;
+    margin: 0;
+}
+
+.createProject-collab-remove {
+    color: #1976D2;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.createProject-btn-action-green {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 0;
+    font-weight: 600;
+    margin-bottom: 15px;
+    transition: background 0.3s;
+    text-decoration: none;
+    justify-content: center;
+}
+.createProject-btn-action-green:hover {
+    background-color: #4cae68;
+}
+
+.createProject-btn-action-gray {
+    width: 100%;
+    background-color: #aaa;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 0;
+    font-weight: 600;
+    margin-bottom: 15px;
+    cursor: not-allowed;
+}
+
+.createProject-btn-action-blue {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 0;
+    font-weight: 600;
+    transition: background 0.3s;
+    text-decoration: none;
+    justify-content: center;
+}
+.createProject-btn-action-blue:hover {
+    background-color: #1976D2;
+}
+
+@media (max-width: 992px) {
+    .createProject-right-panel { margin-top: 30px; }
+}
+@media (max-width: 768px) {
+    .sidebar { width: 0; overflow: hidden; }
+    .main-content { margin-left: 0; width: 100%; }
+}

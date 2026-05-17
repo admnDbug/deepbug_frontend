@@ -1,0 +1,360 @@
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding-bottom: 50px;
+}
+
+/* Top Header */
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e3f2fd;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+}
+
+
+
+/* Botón Guardar PDF */
+.protocolOne-btn-pdf {
+    background-color: #5bc579;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 40px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    transition: background 0.3s;
+}
+.protocolOne-btn-pdf:hover {
+    background-color: #4cae68;
+    color: white;
+}
+
+.protocolOne-accordion-item {
+    margin-bottom: 20px;
+    border: none;
+    background: transparent;
+}
+
+.protocolOne-accordion-button {
+    background-color: #d4f8e8; 
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #145a32;
+    width: 100%;
+    text-align: left;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.protocolOne-accordion-button:not(.collapsed) {
+    background-color: #bbf7d0;
+    box-shadow: none;
+}
+
+.protocolOne-accordion-button:hover {
+    background-color: #bbf7d0;
+}
+
+/* Rotación del icono */
+.protocolOne-accordion-button .fa-chevron-down {
+    transition: transform 0.3s;
+}
+.protocolOne-accordion-button:not(.collapsed) .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Contenedor del contenido del acordeón */
+.protocolOne-accordion-body {
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+/* Subtítulos Azules */
+.protocolOne-subtitle {
+    color: #1565c0; 
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+/* Lista de items de texto */
+.protocolOne-list-item {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+/* Tabla Azul (General) */
+.protocolOne-table-header {
+    background-color: #2196F3;
+    color: white;
+    border-radius: 5px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.protocolOne-table-row {
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* --- Estilos Específicos para Tabla de Parámetros --- */
+/* Definimos anchos flexibles para las columnas */
+.col-param { width: 20%; font-weight: bold; color: #333; }
+.col-unit  { width: 10%; text-align: center; }
+.col-stations { width: 35%; text-align: center; letter-spacing: 3px; font-size: 0.75rem; color: #777; }
+.col-obs   { width: 35%; font-size: 0.7rem; line-height: 1.2; color: #666; }
+
+
+.col-param-title { width: 20%; text-align: center;}
+.col-unit-title { width: 10%; text-align: center; }
+.col-stations-title { width: 35%; text-align: center;}
+.col-obs-title   { width: 35%; text-align: center;}
+
+/* Estilos específicos para la tabla de Materiales (más simple) */
+.mat-col-name { flex: 1; }
+.mat-col-unit { width: 80px; text-align: center; }
+
+
+/* Panel Derecho: Responsables */
+.protocolOne-resp-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.protocolOne-resp-container {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 30px 20px;
+    height: auto; 
+}
+
+.protocolOne-resp-card {
+    background-color: #e3f2fd;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.2s;
+
+}
+
+.protocolOne-resp-icon {
+    background-color: #1565c0;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.protocolOne-resp-name {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #1565c0;
+    margin: 0;
+}
+
+.protocolOne-resp-role {
+    font-size: 0.7rem;
+    color: #1565c0;
+    margin: 0;
+    opacity: 0.8;
+}
+
+/* Reutilizando la base de tu novio con ajustes Deep Bug */
+.btn-primary-deep { background-color: #1e88e5; color: white; border: none; }
+.btn-success-deep { background-color: #5bc579; color: white; border: none; }
+
+.checkbox-grid-protocol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.instrument-row-view {
+    display: flex;
+    justify-content: space-between;
+    grid-column: span 2;
+    background: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+.mat-input-unit {
+    width: 60px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    background: white;
+}
+
+.mat-input-unit:disabled {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    color: #1565c0;
+}
+
+/* Responsables */
+.btn-remove-resp {
+    background: none;
+    border: none;
+    color: #d32f2f;
+    opacity: 0.6;
+    transition: 0.3s;
+}
+.btn-remove-resp:hover { opacity: 1; }
+
+
+
+/* Estilo acordeón cerrado por defecto */
+.protocolOne-accordion-button.collapsed {
+    background-color: #e8f5e9;
+}
+
+/* Estilo para observaciones */
+.protocolOne-observations {
+    background-color: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    font-size: 0.85rem;
+    resize: none;
+    border-radius: 10px;
+}
+
+.protocolOne-observations:disabled {
+    background-color: #ffffff;
+    color: #666;
+}
+
+/* Estilos para inputs editables de "Otros" */
+.mat-input-name-other {
+    flex: 1;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 0.85rem;
+    color: #555;
+    padding: 2px 5px;
+}
+
+.mat-input-name-other:not(:disabled) {
+    border-bottom: 1px dashed #2196F3;
+    background: #e3f2fd;
+}
+
+/* Botón quitar otro */
+.btn-remove-other {
+    background: none;
+    border: none;
+    color: #f44336;
+    margin-left: 10px;
+    font-size: 1.1rem;
+}
+
+/* Estilos para la tabla de parámetros */
+.protocolOne-custom-table {
+    font-size: 0.8rem;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+.protocolOne-custom-table thead th {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    text-align: center;
+    padding: 8px 4px;
+}
+
+.station-subheaders th {
+    background-color: #1e88e5 !important;
+    font-size: 0.7rem;
+}
+
+.protocolOne-custom-table tbody td {
+    background-color: white;
+    border: 1px solid #eee;
+    vertical-align: middle;
+    padding: 4px;
+}
+
+/* Inputs dentro de la tabla */
+.station-input {
+    width: 35px;
+    text-align: center;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 0.75rem;
+}
+
+.table-input-small {
+    width: 50px;
+    text-align: center;
+    border: 1px solid transparent;
+    background: transparent;
+    font-weight: 600;
+}
+
+.obs-table-input {
+    width: 100%;
+    min-width: 120px;
+    height: 40px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 0.7rem;
+    resize: none;
+}
+
+/* Estado de edición para la tabla */
+.station-input:not(:disabled), 
+.table-input-small:not(:disabled),
+.obs-table-input:not(:disabled) {
+    background-color: #e3f2fd;
+    border-bottom: 1px dashed #2196F3;
+}
+
+.italic { font-style: italic; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .protocolOne-resp-container { margin-top: 30px; }
+    .col-param, .col-unit, .col-stations, .col-obs { width: 100%; text-align: left; margin-bottom: 5px; }
+    .protocolOne-table-row { flex-direction: column; align-items: flex-start; }
+    .protocolOne-table-header { display: none; } /* Ocultar header en movil */
+}
+@media (max-width: 768px) {
+    .sidebar { width: 0; overflow: hidden; }
+    .main-content { margin-left: 0; width: 100%; }
+}
