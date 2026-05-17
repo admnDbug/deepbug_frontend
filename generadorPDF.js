@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
-            docHTML.style.padding = '40px';
+            docHTML.style.padding = '10px 30px'; // Ajuste de padding para maximizar área de impresión
             docHTML.style.fontFamily = 'Arial, sans-serif';
             docHTML.style.color = '#333';
 
@@ -236,9 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p style="margin: 5px 0 0 0; color: #6c757d; font-size: 11px; letter-spacing: 1px;">SISTEMA DE BIOMONITOREO DE MACROINVERTEBRADOS</p>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
-                    <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-001. PLAN DE MUESTREO</h2>
-                    
+                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-001. PLAN DE MUESTREO</h2>
+                
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Identificación (Estaciones)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
                         <tr style="background: #e9ecef;">
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Parámetros a evaluar (In Situ)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 15px; text-align: center; table-layout: fixed; word-wrap: break-word;">
                         <thead style="display: table-row-group;">
@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Responsables</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -333,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 15px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Verificación de Materiales</h3>
                     <div style="font-size: 10px; margin-bottom: 8px;">
                         <strong>a) Equipos y Herramientas:</strong><br>
@@ -357,14 +357,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-before: always;"></div>
+                <div class="html2pdf__page-break"></div>
+
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-002. CARACTERIZACIÓN VISUAL Y FISICOQUÍMICA</h2>
                 
-                <div style="page-break-inside: avoid; margin-bottom: 15px;">
+                <div style="page-break-inside: avoid; margin-bottom: 15px; text-align: center;">
                     ${imgP2Html}
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales y Localización</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -394,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Clima y Cuerpo de Agua</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -412,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Cobertura Boscosa y Usos de la Tierra</h3>
                     <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px; background: #fafafa;">
@@ -428,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Descargas y Modificaciones</h3>
                     <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
@@ -438,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <strong style="color: #2b5c8f;">Especies/Cobertura:</strong> ${d2.esp_dominantes || '--'} / ${d2.porcentaje_veg || '--'}%
                         </div>
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
-                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong><br>
+                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong>br>
                             Residuos: ${d2_form.residuos||'--'} | Canalizado: ${d2_form.canalizado||'--'} | Presas: ${d2_form.presas||'--'}<br>
                             Rectificación: ${d2_form.rectificacion||'--'} | Aceites: ${d2_form.aceites||'--'} | Extracciones: ${d2_form.extracciones||'--'}<br>
                             <strong style="color: #2b5c8f; margin-top: 5px; display: inline-block;">Erosión Local:</strong> ${d2_form.erosion || '--'}
@@ -446,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="page-break-inside: avoid; margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Calidad del Agua (In Situ P2)</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
                         <tr style="background: #e9ecef;">
@@ -525,14 +526,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-before: always;"></div>
+                <div class="html2pdf__page-break"></div>
+
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-003. CARACTERIZACIÓN DEL HÁBITAT</h2>
                 <p style="font-size: 11px; color: #666; margin-bottom: 15px;">Se muestran las matrices de evaluación para ambos gradientes (Alto y Bajo).</p>
                 
                 ${generarTablaP3('Alto', puntajesAlto, scoreAltoTotal)}
                 ${generarTablaP3('Bajo', puntajesBajo, scoreBajoTotal)}
 
-                <div style="page-break-before: always;"></div>
+                <div class="html2pdf__page-break"></div>
+
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-004. MUESTREO MULTIHÁBITAT</h2>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
@@ -595,9 +598,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Fauna Asociada</h3>
-                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
+                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
@@ -613,9 +616,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
-                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
+                <div style="margin-bottom: 25px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-before: auto;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
+                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
@@ -638,7 +641,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 ` : ''}
 
-                <div style="page-break-before: always;"></div>
+                <div class="html2pdf__page-break"></div>
+
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP/MEX)</h2>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
