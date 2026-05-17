@@ -275,20 +275,24 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 document.getElementById('estado-texto').textContent = "Modo Visualización";
                 
-                const form = protocolo5.datos_protocolo_5;
-                if (form && form.familias_encontradas) {
-                    addedFamilies = form.familias_encontradas.map((item, index) => ({
-                        id: item._id || `fam_old_${index}`,
-                        nombre_familia: item.nombre_familia,
-                        valor_bmwp: item.valor_bmwp || 0,
-                        cantidad: item.cantidad || 1, 
-                        foto_url: item.imagen_url || null,
-                        foto_base64: null,
-                        preview: null
-                    }));
+                // LECTURA HÍBRIDA: Buscamos en datos_formulario o en datos_protocolo_5 por compatibilidad
+                const dataP5 = protocolo5.datos_formulario || protocolo5.datos_protocolo_5 || {};
+                const listaFams = dataP5.familias_registradas || [];
+
+                // Mapeamos las familias encontradas al arreglo de la UI web
+                addedFamilies = listaFams.map(f => ({
+                    id: f.familia_id || f.id,
+                    nombre: f.nombre || "Familia",
+                    cantidad: parseInt(f.cantidad) || 0,
+                    bmwp: parseInt(f.valor_bmwp || f.bmwp) || 0,
+                    foto_base64: f.foto_base64 || null
+                }));
+
+                recalcularUI();
+
+                if (rolUsuario === 'Responsable' && btnModificar) {
+                    btnModificar.style.display = 'inline-block';
                 }
-                
-                if (rolUsuario === 'Responsable' && btnModificar) btnModificar.style.display = 'inline-block';
             }
 
             renderCatalog();
@@ -317,13 +321,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const totalBMWP = addedFamilies.reduce((sum, f) => sum + f.valor_bmwp, 0);
 
-            const datos_protocolo_5 = {
-                familias_encontradas: addedFamilies.map(f => ({
-                    nombre_familia: f.nombre_familia,
-                    valor_bmwp: f.valor_bmwp,
-                    cantidad: f.cantidad, 
-                    imagen_url: f.foto_url,
-                    foto_base64: f.foto_base64 
+            // Estructura limpia y unificada para la base de datos
+            const datos_formulario = {
+                familias_registradas: addedFamilies.map(f => ({
+                    familia_id: f.id,
+                    nombre: f.nombre,
+                    cantidad: f.cantidad,
+                    valor_bmwp: f.bmwp,
+                    foto_base64: f.foto_base64 || null
                 })),
                 sumatoria_total_bmwp: totalBMWP
             };
@@ -332,8 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 protocolos: [{ 
                     biomonitoreo_id: proyectoId, 
                     protocolo_numero: 5, 
-                    datos_formulario: null,
-                    datos_protocolo_5: datos_protocolo_5 
+                    datos_formulario: datos_formulario // <--- Corrección de la llave oficial
                 }]
             };
 
