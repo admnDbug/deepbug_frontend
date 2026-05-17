@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Familias</title>
+    <title>Catálogo de Familias - Deep Bug</title>
     <script src="head-loader.js"></script>
     <link rel="stylesheet" href="css/familias.css">
 </head>
@@ -31,45 +31,35 @@
             <h4 class="mb-0 text-primary fw-bold">Familias</h4>
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
-                    <button 
-                        class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
+                    <button class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle fa-lg text-primary"></i>
                         <span class="fw-bold text-dark">Usuario</span>
                         <i class="fas fa-chevron-down text-primary"></i>
                     </button>
-
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user-edit fa-lg text-primary me-2"></i>Mi perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="login.html"><i class="fas fa-door-closed fa-lg text-primary me-2"></i>Cerrar sesión</a></li>
                     </ul>
-                    </div>
-                <!-- Cambiar para que se actualice el usuario automaticamente y cierre sesion funcional-->
+                </div>
             </div>
         </div>
 
         <div class="container-fluid px-4">
-            
             <div class="family-header-actions">
                 <button class="family-btn-add" data-bs-toggle="modal" data-bs-target="#addFamilyModal">
                     <i class="fas fa-folder-plus"></i> Agregar Familia
                 </button>
             </div>
 
-            
             <div class="family-table-header">
                 <div class="family-col-name">Nombre de la Familia</div>
                 <div class="family-col-orden">Orden</div>
                 <div class="family-col-tamano">Tamaño</div>
-                </div>
+                <div class="family-col-act" style="text-align: center; width: 80px;">Acciones</div>
+            </div>
 
-            <div id="contenedorFamiliasLista">
-                </div>
-
+            <div id="contenedorFamiliasLista"></div>
         </div>
     </div>
 </div>
@@ -79,15 +69,11 @@
         <div class="modal-content family-modal-content">
             <div class="modal-body">
                 <h3 class="family-modal-title">Añadir Familia</h3>
-
-                <!-- Input de archivo oculto -->
                 <input type="file" id="family-image-input" accept="image/*" style="display: none;">
-                
                 <div class="family-upload-area" id="family-upload-trigger">
                     <i class="fas fa-plus-square family-upload-icon"></i>
                     <span id="upload-text">Agregar Imagen</span>
                 </div>
-
                 <form id="add-family-form">
                     <div class="row">
                         <div class="col-md-6">
@@ -99,42 +85,32 @@
                             <input type="text" class="family-modal-input" id="new-family-order" required>
                         </div>
                         <div class="col-md-3">
-                            <label class="family-modal-label">Tamaño:</label>
+                            <label class="family-modal-label">Tamaño (mm):</label>
                             <input type="text" class="family-modal-input" id="new-family-size" required>
                         </div>
                     </div>
-
                     <label class="family-modal-label">Descripción:</label>
                     <textarea class="family-modal-textarea" id="new-family-desc" required></textarea>
-
                     <button type="submit" id="btnGuardarFamilia" class="family-btn-submit mt-4">Añadir Familia</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<div class="family-table-header">
-                <div class="family-col-name">Nombre de la Familia</div>
-                <div class="family-col-orden">Orden</div>
-                <div class="family-col-tamano">Tamaño</div>
-                <div class="family-col-act" style="text-align: center; width: 80px;">Acciones</div>
-            </div>
 
 <div class="modal fade" id="editFamilyModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content family-modal-content" style="border-top: 5px solid #2196F3;">
             <div class="modal-body">
                 <h3 class="family-modal-title" style="color: #2196F3;"><i class="fas fa-edit me-2"></i>Modificar Familia</h3>
-
                 <input type="file" id="edit-family-image-input" accept="image/*" style="display: none;">
-                
                 <div class="family-upload-area" id="edit-family-upload-trigger" style="border-color: #2196F3;">
                     <i class="fas fa-camera family-upload-icon" style="color: #2196F3;"></i>
                     <span id="edit-upload-text">Cambiar Foto de Evidencia (Opcional)</span>
                 </div>
-
                 <form id="edit-family-form">
-                    <input type="hidden" id="edit-family-id"> <div class="row">
+                    <input type="hidden" id="edit-family-id"> 
+                    <div class="row">
                         <div class="col-md-6">
                             <label class="family-modal-label">Nombre de la Familia:</label>
                             <input type="text" class="family-modal-input" id="edit-family-name" required>
@@ -144,20 +120,19 @@
                             <input type="text" class="family-modal-input" id="edit-family-order" required>
                         </div>
                         <div class="col-md-3">
-                            <label class="family-modal-label">Tamaño:</label>
+                            <label class="family-modal-label">Tamaño (mm):</label>
                             <input type="text" class="family-modal-input" id="edit-family-size" required>
                         </div>
                     </div>
-
                     <label class="family-modal-label">Descripción Técnica:</label>
                     <textarea class="family-modal-textarea" id="edit-family-desc" required></textarea>
-
                     <button type="submit" id="btnActualizarFamilia" class="family-btn-submit mt-4" style="background-color: #2196F3;">Guardar Cambios</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="familias.js"></script>
 <script src="roles.js"></script>
