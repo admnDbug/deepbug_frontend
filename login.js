@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // 3. Enviamos las credenciales al backend
-            const respuesta = await fetch('http://localhost:3000/api/auth/login', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

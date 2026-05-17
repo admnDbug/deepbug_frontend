@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarPerfil() {
         try {
             // Conectado a tu ruta GET /api/auth/perfil
-            const res = await fetch('http://localhost:3000/api/auth/perfil', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/auth/perfil', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnGuardar.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';
             btnGuardar.disabled = true;
 
-            const res = await fetch('http://localhost:3000/api/auth/actualizar-perfil', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/auth/actualizar-perfil', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(datosActualizados)
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Conectado a tu ruta POST /api/auth/validar-codigo
-            const res = await fetch('http://localhost:3000/api/auth/validar-codigo', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/auth/validar-codigo', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ codigo: codigo }) // Tu backend espera la variable 'codigo'
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             // Conectado a tu ruta PUT /api/auth/cambiar-password
-            const res = await fetch('http://localhost:3000/api/auth/cambiar-password', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/auth/cambiar-password', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 // Tu backend espera 'passwordActual' y 'nuevaPassword'

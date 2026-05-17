@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarFamilias() {
         try {
-            const respuesta = await fetch('http://localhost:3000/api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const familias = await respuesta.json();
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('imagen', imageInput.files[0]); // El archivo físico
 
         try {
-            const respuesta = await fetch('http://localhost:3000/api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 method: 'POST',
                 headers: {
                     // OJO: Cuando usas FormData, NO debes poner 'Content-Type': 'application/json'

@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
             // 2. Extraer Protocolos de BD
-            const resProtocolos = await fetch(`http://localhost:3000/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` }});
+            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
             const p1 = protocolos.find(p => p.protocolo_numero === 1 && p.estado === 'aprobado');

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. FUNCIÓN PARA OBTENER Y DIBUJAR LOS PROYECTOS
     async function cargarProyectos() {
         try {
-            const respuesta = await fetch('http://localhost:3000/api/biomonitoreos', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/biomonitoreos', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!codigo) return alert('Ingresa un código');
 
             try {
-                const respuesta = await fetch('http://localhost:3000/api/auth/validar-codigo', {
+                const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/validar-codigo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
