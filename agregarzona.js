@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', async () => {
+
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
+
     // 0. SEGURIDAD: Verificar token
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Sesión no válida.');
-        return window.location.href = 'login.html';
+        return window.location.replace('login.html');
     }
 
     // Poner el nombre del usuario en el navbar

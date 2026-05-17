@@ -1,6 +1,13 @@
 // Archivo: login.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
     const formLogin = document.getElementById('formLogin');
     const emailInput = document.getElementById('emailLogin');
     const passwordInput = document.getElementById('passwordLogin');

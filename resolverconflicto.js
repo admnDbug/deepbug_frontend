@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
     // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario');

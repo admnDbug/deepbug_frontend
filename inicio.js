@@ -1,11 +1,18 @@
 // Archivo: inicio.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
     // 1. VERIFICACIÓN DE SEGURIDAD
     const token = localStorage.getItem('token');
     if (!token) {
         alert('Debes iniciar sesión para ver esta página.');
-        window.location.href = 'login.html';
+        window.location.replace('login.html');
         return;
     }
 
@@ -118,6 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnCerrarSesion').addEventListener('click', (e) => {
         e.preventDefault();
         localStorage.clear(); 
-        window.location.href = 'login.html';
+        window.location.replace('login.html');
     });
 });

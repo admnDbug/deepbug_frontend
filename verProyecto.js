@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rolUsuario = localStorage.getItem('rolUsuario'); 
     
     if (!token) {
-        window.location.href = 'login.html';
+        window.location.replace('login.html');
         return;
     }
     
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCerrarSesion.addEventListener('click', () => {
             if(confirm("¿Seguro que deseas salir?")) {
                 localStorage.clear();
-                window.location.href = 'login.html';
+                window.location.replace('login.html');
             }
         });
     }

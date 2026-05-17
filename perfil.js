@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
     // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
@@ -8,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             el.style.setProperty('display', 'none', 'important');
         }
     });
-    if (!token) return window.location.href = 'login.html';
+    if (!token) return window.location.replace('login.html');
 
     // Mostrar botón de Admin solo si es Colaborador
     if (rolUsuario === 'Colaborador') {
@@ -154,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 alert("Contraseña cambiada con éxito. Por favor vuelve a iniciar sesión.");
                 localStorage.clear();
-                window.location.href = 'login.html';
+                window.location.replace('login.html');
             } else {
                 alert(`Error: ${data.mensaje}`);
             }
@@ -169,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnCerrarSesion').addEventListener('click', () => {
         if(confirm("¿Seguro que deseas salir?")) {
             localStorage.clear();
-            window.location.href = 'login.html';
+            window.location.replace('login.html');
         }
     });
 });

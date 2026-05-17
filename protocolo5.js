@@ -1,8 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
+    window.addEventListener('pageshow', (event) => {
+        if (event.persisted) {
+            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
+            window.location.reload();
+        }
+    });
     // --- 1. SEGURIDAD Y CONFIGURACIÓN ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
-    if (!token) return window.location.href = 'login.html';
+    if (!token) return window.location.replace('login.html');
     
     document.getElementById('nombreUsuarioTop').textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
     const urlParams = new URLSearchParams(window.location.search);

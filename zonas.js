@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. SEGURIDAD
     const token = localStorage.getItem('token');
     if (!token) {
-        window.location.href = 'login.html';
+        window.location.replace('login.html');
         return;
     }
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCerrar.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.clear();
-            window.location.href = 'login.html';
+            window.location.replace('login.html');
         });
     }
 
