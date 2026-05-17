@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         familiasAgregadas.push({
             nombre_familia: nombre,
-            valor_bmwp: parseInt(valor),
+            valor_bmwp: parseFloat(valor),
             imagen_url: urlImg || 'img/placeholder_bug.png',
             orden: orden || 'Sin especificar',
             tamano: tamano || 0

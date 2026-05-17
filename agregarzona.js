@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // IMPORTANTE: Asegúrate de que los nombres de las propiedades coincidan con el Schema `familiaSchema` dentro de `zonas.js`
         familiasAgregadas.push({
             nombre_familia: nombreFamilia,
-            valor_bmwp: parseInt(valorBMWP),
+            valor_bmwp: parseFloat(valorBMWP),
             imagen_url: urlImagen,
             orden: familiaInfo ? familiaInfo.orden : 'Sin especificar',
             tamano: familiaInfo ? familiaInfo.tamano : 0
