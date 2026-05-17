@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Zona - Deep Bug</title>
+    <script src="head-loader.js"></script>
+    <link rel="stylesheet" href="css/agregarzona.css">
+</head>
+<body>
+
+<div class="d-flex">
+    <div class="sidebar d-flex flex-column">
+        <div class="sidebar-brand">
+            <img src="img/logo-png.png" alt="Deep Bug Logo" class="brand-logo">
+            <span class="brand-text">Deep Bug</span>
+        </div>
+        <nav class="nav flex-column mt-4">
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
+            <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
+            <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
+        </nav>
+    </div>
+
+    <div class="main-content w-100">
+        <div class="top-header">
+            <h4 class="mb-0 text-primary fw-bold"><i class="fas fa-edit me-2"></i>Modificar Configuración de Zona</h4>
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
+            </div>
+        </div>
+
+        <div class="container-fluid px-4 py-4">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h5 class="addZones-section-title">Datos Generales de la Cuenca</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="addZones-subtitle">Nombre de la Zona:</label>
+                            <input type="text" id="editNombreZona" class="addZones-input">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="addZones-subtitle">Coordenadas de Referencia:</label>
+                            <input type="text" id="editCoordenadas" class="addZones-input">
+                        </div>
+                    </div>
+
+                    <label class="addZones-subtitle">Ubicación Política / Estado:</label>
+                    <input type="text" id="editUbicacion" class="addZones-input">
+
+                    <label class="addZones-subtitle">Descripción del Ecosistema:</label>
+                    <textarea id="editDescripcion" class="addZones-textarea"></textarea>
+
+                    <h5 class="addZones-section-title">Asignar Nuevas Familias</h5>
+                    <div class="addZones-reg-row">
+                        <div class="addZones-reg-list" style="flex: 2;">
+                            <label class="addZones-subtitle">Seleccionar del Catálogo:</label>
+                            <div class="form-group">
+                                <select id="selectFamiliaDto"></select>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="addZones-subtitle">Valor BMWP/MEX</label>
+                            <input type="text" id="inputBMWP" class="addZones-input mb-0" placeholder="Valor">
+                        </div>
+                        <div class="addZones-reg-btn">
+                            <button id="btnRegistrarFamilia" class="addZones-btn-register">Registrar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="addZones-right-panel" id="panelContenedorFamilias">
+                        <h5 class="addZones-panel-title">Familias Habilitadas en esta Zona</h5>
+                        <div class="zone-save-actions">
+                            <button id="btnActualizarZona" class="zone-btn-save"><i class="fas fa-sync-alt me-2"></i>Actualizar Zona</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="editarzona.js"></script>
+<script src="roles.js"></script>
+</body>
+</html>

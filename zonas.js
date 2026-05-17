@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 2. NAVBAR Y CERRAR SESIÓN
     const nombreUsuarioTop = document.getElementById('nombreUsuarioTop');
     if(nombreUsuarioTop) nombreUsuarioTop.textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
@@ -19,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. CARGA DE ZONAS
+    // 2. CARGA DE ZONAS
     cargarZonas();
 
     async function cargarZonas() {
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const zonas = await respuesta.json();
             const contenedor = document.getElementById('contenedorZonasLista');
-            contenedor.innerHTML = ''; // Limpiamos para que no se dupliquen al recargar
+            contenedor.innerHTML = ''; 
             
             if(zonas.length === 0) {
                 contenedor.innerHTML = '<p class="text-center mt-4 text-muted">No hay zonas registradas aún.</p>';
@@ -46,14 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     textoFamilias = zona.catalogo_familias.map(f => f.nombre_familia).join(', ');
                 }
 
-                // Inyectamos la fila con el botón de borrar (incluye el data-id con el _id de Mongo)
                 const filaHTML = `
                 <div class="zone-table-row align-items-center">
                     <div class="zone-col-name fw-bold">${zona.nombre}</div>
                     <div class="zone-col-loc">${zona.ubicacion}</div>
                     <div class="zone-col-coord">Coordenadas: ${zona.coordenadas}</div>
                     <div class="zone-col-fam" style="font-size: 12px;">${textoFamilias}</div>
-                    <div class="zone-col-act" style="width: 80px; text-align: center;">
+                    <div class="zone-col-act" style="width: 100px; text-align: center; display: flex; gap: 6px; justify-content: center;">
+                        <button class="btn btn-sm btn-outline-primary btn-editar-zona" data-id="${zona._id}" title="Editar Zona">
+                            <i class="fas fa-edit"></i>
+                        </button>
                         <button class="btn btn-sm btn-outline-danger btn-eliminar-zona" data-id="${zona._id}" title="Eliminar Zona">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -63,7 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 contenedor.insertAdjacentHTML('beforeend', filaHTML);
             });
 
-            // Asignar el evento a todos los botones de eliminar recién creados
+            // Asignar eventos a los botones de Editar
+            document.querySelectorAll('.btn-editar-zona').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const zonaId = e.currentTarget.getAttribute('data-id');
+                    window.location.href = `editarzona.html?id=${zonaId}`;
+                });
+            });
+
+            // Asignar eventos a los botones de Eliminar
             document.querySelectorAll('.btn-eliminar-zona').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const zonaId = e.currentTarget.getAttribute('data-id');
@@ -77,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. FUNCIÓN PARA ELIMINAR ZONA
     async function eliminarZona(zonaId) {
         const confirmar = confirm("¿Estás seguro de que deseas eliminar esta zona? Los proyectos asociados podrían quedarse sin catálogo.");
         if (!confirmar) return;
@@ -90,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (respuesta.ok) {
                 alert("Zona eliminada correctamente.");
-                cargarZonas(); // Recargamos la tabla en vivo
+                cargarZonas(); 
             } else {
                 const errorData = await respuesta.json();
                 alert(`Error: ${errorData.mensaje}`);
