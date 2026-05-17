@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<span class="small text-dark fw-medium">${valor}</span>`;
     }
 
-    // Función principal que lee el protocolo y arma la lista
+    // --- 3. GENERADOR VISUAL DE DATOS (CON CANTIDADES CORREGIDAS) ---
     function generarVistaDatos(protocolo) {
         let html = '<div class="d-flex flex-column gap-2">';
         
@@ -202,7 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 datos.familias_encontradas.forEach(f => {
                     html += `
                         <div class="bg-white border rounded p-2 d-flex justify-content-between align-items-center shadow-sm">
-                            <span class="small fw-bold text-dark">${f.nombre_familia}</span>
+                            <div>
+                                <span class="small fw-bold text-dark">${f.nombre_familia}</span>
+                                <span class="badge bg-light text-dark border ms-2" style="font-size: 0.8rem; font-weight: 600;">Cantidad: ${f.cantidad || 1}</span>
+                            </div>
                             <span class="badge bg-info text-dark">BMWP: ${f.valor_bmwp}</span>
                         </div>`;
                 });
@@ -219,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const [key, value] of Object.entries(datos)) {
                 const llaveLimpia = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
                 
-                // Excepción para enlaces de Cloudinary
                 if (key === 'foto_url' && value) {
                     html += `
                         <div class="p-2 border-bottom border-light">
