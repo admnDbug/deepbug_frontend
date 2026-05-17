@@ -321,14 +321,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const totalBMWP = addedFamilies.reduce((sum, f) => sum + f.valor_bmwp, 0);
 
-            // Estructura limpia y unificada para la base de datos
-            const datos_formulario = {
-                familias_registradas: addedFamilies.map(f => ({
-                    familia_id: f.id,
-                    nombre: f.nombre,
-                    cantidad: f.cantidad,
-                    valor_bmwp: f.bmwp,
-                    foto_base64: f.foto_base64 || null
+            const datos_protocolo_5 = {
+                familias_encontradas: addedFamilies.map(f => ({
+                    nombre_familia: f.nombre_familia,
+                    valor_bmwp: f.valor_bmwp,
+                    cantidad: f.cantidad, 
+                    imagen_url: f.foto_url,
+                    foto_base64: f.foto_base64 
                 })),
                 sumatoria_total_bmwp: totalBMWP
             };
@@ -337,7 +336,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 protocolos: [{ 
                     biomonitoreo_id: proyectoId, 
                     protocolo_numero: 5, 
-                    datos_formulario: datos_formulario // <--- Corrección de la llave oficial
+                    datos_formulario: null,
+                    datos_protocolo_5: datos_protocolo_5 
                 }]
             };
 
