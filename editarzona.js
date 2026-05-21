@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panelFamilias = document.getElementById('panelContenedorFamilias');
     const btnActualizarZona = document.getElementById('btnActualizarZona');
 
+    // Mantenemos este arreglo solo para validaciones visuales (no repetir en pantalla)
     let familiasAgregadas = [];
     let catalogoGlobalFamilias = [];
 
@@ -38,14 +39,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 selectFamilia.appendChild(opt);
             });
             
-            // Una vez que el select está listo, precargamos la data de la zona específica
+            // Una vez que el select está listo, precargamos la data de la zona
             await precargarDatosZona();
         } catch (error) {
             console.error("Error cargando familias:", error);
         }
     }
 
-    // 2. Precargar los datos que ya tenía guardados la zona
+    // 2. Precargar los datos de la zona (Textos y familias ya guardadas)
     async function precargarDatosZona() {
         try {
             const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
@@ -72,21 +73,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // Función principal para pintar tarjetas y manejar su eliminación atómica
     function agregarFamiliaAlPanel(nombre, valor, urlImg, orden, tamano) {
         if (familiasAgregadas.find(f => f.nombre_familia === nombre)) return;
 
-        familiasAgregadas.push({
-            nombre_familia: nombre,
-            valor_bmwp: parseFloat(valor),
-            imagen_url: urlImg || 'img/placeholder_bug.png',
-            orden: orden || 'Sin especificar',
-            tamano: tamano || 0
-        });
+        familiasAgregadas.push({ nombre_familia: nombre });
 
         const card = document.createElement('div');
         card.className = 'addZones-product-card';
         card.innerHTML = `
-            <i class="far fa-times-circle addZones-card-close"></i>
+            <i class="far fa-times-circle addZones-card-close" title="Eliminar de la zona"></i>
             <div class="addZones-card-img-box">
                 <img src="${urlImg || 'img/placeholder_bug.png'}" alt="${nombre}" class="addZones-card-img" style="object-fit: cover;">
             </div>
@@ -96,17 +92,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
-        card.querySelector('.addZones-card-close').addEventListener('click', () => {
-            card.remove();
-            familiasAgregadas = familiasAgregadas.filter(f => f.nombre_familia !== nombre);
+        // ELIMINACIÓN ATÓMICA (DELETE directo a la BD)
+        card.querySelector('.addZones-card-close').addEventListener('click', async () => {
+            const confirmar = confirm(`¿Estás seguro de que deseas quitar "${nombre}" de esta zona?`);
+            if (!confirmar) return;
+
+            try {
+                // Hacemos la petición DELETE a la ruta específica de familias
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias/${nombre}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    card.remove(); // Quitamos visualmente
+                    familiasAgregadas = familiasAgregadas.filter(f => f.nombre_familia !== nombre);
+                } else {
+                    const err = await res.json();
+                    alert(`Error al eliminar: ${err.mensaje}`);
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Error de conexión al intentar eliminar la familia.");
+            }
         });
 
         const accionesGuardado = document.querySelector('.zone-save-actions');
         panelFamilias.insertBefore(card, accionesGuardado);
     }
 
-    // 3. Registrar familia temporalmente en la vista
-    btnRegistrarFamilia.addEventListener('click', (e) => {
+    // 3. REGISTRO ATÓMICO: Guardar familia directamente en la BD
+    btnRegistrarFamilia.addEventListener('click', async (e) => {
         e.preventDefault();
         const nombre = selectFamilia.value;
         const valor = inputBMWP.value.trim();
@@ -114,33 +130,66 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!nombre || !valor) return alert("Selecciona una familia y define su puntaje BMWP.");
         
         if (familiasAgregadas.find(f => f.nombre_familia === nombre)) {
-            return alert("Esta familia ya está agregada a la cuenca.");
+            return alert("Esta familia ya está agregada a la zona.");
         }
 
         const globalInfo = catalogoGlobalFamilias.find(f => f.nombre_familia === nombre);
-        const img = globalInfo && globalInfo.imagen_url ? globalInfo.imagen_url : '';
-        const orden = globalInfo ? globalInfo.orden : 'Sin especificar';
-        const tamano = globalInfo ? globalInfo.tamano : 0;
+        
+        // Armamos el objeto a enviar
+        const payloadFamilia = {
+            nombre_familia: nombre,
+            valor_bmwp: parseFloat(valor),
+            imagen_url: globalInfo?.imagen_url || '',
+            orden: globalInfo?.orden || 'Sin especificar',
+            tamano: globalInfo?.tamano || 0
+        };
 
-        agregarFamiliaAlPanel(nombre, valor, img, orden, tamano);
-        selectFamilia.value = "";
-        inputBMWP.value = "";
+        try {
+            btnRegistrarFamilia.textContent = "Guardando...";
+            btnRegistrarFamilia.disabled = true;
+
+            // Hacemos el POST directo a la base de datos
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payloadFamilia)
+            });
+
+            if (res.ok) {
+                // Solo si el backend responde 200 OK, la pintamos en el panel
+                agregarFamiliaAlPanel(nombre, valor, payloadFamilia.imagen_url, payloadFamilia.orden, payloadFamilia.tamano);
+                selectFamilia.value = "";
+                inputBMWP.value = "";
+            } else {
+                const err = await res.json();
+                alert(`Error al registrar: ${err.mensaje}`);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error de conexión al intentar guardar la familia.");
+        } finally {
+            btnRegistrarFamilia.textContent = "Registrar";
+            btnRegistrarFamilia.disabled = false;
+        }
     });
 
-    // 4. DISPARAR PUT ACTUALIZACIÓN
+    // 4. ACTUALIZAR SÓLO DATOS GENERALES
     btnActualizarZona.addEventListener('click', async (e) => {
         e.preventDefault();
         
+        // YA NO mandamos el arreglo de catalogo_familias aquí
         const payload = {
             nombre: txtNombre.value.trim(),
             coordenadas: txtCoordenadas.value.trim(),
             ubicacion: txtUbicacion.value.trim(),
-            descripcion: txtDescripcion.value.trim(),
-            catalogo_familias: familiasAgregadas
+            descripcion: txtDescripcion.value.trim()
         };
 
-        if(!payload.nombre || !payload.coordenadas || !payload.ubicacion || payload.catalogo_familias.length === 0) {
-            return alert("Completa todos los campos obligatorios y añade al menos una familia.");
+        if(!payload.nombre || !payload.coordenadas || !payload.ubicacion) {
+            return alert("Completa todos los campos generales obligatorios.");
         }
 
         try {
@@ -148,7 +197,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnActualizarZona.style.pointerEvents = "none";
 
             const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
-                method: 'PUT', // Contrato HTTP oficial de actualización
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -157,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (res.ok) {
-                alert("¡Zona modificada exitosamente en el catálogo!");
+                alert("¡Datos de la zona modificados exitosamente!");
                 window.location.href = 'zonas.html';
             } else {
                 const err = await res.json();
