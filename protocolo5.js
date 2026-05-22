@@ -220,14 +220,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const resQuality = document.getElementById('resQuality');
         const resDot = document.getElementById('resDot');
 
-        let data = { class: "Extr. contaminada", range: "< 19", desc: "Aguas extremadamente contaminadas", color: "#dc3545" };
+        // Por defecto: Pésima (Aplica para menores a 13)
+        let data = { 
+            class: "Pésima", 
+            range: "< 13", 
+            desc: "Aguas extremadamente contaminadas", 
+            color: "#dc3545" // Rojo
+        };
 
-        if (score > 150) data = { class: "Excelente", range: "> 150", desc: "Aguas de calidad excelente", color: "#0d6efd" };
-        else if (score >= 78) data = { class: "Buena", range: "78 - 149", desc: "Aguas de calidad buena", color: "#198754" };
-        else if (score >= 59) data = { class: "Regular", range: "59 - 77", desc: "Aguas de calidad regular", color: "#ffc107" };
-        else if (score >= 39) data = { class: "Contaminada", range: "39 - 58", desc: "Aguas contaminadas", color: "#fd7e14" };
-        else if (score >= 20) data = { class: "Muy contaminada", range: "20 - 38", desc: "Aguas muy contaminadas", color: "#d63384" };
+        // Lógica de rangos BMWP-RBTC
+        if (score > 68) {
+            data = { class: "Excelente", range: "> 68", desc: "Aguas no contaminadas", color: "#0d6efd" }; // Azul
+        } else if (score > 52) { // 53 a 68
+            data = { class: "Muy buena", range: "52 — 68", desc: "Aguas no alteradas de manera sensible", color: "#0dcaf0" }; // Celeste
+        } else if (score > 39) { // 40 a 52
+            data = { class: "Buena", range: "39 — 52", desc: "Aguas moderadamente contaminadas", color: "#198754" }; // Verde
+        } else if (score > 26) { // 27 a 39
+            // Usamos un color un poco más oscuro que el amarillo puro para que las letras blancas o claras no se pierdan, 
+            // pero que represente visualmente el amarillo de tu tabla.
+            data = { class: "Regular", range: "26 — 39", desc: "Aguas contaminadas", color: "#ffc107" }; // Amarillo
+        } else if (score >= 13) { // 13 a 26
+            data = { class: "Mala", range: "13 — 26", desc: "Aguas muy contaminadas", color: "#fd7e14" }; // Naranja
+        }
 
+        // Actualizamos el DOM con los nuevos valores
         resClass.innerText = data.class;
         resClass.style.color = data.color;
         resRange.innerText = data.range;
