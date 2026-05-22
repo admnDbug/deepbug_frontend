@@ -213,13 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Tabla de clasificación BMWP/MEX completa
             const tablaBMWP = [
-                { min: 151, max: Infinity, categoria: 'Excelente',           calidad: 'Aguas muy limpias, no contaminadas',        color: '#0d6efd' },
-                { min: 120, max: 150,      categoria: 'Buena',               calidad: 'Aguas no contaminadas o poco alteradas',     color: '#198754' },
-                { min: 78,  max: 119,      categoria: 'Regular / Aceptable', calidad: 'Aguas con evidencia moderada de impacto',    color: '#20c997' },
-                { min: 59,  max: 77,       categoria: 'Dudosa / Crítica',    calidad: 'Aguas moderadamente contaminadas',           color: '#ffc107' },
-                { min: 39,  max: 58,       categoria: 'Contaminada',         calidad: 'Aguas contaminadas',                         color: '#fd7e14' },
-                { min: 20,  max: 38,       categoria: 'Muy contaminada',     calidad: 'Aguas muy contaminadas',                     color: '#d63384' },
-                { min: 0,   max: 19,       categoria: 'Extr. contaminada',   calidad: 'Aguas extremadamente contaminadas',          color: '#dc3545' },
+                { min: 69, max: Infinity, categoria: 'Excelente', calidad: 'Aguas no contaminadas', color: '#0d6efd', rangoTxt: '> 68' },
+                { min: 53, max: 68,       categoria: 'Muy buena', calidad: 'Aguas no alteradas de manera sensible', color: '#0dcaf0', rangoTxt: '52 — 68' },
+                { min: 40, max: 52,       categoria: 'Buena',     calidad: 'Aguas moderadamente contaminadas', color: '#198754', rangoTxt: '39 — 52' },
+                { min: 27, max: 39,       categoria: 'Regular',   calidad: 'Aguas contaminadas', color: '#ffc107', rangoTxt: '26 — 39' },
+                { min: 13, max: 26,       categoria: 'Mala',      calidad: 'Aguas muy contaminadas', color: '#fd7e14', rangoTxt: '13 — 26' },
+                { min: 0,  max: 12,       categoria: 'Pésima',    calidad: 'Aguas extremadamente contaminadas', color: '#dc3545', rangoTxt: '< 13' },
             ];
             const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max)
                               || tablaBMWP[tablaBMWP.length - 1];
@@ -643,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <div class="html2pdf__page-break"></div>
 
-                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP/MEX)</h2>
+                <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP-RBTC)</h2>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Familias de Macroinvertebrados Registradas</h3>
@@ -675,12 +674,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </tr>
                     </table>
                     <p style="font-size: 9px; color: #6c757d;">
-                        * El índice BMWP/MEX asigna un puntaje a cada familia según su tolerancia a la contaminación. La sumatoria total determina la calidad biológica del cuerpo de agua.
+                        * El índice BMWP-RBTC asigna un puntaje a cada familia según su tolerancia a la contaminación. La sumatoria total determina la calidad biológica del cuerpo de agua.
                     </p>
                 </div>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 12px;">2. Resultado BMWP/MEX y Calidad Biológica</h3>
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 12px;">2. Resultado BMWP-RBTC y Calidad Biológica</h3>
                     <div style="border: 2px solid ${clasifActual.color}; border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; gap: 20px;">
                         <div style="flex: 0 0 auto; text-align: center; min-width: 90px;">
                             <div style="font-size: 9px; color: #6c757d; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">Puntaje BMWP</div>
@@ -695,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div style="page-break-inside: avoid; margin-bottom: 25px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Escala de Clasificación BMWP/MEX</h3>
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Escala de Clasificación BMWP-RBTC</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
                         <thead>
                             <tr style="background: #e9ecef;">
@@ -708,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <tbody>
                             ${tablaBMWP.map(r => {
                                 const esActual = (scoreBMWP >= r.min && scoreBMWP <= r.max);
-                                const rango = r.max === Infinity ? `> ${r.min}` : `${r.min} – ${r.max}`;
+                                const rango = r.rangoTxt; // <-- Aquí tomamos el texto directo
                                 return `
                                 <tr style="background-color: ${esActual ? r.color + '22' : 'transparent'}; font-weight: ${esActual ? 'bold' : 'normal'};">
                                     <td style="padding: 5px 8px; border: 1px solid #dee2e6; color: ${r.color}; font-weight: bold;">
@@ -727,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <div style="margin-top: 30px; border-top: 2px solid #dee2e6; padding-top: 12px; font-size: 9px; color: #6c757d; display: flex; justify-content: space-between; page-break-inside: avoid;">
                     <span>Deep Bug &mdash; Sistema de Biomonitoreo de Macroinvertebrados</span>
-                    <span>Generado el: ${new Date().toLocaleDateString('es-PA', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    <span>Generado el: ${new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                     <span>Proyecto: ${nombreProyecto}</span>
                 </div>
             `;
