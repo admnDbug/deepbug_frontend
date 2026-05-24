@@ -1,3 +1,4 @@
+// frontend/zonas.js
 document.addEventListener('DOMContentLoaded', () => {
     // 1. SEGURIDAD
     const token = localStorage.getItem('token');
