@@ -63,84 +63,10 @@
 
                         <form id="form-protocolo1">
                             <div class="accordion" id="protocolOneAccordion">
-                                
-                                <div class="protocolOne-accordion-item">
-                                    <button class="protocolOne-accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-datos">
-                                        <span><i class="fas fa-business-time me-2"></i> 1. Datos Generales</span>
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                    <div id="acc-datos" class="collapse show" data-bs-parent="#protocolOneAccordion">
-                                        <div class="protocolOne-accordion-body row g-3">
-                                            <div class="col-md-6"><label class="form-label small fw-bold">Contacto</label><input type="text" class="form-control proto-input" id="dg_contacto" disabled></div>
-                                            <div class="col-md-6"><label class="form-label small fw-bold">Provincia(s)</label><input type="text" class="form-control proto-input" id="dg_provincia" disabled></div>
-                                            <div class="col-md-12"><label class="form-label small fw-bold">Objetivo</label><textarea class="form-control proto-input" id="dg_objetivo" rows="2" disabled></textarea></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="protocolOne-accordion-item mt-2">
-                                    <button class="protocolOne-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-estaciones">
-                                        <span><i class="fas fa-map-marker-alt me-2"></i> 2. Identificación (Estaciones)</span>
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                    <div id="acc-estaciones" class="collapse" data-bs-parent="#protocolOneAccordion">
-                                        <div class="protocolOne-accordion-body">
-                                            <div id="contenedor-estaciones"></div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm mt-2 proto-action" id="btn-add-estacion" style="display:none;"><i class="fas fa-plus me-1"></i>Añadir Estación</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="protocolOne-accordion-item mt-2">
-                                    <button class="protocolOne-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-parametros">
-                                        <span><i class="fas fa-vial me-2"></i> 3. Parámetros a evaluar (In Situ)</span>
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                    <div id="acc-parametros" class="collapse" data-bs-parent="#protocolOneAccordion">
-                                        <div class="protocolOne-accordion-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered text-center table-param-insitu mb-0">
-                                                    <thead class="table-light">
-                                                        <tr>
-                                                            <th rowspan="2" class="text-start">Parámetro</th>
-                                                            <th rowspan="2">Unidad</th>
-                                                            <th colspan="8">Estaciones de muestreo</th>
-                                                            <th rowspan="2">Observaciones</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tbody-parametros"></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="protocolOne-accordion-item mt-2">
-                                    <button class="protocolOne-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-responsables">
-                                        <span><i class="fas fa-users me-2"></i> 4. Responsables</span>
-                                        <i class="fas fa-chevron-down"></i>
-                                    </button>
-                                    <div id="acc-responsables" class="collapse" data-bs-parent="#protocolOneAccordion">
-                                        <div class="protocolOne-accordion-body">
-                                            <label class="form-label fw-bold text-primary mb-2">Técnicos</label>
-                                            <div id="contenedor-tecnicos" class="mb-3"></div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm mb-4 proto-action" id="btn-add-tecnico" style="display:none;"><i class="fas fa-plus me-1"></i>Añadir Técnico</button>
-                                            
-                                            <hr class="mb-4">
-                                            <div class="row g-3">
-                                                <div class="col-md-6"><label class="form-label small fw-bold">Conductor</label><input type="text" class="form-control proto-input" id="resp_conductor" disabled></div>
-                                                <div class="col-md-6"><label class="form-label small fw-bold">Fecha elaboración plan</label><input type="text" class="form-control proto-input" id="resp_fecha" placeholder="DD/MM/YYYY" disabled></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="protocolOne-accordion-item mt-2">
                                     <button class="protocolOne-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-materiales">
-                                        <span><i class="fas fa-boxes me-2"></i> 5. Verificación de Materiales</span>
+                                        <span><i class="fas fa-boxes me-2"></i> Verificación de Materiales</span>
                                         <i class="fas fa-chevron-down"></i>
                                     </button>
                                     <div id="acc-materiales" class="collapse" data-bs-parent="#protocolOneAccordion">
@@ -198,6 +124,41 @@
                                                 <div class="row g-3" id="contenedor-otros-insumos"></div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="protocolOne-accordion-item">
+                                    <button class="protocolOne-accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-datos">
+                                        <span><i class="fas fa-business-time me-2"></i> Datos Generales</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div id="acc-datos" class="collapse show" data-bs-parent="#protocolOneAccordion">
+                                        <div class="protocolOne-accordion-body row g-3">
+                                            <div class="col-md-6"><label class="form-label small fw-bold">Contacto</label><input type="text" class="form-control proto-input" id="dg_contacto" disabled></div>
+                                            <div class="col-md-6"><label class="form-label small fw-bold">Provincia(s)</label><input type="text" class="form-control proto-input" id="dg_provincia" disabled></div>
+                                            <div class="col-md-12"><label class="form-label small fw-bold">Objetivo</label><textarea class="form-control proto-input" id="dg_objetivo" rows="2" disabled></textarea></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="protocolOne-accordion-item mt-2">
+                                    <button class="protocolOne-accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#acc-responsables">
+                                        <span><i class="fas fa-users me-2"></i> Responsables</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div id="acc-responsables" class="collapse" data-bs-parent="#protocolOneAccordion">
+                                        <div class="protocolOne-accordion-body">
+                                            <label class="form-label fw-bold text-primary mb-2">Técnicos</label>
+                                            <div id="contenedor-tecnicos" class="mb-3"></div>
+                                            <button type="button" class="btn btn-outline-primary btn-sm mb-4 proto-action" id="btn-add-tecnico" style="display:none;"><i class="fas fa-plus me-1"></i>Añadir Técnico</button>
+                                            
+                                            <hr class="mb-4">
+                                            <div class="row g-3">
+                                                <div class="col-md-6"><label class="form-label small fw-bold">Conductor</label><input type="text" class="form-control proto-input" id="resp_conductor" disabled></div>
+                                                <div class="col-md-6"><label class="form-label small fw-bold">Fecha elaboración plan</label><input type="text" class="form-control proto-input" id="resp_fecha" placeholder="DD/MM/YYYY" disabled></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

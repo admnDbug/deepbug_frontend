@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Llenar info general
-            document.getElementById('vp-nombre-proyecto').textContent = proyecto.nombre_proyecto;
+            document.getElementById('vp-nombre-proyecto').textContent = proyecto.nombre_estacion || 'Estación sin nombre';
             document.getElementById('vp-zona-proyecto').textContent = proyecto.zona_id?.nombre || 'Sin Zona';
             document.getElementById('vp-fecha-creacion').textContent = new Date(proyecto.fecha_creacion).toLocaleDateString('es-MX');
             
@@ -305,4 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    // --- LÓGICA DEL MAPA LEAFLET ---
+    let mapa;
+
+    function inicializarMapa() {
+        const contenedorMapa = document.getElementById('mapa-estaciones');
+        if (!contenedorMapa) return; // Por si la vista no ha cargado
+
+        // Inicializamos centrado en México
+        mapa = L.map('mapa-estaciones').setView([19.4326, -99.1332], 5);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 18,
+        }).addTo(mapa);
+    }
+
+    // Llamamos a la función para que el mapa aparezca vacío al cargar la página
+    setTimeout(inicializarMapa, 500); // Pequeño retraso para asegurar que el HTML ya se renderizó
 });

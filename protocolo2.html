@@ -87,6 +87,7 @@
 
                         <div class="chip-container mb-4 pb-2" id="chips-nav" style="overflow-x: auto; white-space: nowrap;">
                             <div class="protocol-chip active" data-target="sec1">Datos Generales</div>
+                            <div class="protocol-chip" data-target="sec_insitu">Parámetros In Situ</div>
                             <div class="protocol-chip" data-target="sec3">Condiciones Climáticas</div>
                             <div class="protocol-chip" data-target="sec5">Cuerpo de Agua</div>
                             <div class="protocol-chip" data-target="sec6">Cobertura Boscosa</div>
@@ -214,6 +215,18 @@
                                         <div class="mb-3"><label class="small fw-bold">Especies dominantes</label><input type="text" class="form-control proto-input txt-dinamico" id="esp_dominantes" disabled></div>
                                         <div><label class="small fw-bold">% de cobertura</label><input type="number" class="form-control proto-input txt-dinamico" id="porcentaje_veg" disabled></div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="protocol-section" id="sec_insitu">
+                                <h5 class="section-header-title">Parámetros In Situ</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4"><label class="small fw-bold">Conductividad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_cond" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">pH</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_ph" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Temperatura (°C)</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_temp" disabled></div>
+                                    
+                                    <div class="col-md-4"><label class="small fw-bold">Oxígeno disuelto</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_od" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Salinidad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_salinidad" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Turbiedad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_turb" disabled></div>
                                 </div>
                             </div>
 
