@@ -177,19 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     useCORS: true, 
                     allowTaint: true,
                     ignoreElements: (node) => {
-                        // Ignora los botones de zoom del mapa
+                        // Mantenemos las exclusiones anteriores para que no crashee
                         if (node.classList && node.classList.contains('leaflet-control-zoom')) return true;
-                        
-                        // IGNORA los selectores (dropdowns) para evitar el crasheo del SVG de Bootstrap
                         if (node.tagName && node.tagName.toLowerCase() === 'select') return true;
-                        
-                        // Opcional: Si quieres ignorar toda la fila de filtros para que el PDF se vea más limpio
-                        // if (node.id === 'filtro-zona' || node.id === 'filtro-estacion') return true;
-                        
                         return false;
                     }
                 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                // CAMBIO AQUÍ: Cambiamos 'portrait' por 'landscape'
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
             };
             
             html2pdf().set(opt).from(elemento).save().then(() => {
