@@ -175,10 +175,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
-                    allowTaint: true, // Permite procesar el mapa aunque los tiles sean externos
+                    allowTaint: true,
                     ignoreElements: (node) => {
-                        // Ignora los botones de zoom del mapa para evitar que crashee html2canvas
-                        return node.classList && node.classList.contains('leaflet-control-zoom');
+                        // Ignora los botones de zoom del mapa
+                        if (node.classList && node.classList.contains('leaflet-control-zoom')) return true;
+                        
+                        // IGNORA los selectores (dropdowns) para evitar el crasheo del SVG de Bootstrap
+                        if (node.tagName && node.tagName.toLowerCase() === 'select') return true;
+                        
+                        // Opcional: Si quieres ignorar toda la fila de filtros para que el PDF se vea más limpio
+                        // if (node.id === 'filtro-zona' || node.id === 'filtro-estacion') return true;
+                        
+                        return false;
                     }
                 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
