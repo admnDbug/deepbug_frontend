@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. CARGAR EL LISTADO COMPLETO
     async function cargarFamilias() {
         try {
-            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const familias = await respuesta.json();
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('imagen', imageInput.files[0]);
 
             try {
-                const res = await fetch('https://deepbug-backend-staging.onrender.com/api/familias', {
+                const res = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/familias/${fId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/familias/${fId}`, {
                 method: 'PUT', // Método HTTP oficial para mutaciones
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData // Multipart/form-data automático

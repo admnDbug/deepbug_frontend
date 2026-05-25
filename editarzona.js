@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Cargar catálogo global de familias en el select
     async function cargarCatálogoGlobal() {
         try {
-            const res = await fetch('https://deepbug-backend-staging.onrender.com/api/familias', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             catalogoGlobalFamilias = await res.json();
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Precargar los datos de la zona (Textos y familias ya guardadas)
     async function precargarDatosZona() {
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/zonas/${zonaId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) throw new Error("No se pudo obtener la información de la zona");
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             try {
                 // Hacemos la petición DELETE a la ruta específica de familias
-                const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/zonas/${zonaId}/familias/${nombre}`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias/${nombre}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnRegistrarFamilia.disabled = true;
 
             // Hacemos el POST directo a la base de datos
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/zonas/${zonaId}/familias`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnActualizarZona.textContent = "Actualizando...";
             btnActualizarZona.style.pointerEvents = "none";
 
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/zonas/${zonaId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarDatosMapa() {
         try {
             // Nota: usando la misma URL staging que usas en el resto de tu JS
-            const res = await fetch('https://deepbug-backend-staging.onrender.com/api/estaciones/mapa-datos', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/estaciones/mapa-datos', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(!res.ok) throw new Error("Error en ruta mapa-datos");
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     async function cargarEstaciones() {
         try {
-            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/estaciones', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/estaciones', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!codigo) return alert('Ingresa un código');
 
             try {
-                const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/auth/validar-codigo', {
+                const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/validar-codigo', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

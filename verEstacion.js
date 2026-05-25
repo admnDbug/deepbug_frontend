@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarVistaEstacion() {
         try {
             // Petición 1: Estacion
-            const resEstacion = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}`, {
+            const resEstacion = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Petición 2: Protocolos (Protegida por si el backend bloquea al colaborador)
             let protocolos = [];
             try {
-                const resProtocolos = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${estacionId}`, {
+                const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (resProtocolos.ok) protocolos = await resProtocolos.json();
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function removerColaborador(colaborador_id) {
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}/remover-colaborador`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}/remover-colaborador`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnEliminarEstacion.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Eliminando todo...';
                 btnEliminarEstacion.disabled = true;
 
-                const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnSalirEstacion.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saliendo...';
                 btnSalirEstacion.disabled = true;
 
-                const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}/salir`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}/salir`, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });

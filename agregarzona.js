@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             // Hacemos GET a tu ruta de familias (debe ser la que definiste en index.js, ej. /api/familias)
         
-            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnGuardarZona.textContent = "Guardando...";
             btnGuardarZona.style.pointerEvents = "none";
 
-            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/zonas', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

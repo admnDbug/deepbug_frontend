@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     async function cargarNombreEstacion() {
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}`, { 
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, { 
                 headers: { 'Authorization': `Bearer ${token}` } 
             });
             if (res.ok) {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarProtocolo() {
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const protocolos = await res.json();
             const protocolo2 = protocolos.find(p => p.protocolo_numero == 2 && p.estado === 'aprobado');
 
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('btnGuardar').innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';
             document.getElementById('btnGuardar').disabled = true;
 
-            const res = await fetch('https://deepbug-backend-staging.onrender.com/api/protocolos/sincronizar', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/protocolos/sincronizar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(paqueteSincronizacion)

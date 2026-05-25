@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function cargarEstaciones() {
         try {
             // CAMBIO: Ahora usamos la ruta base de estaciones
-            const response = await fetch('https://deepbug-backend-staging.onrender.com/api/estaciones', {
+            const response = await fetch('https://deepbug-backend.onrender.com/api/estaciones', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

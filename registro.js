@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // 4. Hacemos la petición a tu API (Asegúrate de que la URL sea la de tu servidor)
             // Si estás probando en local, usa http://localhost:PORT/api/auth/registro
-            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/auth/registro', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/registro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
