@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 5. Cargar proyectos
     async function cargarProyectos() {
         try {
-            const response = await fetch('https://deepbug-backend.onrender.com/api/biomonitoreos/consultas/todos', {
+            const response = await fetch('https://deepbug-backend-staging.onrender.com/api/estaciones/consultas/todos', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

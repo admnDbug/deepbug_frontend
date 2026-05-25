@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarZonas() {
         try {
-            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
+            
+            //const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/zonas', {
+            const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/zonas', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -92,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirmar) return;
 
         try {
-            const respuesta = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
+            const respuesta = await fetch(`https://deepbug-backend-staging.onrender.com/api/zonas/${zonaId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
