@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const paqueteSincronizacion = {
-            protocolos: [{ biomonitoreo_id: estacionId, protocolo_numero: 2, datos_formulario: datos_formulario }]
+            protocolos: [{ estacion_id: estacionId, protocolo_numero: 2, datos_formulario: datos_formulario }]
         };
 
         try {

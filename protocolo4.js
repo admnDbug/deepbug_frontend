@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const datos_formulario = { textos, fauna_asociada, estimacion_preliminar };
             const paqueteSincronizacion = {
-                protocolos: [{ biomonitoreo_id: estacionId, protocolo_numero: 4, datos_formulario: datos_formulario }]
+                protocolos: [{ estacion_id: estacionId, protocolo_numero: 4, datos_formulario: datos_formulario }]
             };
 
             try {

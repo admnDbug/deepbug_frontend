@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const paqueteSincronizacion = {
             protocolos: [{ 
-                biomonitoreo_id: estacionId, 
+                estacion_id: estacionId, 
                 protocolo_numero: 3, 
                 datos_formulario: { tipo_gradiente: tipoGradiente, puntajes_alto: puntajesAlto, puntajes_bajo: puntajesBajo, puntaje_total_alto: totalAlto, puntaje_total_bajo: totalBajo }
             }]

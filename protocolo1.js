@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (nom) datos_formulario.verificacion_materiales.otros_insumos.push({ nombre: nom, cantidad: cant });
         });
 
-        const paqueteSincronizacion = { protocolos: [{ biomonitoreo_id: estacionId, protocolo_numero: 1, datos_formulario: datos_formulario }] };
+        const paqueteSincronizacion = { protocolos: [{ estacion_id: estacionId, protocolo_numero: 1, datos_formulario: datos_formulario }] };
 
         try {
             document.getElementById('btnGuardar').innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';
