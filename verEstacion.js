@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedor.innerHTML = '';
 
         const titulos = {
-            1: "Datos Generales y Cuerpo de Agua",
+            1: "Datos Generales",
             2: "Hábitat y Entorno",
             3: "Parámetros Fisicoquímicos",
             4: "Muestra Biológica",
