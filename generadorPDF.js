@@ -62,13 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const olor = getActives(d2_form.olor);
             const color = getActives(d2_form.color);
 
-            // HTML de la Fotografía del P2
+            // HTML de la Fotografía del P2 (Blindado contra tamaños dinámicos)
             const imgP2Html = d2_form.foto_url
-                ? `<div style="text-align: center; margin: 15px 0;">
-                     <img src="${d2_form.foto_url}" style="max-height: 250px; border-radius: 8px; border: 1px solid #dee2e6; object-fit: contain;">
-                     <div style="font-size: 11px; color: #666; margin-top: 5px;">Código de Fotografía: <b>${d2.codigo_foto || 'Sin código'}</b></div>
+                ? `<div class="avoid-break" style="text-align: center; margin: 15px 0; padding: 10px; background: #fff; border: 1px solid #dee2e6; border-radius: 8px;">
+                     <div style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                        <img src="${d2_form.foto_url}" style="max-height: 100%; max-width: 100%; object-fit: contain; display: block;">
+                     </div>
+                     <div style="font-size: 11px; color: #666; margin-top: 10px;">Código de Fotografía: <b>${d2.codigo_foto || 'Sin código'}</b></div>
                    </div>`
-                : `<div style="text-align: center; margin: 15px 0; padding: 30px; background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; font-size: 12px; color: #6c757d;">
+                : `<div class="avoid-break" style="text-align: center; margin: 15px 0; padding: 30px; background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; font-size: 12px; color: #6c757d;">
                      <i class="fas fa-camera" style="font-size: 20px; display: block; margin-bottom: 5px;"></i> Sin fotografía registrada en el sitio
                    </div>`;
 
@@ -212,14 +214,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
-            docHTML.style.padding = '10px 30px'; 
+            docHTML.style.padding = '0px'; 
             docHTML.style.fontFamily = 'Arial, sans-serif';
             docHTML.style.color = '#333';
 
             docHTML.innerHTML = `
                 <style>
-                    tr, td, th, tbody, thead, .avoid-break { page-break-inside: avoid !important; }
-                    h1, h2, h3 { page-break-after: avoid !important; }
+                    /* Forzamos reglas modernas y antiguas para evitar cortes */
+                    .avoid-break, tr, td, th, thead, tbody, img { 
+                        page-break-inside: avoid !important; 
+                        break-inside: avoid-page !important;
+                    }
+                    h1, h2, h3 { 
+                        page-break-after: avoid !important; 
+                        break-after: avoid-page !important;
+                    }
                 </style>
 
                 <div style="border-bottom: 3px solid #0d6efd; padding-bottom: 15px; margin-bottom: 25px;">
@@ -700,14 +709,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            // 4. Parámetros y descarga (¡Regla CSS activada!)
+            // 4. Parámetros y descarga (¡Reglas CSS estrictas y scroll reseteado!)
             const opcionesConfig = {
-                margin: 10,
-                filename: `Reporte_${nombreEstacion.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
-                pagebreak: { mode: ['css', 'avoid-all'] } // <--- EL SEGURO CONTRA CORTES
+                margin:       [10, 15, 15, 15], // [Arriba, Derecha, Abajo, Izquierda] en mm
+                filename:     `Reporte_${nombreEstacion.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0 // <-- ESTO EVITA QUE EL TÍTULO SALGA HASTA ABAJO
+                },
+                jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak:    { 
+                    mode: ['css', 'legacy'], 
+                    avoid: ['.avoid-break', 'tr', 'h2', 'h3'] // Bloqueo estricto por etiqueta
+                } 
             };
 
             await html2pdf().set(opcionesConfig).from(docHTML).save();
