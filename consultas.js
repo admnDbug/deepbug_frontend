@@ -18,9 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ==========================================
-    // LÓGICA DEL MAPA, FILTROS Y TABLA
-    // ==========================================
     let mapaDash;
     let marcadoresCapa;
     let dataEstacionesGlobal = [];
@@ -132,7 +129,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const nombreMostrado = est.nombre_estacion || 'Sin Nombre';
             const zonaNombre = est.zona_id ? est.zona_id.nombre : 'Sin Zona';
 
-            // Reutilizando el hermoso CSS de 'consultas' pero con los datos del mapa
             const row = document.createElement('div');
             row.className = 'table-info-data-row';
             row.innerHTML = `
@@ -160,17 +156,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (bounds.length > 0) mapaDash.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
         
-        // Mantener la sincronización de la búsqueda de texto si el usuario filtró previamente
         aplicarBusqueda();
     }
 
-    // Buscador en vivo
     function aplicarBusqueda() {
         if (!searchInput) return;
         const searchTerm = searchInput.value.toLowerCase().trim();
         const rows = document.querySelectorAll('.table-info-data-row');
         rows.forEach(row => {
-            // Evaluamos todos los textos dentro de la fila, ocultando las que no coinciden
             row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? 'flex' : 'none';
         });
     }
@@ -179,7 +172,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         searchInput.addEventListener('input', aplicarBusqueda);
     }
 
-    // Exportación a PDF (Versión protegida y limpia para ocultar cosas innecesarias)
     const btnDescargarMapa = document.getElementById('btn-descargar-mapa');
     if (btnDescargarMapa) {
         btnDescargarMapa.addEventListener('click', () => {
@@ -201,7 +193,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     useCORS: true, 
                     allowTaint: true,
                     ignoreElements: (node) => {
-                        // Ocultamos elementos interactivos para que el PDF se vea limpio y profesional
                         if (node.classList && node.classList.contains('leaflet-control-zoom')) return true;
                         if (node.tagName && node.tagName.toLowerCase() === 'select') return true;
                         if (node.classList && node.classList.contains('table-info-search-wrapper')) return true;
@@ -226,7 +217,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Inicializar todo
     setTimeout(() => {
         inicializarMapaDashboard();
         cargarDatosMapaYTabla();

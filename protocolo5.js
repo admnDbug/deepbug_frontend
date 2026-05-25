@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD Y CONFIGURACIÓN ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
     if (!token) return window.location.replace('login.html');
@@ -20,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let addedFamilies = [];
     let catalogo = [];
 
-    // --- 3. CONTROLES DE EDICIÓN ---
     const btnModificar = document.getElementById('btnModificar');
     const btnGuardar = document.getElementById('btnGuardar');
     const searchSection = document.getElementById('adminSearchSection');
@@ -47,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnModificar) btnModificar.addEventListener('click', habilitarEdicion);
     if (searchInput) searchInput.addEventListener('input', (e) => renderCatalog(e.target.value.toLowerCase()));
 
-    // --- 4. LÓGICA DEL VISOR DE IMÁGENES ---
     window.abrirVisor = function(url, titulo) {
         if (!url || url.includes('placeholder')) return;
         const modal = new bootstrap.Modal(document.getElementById('modalImagenGrande'));
@@ -56,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.show();
     };
 
-    // --- 5. RENDERIZADO DEL CATÁLOGO VISUAL ---
     function renderCatalog(filter = "") {
         const list = document.getElementById('catalogList');
         if (!list) return;
@@ -91,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. LÓGICA DEL CARRITO ---
     window.addFamily = function(id) {
         if (addedFamilies.find(f => f.id === id)) {
             alert("Esta familia ya está en tu lista. Modifica la cantidad directamente.");
@@ -143,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- 7. ACTUALIZACIÓN DE UI ---
     function updateUI() {
         const container = document.getElementById('analysisContainer');
         if (!container) return;
@@ -167,19 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<span class="badge bg-danger ms-2" style="font-size:0.6rem;">Falta Evidencia</span>`
                 : `<span class="badge bg-success ms-2" style="font-size:0.6rem;"><i class="fas fa-check"></i> Foto OK</span>`;
 
-            // Si hay imagen, el click abre el visor (si no estamos editando). Si estamos editando, sube imagen.
             const accionImagen = isEditing 
                 ? `onclick="triggerImageUpload('${f.id}')"` 
                 : (hasImage ? `onclick="abrirVisor('${imgSrc}', '${f.nombre_familia}')"` : '');
 
-            // Generar el contenido del cuadrito (Imagen o Icono de Subida)
             let imageHTML = hasImage 
                 ? `<img src="${imgSrc}" alt="${f.nombre_familia}" class="img-family-protocol" onerror="this.src='img/placeholder_bug.png'">`
                 : `<div class="img-family-protocol d-flex align-items-center justify-content-center bg-light border text-primary" style="font-size: 1.5rem;" title="Subir evidencia">
                        <i class="fas fa-cloud-upload-alt"></i>
                    </div>`;
 
-            // El overlay oscuro que sale al pasar el ratón
             let overlayHTML = '';
             if (isEditing) {
                 overlayHTML = `<div class="foto-overlay-mini"><i class="fas fa-camera"></i></div>`;
@@ -221,30 +210,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const resQuality = document.getElementById('resQuality');
         const resDot = document.getElementById('resDot');
 
-        // Por defecto: Pésima (Aplica para menores a 13)
         let data = { 
             class: "Pésima", 
             range: "< 13", 
             desc: "Aguas extremadamente contaminadas", 
-            color: "#dc3545" // Rojo
+            color: "#dc3545" 
         };
 
-        // Lógica de rangos BMWP-RBTC
         if (score > 68) {
-            data = { class: "Excelente", range: "> 68", desc: "Aguas no contaminadas", color: "#0d6efd" }; // Azul
-        } else if (score > 52) { // 53 a 68
-            data = { class: "Muy buena", range: "52 — 68", desc: "Aguas no alteradas de manera sensible", color: "#0dcaf0" }; // Celeste
-        } else if (score > 39) { // 40 a 52
-            data = { class: "Buena", range: "39 — 52", desc: "Aguas moderadamente contaminadas", color: "#198754" }; // Verde
-        } else if (score > 26) { // 27 a 39
-            // Usamos un color un poco más oscuro que el amarillo puro para que las letras blancas o claras no se pierdan, 
-            // pero que represente visualmente el amarillo de tu tabla.
-            data = { class: "Regular", range: "26 — 39", desc: "Aguas contaminadas", color: "#ffc107" }; // Amarillo
-        } else if (score >= 13) { // 13 a 26
-            data = { class: "Mala", range: "13 — 26", desc: "Aguas muy contaminadas", color: "#fd7e14" }; // Naranja
-        }
-
-        // Actualizamos el DOM con los nuevos valores
+            data = { class: "Excelente", range: "> 68", desc: "Aguas no contaminadas", color: "#0d6efd" }; 
+        } else if (score > 52) { 
+            data = { class: "Muy buena", range: "52 — 68", desc: "Aguas no alteradas de manera sensible", color: "#0dcaf0" };
+        } else if (score > 39) {
+            data = { class: "Buena", range: "39 — 52", desc: "Aguas moderadamente contaminadas", color: "#198754" };
+        } else if (score > 26) {
+            data = { class: "Regular", range: "26 — 39", desc: "Aguas contaminadas", color: "#ffc107" };
+        } else if (score >= 13) { 
+            data = { class: "Mala", range: "13 — 26", desc: "Aguas muy contaminadas", color: "#fd7e14" };
+        }    
         resClass.innerText = data.class;
         resClass.style.color = data.color;
         resRange.innerText = data.range;
@@ -253,7 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
         resDot.style.boxShadow = `0 0 10px ${data.color}80`;
     }
 
-    // --- NUEVO: CARGAR PROYECTO Y CATÁLOGO DE LA ZONA ---
     cargarEstacionYCatalogo();
     
     async function cargarEstacionYCatalogo() {
@@ -279,7 +261,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 8. CARGA DESDE EL BACKEND ---
     async function cargarProtocolo() {
         try {
             const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -321,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error("Error:", error); }
     }
 
-    // --- 9. GUARDADO Y EMPAQUETADO ---
     if (btnGuardar) {
         btnGuardar.addEventListener('click', async (e) => {
             e.preventDefault();

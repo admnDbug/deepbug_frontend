@@ -1,6 +1,3 @@
-// --- generadorPdf.js ---
-// Motor dedicado exclusivamente a la compilación y descarga de reportes PDF.
-
 document.addEventListener('DOMContentLoaded', () => {
     const btnPDF = document.getElementById('btn-descargar-pdf');
     if (!btnPDF) return;
@@ -14,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPDF.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Compilando reporte científico...';
             btnPDF.disabled = true;
 
-            // 1. Info Básica de la Pantalla
             const nombreEstacion = document.getElementById('vp-nombre-estacion').textContent;
             const nombreZona = document.getElementById('vp-zona-estacion').textContent;
             const fechaCreacion = document.getElementById('vp-fecha-creacion').textContent;
@@ -24,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#contenedor-colaboradores .fw-bold').forEach(el => listaColabs.push(el.textContent));
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
-            // 2. Extraer Protocolos de BD
             const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
@@ -34,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const p4 = protocolos.find(p => p.protocolo_numero === 4 && p.estado === 'aprobado');
             const p5 = protocolos.find(p => p.protocolo_numero === 5 && p.estado === 'aprobado');
 
-            // --- EXTRACCIÓN DE DATOS P1 ---
             const d1 = p1 ? p1.datos_formulario : {};
             const d1_gen = d1.datos_generales || {};
             const d1_res = d1.responsables || {};
@@ -43,12 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const listEquipos = ['Flujómetro', 'Termómetro', 'Conductivímetro', 'Multiparámetros', 'GPS', 'Cámara fotográfica'];
             const listInsumos = ['Red tipo D', 'Envases plásticos', 'Caja de Herramienta', 'R. Triangular', 'Frascos fisicoq.', 'Tijeras', 'Celular', 'Cinta métrica', 'Bolsas herméticas', 'Lápices', 'C. fluorescentes', 'Tabla anot.', 'Lupas', 'Viales de plásticos', 'Alcohol', 'Tamices', 'Pilotos indelebles', 'C. adhesiva', 'Etiquetas', 'Pinzas entomol.', 'Guantes', 'Bandejas blancas', 'Mascarillas', 'Botellas de lavado'];
 
-            // --- EXTRACCIÓN DE DATOS P2 ---
             const d2_form = p2 ? p2.datos_formulario : {};
             const d2 = d2_form.textos || {};
             const getActives = (obj) => obj ? Object.keys(obj).filter(k => obj[k]).join(', ') || '--' : '--';
 
-            // Checkboxes P2
             const clima = getActives(d2_form.clima);
             const bosques = getActives(d2_form.bosques);
             const sucesional = getActives(d2_form.sucesional);
@@ -62,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const olor = getActives(d2_form.olor);
             const color = getActives(d2_form.color);
 
-            // HTML de la Fotografía del P2 (Blindado contra tamaños dinámicos)
             const imgP2Html = d2_form.foto_url
                 ? `<div class="avoid-break" style="text-align: center; margin: 15px 0; padding: 10px; background: #fff; border: 1px solid #dee2e6; border-radius: 8px;">
                      <div style="height: 250px; display: flex; align-items: center; justify-content: center;">
@@ -74,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
                      <i class="fas fa-camera" style="font-size: 20px; display: block; margin-bottom: 5px;"></i> Sin fotografía registrada en el sitio
                    </div>`;
 
-            // --- EXTRACCIÓN DE DATOS P3 ---
             const d3 = p3 ? p3.datos_formulario : {};
             const gradienteActivo = d3.tipo_gradiente || 'Alto';
             const puntajesAlto = d3.puntajes_alto || {};
@@ -140,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
 
-            // --- EXTRACCIÓN DE DATOS P4 ---
             const d4_form = p4 ? p4.datos_formulario : {};
             const d4_textos = d4_form.textos || {};
             const d4_fauna = d4_form.fauna_asociada || {};
@@ -191,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).join('');
             }
 
-            // --- EXTRACCIÓN DE DATOS P5 ---
             const d5_protocolo = p5 ? p5.datos_protocolo_5 : {};
             const scoreBMWP    = d5_protocolo ? (d5_protocolo.sumatoria_total_bmwp || 0) : 0;
             const familiasRaw  = d5_protocolo ? (d5_protocolo.familias_encontradas || []) : [];
@@ -212,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
             const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max) || tablaBMWP[tablaBMWP.length - 1];
 
-            // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
             docHTML.style.padding = '0px'; 
             docHTML.style.fontFamily = 'Arial, sans-serif';
@@ -708,21 +695,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span>Estacion: ${nombreEstacion}</span>
                 </div>
             `;
-
-            // 4. Parámetros y descarga (¡Reglas CSS estrictas y scroll reseteado!)
             const opcionesConfig = {
-                margin:       [10, 15, 15, 15], // [Arriba, Derecha, Abajo, Izquierda] en mm
+                margin:       [10, 15, 15, 15],
                 filename:     `Reporte_${nombreEstacion.replace(/\s+/g, '_')}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { 
                     scale: 2, 
                     useCORS: true, 
-                    scrollY: 0 // <-- ESTO EVITA QUE EL TÍTULO SALGA HASTA ABAJO
+                    scrollY: 0
                 },
                 jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
                 pagebreak:    { 
                     mode: ['css', 'legacy'], 
-                    avoid: ['.avoid-break', 'tr', 'h2', 'h3'] // Bloqueo estricto por etiqueta
+                    avoid: ['.avoid-break', 'tr', 'h2', 'h3']
                 } 
             };
 

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const zonaId = urlParams.get('id');
     if (!zonaId) return window.location.href = 'zonas.html';
 
-    // Elementos del DOM
     const txtNombre = document.getElementById('editNombreZona');
     const txtCoordenadas = document.getElementById('editCoordenadas');
     const txtUbicacion = document.getElementById('editUbicacion');
@@ -19,11 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const panelFamilias = document.getElementById('panelContenedorFamilias');
     const btnActualizarZona = document.getElementById('btnActualizarZona');
 
-    // Mantenemos este arreglo solo para validaciones visuales (no repetir en pantalla)
     let familiasAgregadas = [];
     let catalogoGlobalFamilias = [];
 
-    // 1. Cargar catálogo global de familias en el select
     async function cargarCatálogoGlobal() {
         try {
             const res = await fetch('https://deepbug-backend.onrender.com/api/familias', {
@@ -39,14 +36,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 selectFamilia.appendChild(opt);
             });
             
-            // Una vez que el select está listo, precargamos la data de la zona
             await precargarDatosZona();
         } catch (error) {
             console.error("Error cargando familias:", error);
         }
     }
 
-    // 2. Precargar los datos de la zona (Textos y familias ya guardadas)
     async function precargarDatosZona() {
         try {
             const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
@@ -56,13 +51,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const zona = await res.json();
             
-            // Rellenamos cajas de texto
             txtNombre.value = zona.nombre || '';
             txtCoordenadas.value = zona.coordenadas || '';
             txtUbicacion.value = zona.ubicacion || '';
             txtDescripcion.value = zona.descripcion || '';
             
-            // Poblamos el listado de familias existentes
             if (zona.catalogo_familias && Array.isArray(zona.catalogo_familias)) {
                 zona.catalogo_familias.forEach(f => {
                     agregarFamiliaAlPanel(f.nombre_familia, f.valor_bmwp, f.imagen_url, f.orden, f.tamano);
@@ -73,7 +66,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Función principal para pintar tarjetas y manejar su eliminación atómica
     function agregarFamiliaAlPanel(nombre, valor, urlImg, orden, tamano) {
         if (familiasAgregadas.find(f => f.nombre_familia === nombre)) return;
 
@@ -92,20 +84,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>
         `;
 
-        // ELIMINACIÓN ATÓMICA (DELETE directo a la BD)
         card.querySelector('.addZones-card-close').addEventListener('click', async () => {
             const confirmar = confirm(`¿Estás seguro de que deseas quitar "${nombre}" de esta zona?`);
             if (!confirmar) return;
 
             try {
-                // Hacemos la petición DELETE a la ruta específica de familias
                 const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias/${nombre}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (res.ok) {
-                    card.remove(); // Quitamos visualmente
+                    card.remove();
                     familiasAgregadas = familiasAgregadas.filter(f => f.nombre_familia !== nombre);
                 } else {
                     const err = await res.json();
@@ -121,7 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         panelFamilias.insertBefore(card, accionesGuardado);
     }
 
-    // 3. REGISTRO ATÓMICO: Guardar familia directamente en la BD
     btnRegistrarFamilia.addEventListener('click', async (e) => {
         e.preventDefault();
         const nombre = selectFamilia.value;
@@ -135,7 +124,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const globalInfo = catalogoGlobalFamilias.find(f => f.nombre_familia === nombre);
         
-        // Armamos el objeto a enviar
         const payloadFamilia = {
             nombre_familia: nombre,
             valor_bmwp: parseFloat(valor),
@@ -148,7 +136,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnRegistrarFamilia.textContent = "Guardando...";
             btnRegistrarFamilia.disabled = true;
 
-            // Hacemos el POST directo a la base de datos
             const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias`, {
                 method: 'POST',
                 headers: {
@@ -159,7 +146,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (res.ok) {
-                // Solo si el backend responde 200 OK, la pintamos en el panel
                 agregarFamiliaAlPanel(nombre, valor, payloadFamilia.imagen_url, payloadFamilia.orden, payloadFamilia.tamano);
                 selectFamilia.value = "";
                 inputBMWP.value = "";
@@ -176,11 +162,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 4. ACTUALIZAR SÓLO DATOS GENERALES
     btnActualizarZona.addEventListener('click', async (e) => {
         e.preventDefault();
         
-        // YA NO mandamos el arreglo de catalogo_familias aquí
         const payload = {
             nombre: txtNombre.value.trim(),
             coordenadas: txtCoordenadas.value.trim(),
@@ -220,6 +204,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Iniciar flujo
     cargarCatálogoGlobal();
 });

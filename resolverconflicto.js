@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario');
 
@@ -19,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombreUsuarioTop = document.getElementById('nombreUsuarioTop');
     if (nombreUsuarioTop) nombreUsuarioTop.textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
-    // Leer parámetros de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const estacionId = urlParams.get('id');
     const numProtocolo = urlParams.get('protocolo');
@@ -32,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('num-protocolo').textContent = numProtocolo;
 
-    // --- 2. CARGAR LOS PROTOCOLOS EN CONFLICTO ---
     cargarConflictos();
 
     async function cargarConflictos() {
@@ -56,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // 1. Dibujamos la tarjeta del Aprobado (fija a la izquierda)
             contenedor.innerHTML = `
                 <div class="col-lg-5 col-xl-5 d-flex">
                     <div class="card shadow border-2 border-success rounded-4 w-100 d-flex flex-column">
@@ -90,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
 
-            // 2. Dibujamos TODAS las versiones en conflicto a la derecha
             todosEnConflicto.forEach((conflicto, index) => {
                 const tarjetaConflicto = `
                     <div class="col-lg-5 col-xl-5 mb-4 d-flex">
@@ -138,16 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 3. GENERADOR VISUAL DE DATOS ---
-    // Esta función traduce tu JSON a una lista legible en HTML
-    // Función auxiliar recursiva para darle estilo a objetos, arreglos y valores simples
     function formatearValor(valor) {
-        // Si es un Booleano (true/false)
         if (typeof valor === 'boolean') {
             return valor ? '<span class="badge bg-success rounded-pill px-2">Sí / Presente</span>' : '<span class="badge bg-danger rounded-pill px-2">No / Ausente</span>';
         }
         
-        // Si es un Arreglo (listas)
         if (Array.isArray(valor)) {
             if (valor.length === 0) return '<span class="text-muted small fst-italic">Vacío</span>';
             let html = '<ul class="list-unstyled ms-3 mb-0 border-start border-2 border-primary ps-2">';
@@ -158,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return html;
         }
         
-        // Si es un Objeto JSON (sub-categorías anidadas)
         if (typeof valor === 'object' && valor !== null) {
             let html = '<div class="ms-2 mt-1 p-2 bg-white border border-light rounded shadow-sm">';
             for (const [subKey, subValue] of Object.entries(valor)) {
@@ -173,20 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return html;
         }
         
-        // Si es texto vacío o nulo
         if (valor === "" || valor === null || valor === undefined) {
             return '<span class="text-muted small fst-italic">- Sin dato -</span>';
         }
         
-        // Texto o número normal
         return `<span class="small text-dark fw-medium">${valor}</span>`;
     }
 
-    // --- 3. GENERADOR VISUAL DE DATOS (CON CANTIDADES CORREGIDAS) ---
     function generarVistaDatos(protocolo) {
         let html = '<div class="d-flex flex-column gap-2">';
         
-        // --- CASO A: PROTOCOLO 5 (Macroinvertebrados) ---
         if (protocolo.protocolo_numero == 5) {
             const datos = protocolo.datos_protocolo_5;
             if (!datos) return '<p class="text-muted mb-0">Sin datos registrados.</p>';
@@ -214,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
                  html += `<div class="p-2"><span class="text-muted small">No se registraron familias.</span></div>`;
             }
         } 
-        // --- CASO B: PROTOCOLOS 1 AL 4 (Datos Flexibles) ---
         else {
             const datos = protocolo.datos_formulario;
             if (!datos || Object.keys(datos).length === 0) return '<p class="text-muted mb-0">Sin datos registrados.</p>';
@@ -243,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return html;
     }
 
-    // --- 4. ENVIAR LA DECISIÓN AL BACKEND ---
     window.resolver = async function(idProtocoloEnConflicto, accion) {
         const confirmar = confirm(`¿Estás seguro de que deseas ${accion === 'aprobar' ? 'reemplazar la versión actual por la entrante' : 'descartar la versión entrante y conservar la actual'}? Esta acción no se puede deshacer.`);
         

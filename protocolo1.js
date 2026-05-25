@@ -184,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnGuardar').addEventListener('click', async (e) => {
         e.preventDefault();
 
-        // ¡AQUÍ ESTABA EL ERROR! Faltaba inicializar verificacion_materiales
         const datos_formulario = {
             verificacion_materiales: { equipos: {}, insumos: {}, otros_insumos: [] },
             datos_generales: {
@@ -199,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
             },
         };
 
-        // Empaquetar Equipos estáticos
         datos_formulario.verificacion_materiales.equipos.adecuacion = document.getElementById('chk_adecuacion').checked;
         datos_formulario.verificacion_materiales.equipos.adecuacion_no = document.getElementById('chk_adecuacion_no').checked;
         datos_formulario.verificacion_materiales.equipos.adecuacion_txt = document.getElementById('txt_adecuacion_no').value.trim();
@@ -211,7 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         datos_formulario.verificacion_materiales.equipos.metrologica = document.getElementById('chk_metrologica').checked;
         datos_formulario.verificacion_materiales.equipos.observacion = document.getElementById('txt_observacion_equipos').value.trim();
 
-        // Empaquetar Equipos dinámicos e Insumos
         document.querySelectorAll('.chk-equipo, .chk-patron').forEach(c => datos_formulario.verificacion_materiales.equipos[c.getAttribute('data-key')] = c.checked);
         document.querySelectorAll('.input-insumo').forEach(i => datos_formulario.verificacion_materiales.insumos[i.getAttribute('data-key')] = i.value.trim());
         

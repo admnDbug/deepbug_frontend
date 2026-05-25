@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     if (!token) {
         window.location.replace('login.html');
@@ -16,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombreUsuarioTop = document.querySelector('.fw-bold.text-dark');
     if(nombreUsuarioTop) nombreUsuarioTop.textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
-    // --- 2. CARGAR ZONAS ---
     cargarZonas();
 
     async function cargarZonas() {
@@ -37,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 3. VALIDACIÓN EN TIEMPO REAL (Botón dinámico) ---
     const inputNombre = document.getElementById('nombreEstacion');
     const selectZona = document.getElementById('zonaSelect');
     const btnGuardarFinal = document.getElementById('btnGuardarFinal');
@@ -55,13 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     inputNombre.addEventListener('input', revisarFormulario);
     selectZona.addEventListener('change', revisarFormulario);
 
-    // --- 4. GUARDAR EN MONGODB ---
     const formCrearEstacion = document.getElementById('formCrearEstacion');
     
     formCrearEstacion.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Evita que la página recargue
+        e.preventDefault();
         
-        // Animación de carga en el botón
         const textoOriginal = btnGuardarFinal.innerHTML;
         btnGuardarFinal.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creando...';
         btnGuardarFinal.style.pointerEvents = "none";

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. SEGURIDAD Y CONTEXTO ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
     
@@ -20,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // --- CERRAR SESIÓN ---
     const btnCerrarSesion = document.getElementById('btnCerrarSesion');
     if(btnCerrarSesion) {
         btnCerrarSesion.addEventListener('click', () => {
@@ -31,14 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Arrancamos el motor
     aplicarRoles();
     cargarVistaEstacion();
 
-    // --- 2. CARGAR DATOS (PETICIONES SEPARADAS PARA EVITAR CRASHEOS) ---
     async function cargarVistaEstacion() {
         try {
-            // Petición 1: Estacion
             const resEstacion = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -46,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!resEstacion.ok) throw new Error('No se pudo cargar la información general de la estacion.');
             const estacion = await resEstacion.json();
 
-            // Petición 2: Protocolos (Protegida por si el backend bloquea al colaborador)
             let protocolos = [];
             try {
                 const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, {
@@ -57,17 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn("No se pudieron cargar los protocolos. Posible bloqueo de rol en backend.");
             }
 
-            // Llenar info general
             document.getElementById('vp-nombre-estacion').textContent = estacion.nombre_estacion || 'Estación sin nombre';
             document.getElementById('vp-zona-estacion').textContent = estacion.zona_id?.nombre || 'Sin Zona';
             document.getElementById('vp-fecha-creacion').textContent = new Date(estacion.fecha_creacion).toLocaleDateString('es-MX');
             
-            // Protección por si responsable_id viene vacío
             if (estacion.responsable_id && estacion.responsable_id.length > 0) {
                 document.getElementById('vp-responsable-nombre').textContent = estacion.responsable_id[0].nombre || 'Desconocido';
             }
             
-            // Mostrar la alerta del Protocolo 1
             const alertaContainer = document.getElementById('vp-alerta-protocolo1');
             const estadoP1 = (estacion.estado_protocolos && estacion.estado_protocolos.protocolo1) || 0;
             if (estadoP1 === 0) {
@@ -78,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             document.getElementById('vp-codigo-invitacion').textContent = estacion.codigo_invitacion || '------';
 
-            // Dibujar partes dinámicas
             dibujarColaboradores(estacion.colaboradores_id);
             dibujarProtocolos(protocolos);
 
@@ -88,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 3. DIBUJAR COLABORADORES ---
     function dibujarColaboradores(colaboradores) {
         const contenedor = document.getElementById('contenedor-colaboradores');
         contenedor.innerHTML = '';
@@ -147,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error(error); }
     }
 
-    // --- 4. DIBUJAR PROTOCOLOS Y DETECTAR CONFLICTOS ---
     function dibujarProtocolos(protocolosRegistrados) {
         const contenedor = document.getElementById('contenedor-protocolos');
         contenedor.innerHTML = '';
@@ -204,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
             contenedor.insertAdjacentHTML('beforeend', cardHTML);
         }
 
-        // Navegación al hacer clic
         document.querySelectorAll('.protocol-card').forEach(card => {
             card.addEventListener('click', function() {
                 const numero = this.getAttribute('data-numero');
@@ -225,27 +212,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 5. EL MOTORCITO DE ROLES (EL PASO 2) ---
     function aplicarRoles() {
         document.querySelectorAll("[data-role]").forEach(el => {
             const rolesPermitidos = el.getAttribute("data-role").split(" ");
             
-            // Si el rol del usuario NO está en la lista de permitidos, lo ocultamos a la fuerza
             if (!rolesPermitidos.includes(rolUsuario)) {
                 el.style.setProperty('display', 'none', 'important');
             }
         });
     }
-    // --- 6. LÓGICA PARA ELIMINAR EL PROYECTO ---
     const btnEliminarEstacion = document.getElementById('btn-eliminar-estacion');
     if (btnEliminarEstacion) {
         btnEliminarEstacion.addEventListener('click', async () => {
-            // Doble confirmación por seguridad
-            const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro de que deseas ELIMINAR este estacion?\n\nEsta acción borrará todos los protocolos, fotos y datos asociados. NO se puede deshacer.");
+            const confirmacion = confirm("¿Estás absolutamente seguro de que deseas ELIMINAR este estacion?\n\nEsta acción borrará todos los protocolos, fotos y datos asociados. NO se puede deshacer.");
             if (!confirmacion) return;
 
             try {
-                // Cambiamos la interfaz para mostrar que está procesando
                 btnEliminarEstacion.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Eliminando todo...';
                 btnEliminarEstacion.disabled = true;
 
@@ -256,11 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (res.ok) {
                     alert("Estacion eliminada con éxito.");
-                    window.location.href = 'inicio.html'; // Lo mandamos de regreso al dashboard
+                    window.location.href = 'inicio.html';
                 } else {
                     const data = await res.json();
                     alert(`Error: ${data.mensaje}`);
-                    // Restauramos el botón si falla
                     btnEliminarEstacion.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Eliminar Estacion Definitivamente';
                     btnEliminarEstacion.disabled = false;
                 }
@@ -272,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // --- 7. LÓGICA PARA SALIR DEL PROYECTO (COLABORADOR) ---
     const btnSalirEstacion = document.getElementById('btn-salir-estacion');
     if (btnSalirEstacion) {
         btnSalirEstacion.addEventListener('click', async () => {
@@ -290,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (res.ok) {
                     alert("Has salido de la estacion exitosamente.");
-                    window.location.href = 'inicio.html'; // Lo mandamos al dashboard
+                    window.location.href = 'inicio.html'; 
                 } else {
                     const data = await res.json();
                     alert(`Error: ${data.mensaje}`);

@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
     if (!token) return window.location.replace('login.html');
@@ -19,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let fotoCargadaBase64 = null;
     let fotoUrlActual = null; 
 
-    // --- 2. NAVEGACIÓN POR CHIPS ---
     document.querySelectorAll('.protocol-chip').forEach(chip => {
         chip.addEventListener('click', function() {
             document.querySelectorAll('.protocol-chip').forEach(c => c.classList.remove('active'));
@@ -29,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 3. ESTRUCTURA DE DATOS ---
     const mapasCheckboxes = {
         clima: ['Tormenta', 'Lluvia', 'Lluvia intermitente', 'Claro/Soleado', 'Nublado'],
         bosques: ['Bosque natural', 'Bosque plantado'],
@@ -59,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Object.keys(mapasCheckboxes).forEach(grupo => generarChecks(grupo, mapasCheckboxes[grupo]));
 
-    // --- 4. LÓGICA DE FOTOGRAFÍA (BASE64) ---
     document.getElementById('foto-preview').addEventListener('click', () => {
         if(!document.getElementById('n_control').disabled) { 
             document.getElementById('foto-upload').click();
@@ -85,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 5. CARGAR NOMBRE DEL PROYECTO ---
     cargarNombreEstacion();
     
     async function cargarNombreEstacion() {
@@ -106,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 6. CARGA DE DATOS ---
     cargarProtocolo();
 
     async function cargarProtocolo() {
@@ -134,20 +126,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function llenarFormulario(form) {
         if(!form) return;
 
-        // 1. Llenar Textos Dinámicos
         if (form.textos) {
             document.querySelectorAll('.txt-dinamico').forEach(inp => {
                 if(form.textos[inp.id] !== undefined) inp.value = form.textos[inp.id];
             });
         }
 
-        // 2. Llenar Selects simples
         const selectsSimples = ['horario', 'lluvias', 'subsistema', 'temp_agua_radio', 'tipologia', 'residuos', 'rectificacion', 'canalizado', 'aceites', 'extracciones', 'presas', 'erosion', 'dosel'];
         selectsSimples.forEach(id => {
             if(form[id]) document.getElementById(id).value = form[id];
         });
 
-        // 3. Llenar Checkboxes
         Object.keys(mapasCheckboxes).forEach(grupo => {
             if(form[grupo]) {
                 document.querySelectorAll(`.chk-${grupo}`).forEach(chk => {
@@ -157,7 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // 4. Mostrar Foto
         if (form.foto_url) {
             fotoUrlActual = form.foto_url;
             let imgEl = document.getElementById('foto-cargada-img');
@@ -170,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 7. HABILITAR EDICIÓN ---
     document.getElementById('btnModificar').addEventListener('click', habilitarEdicion);
 
     function habilitarEdicion() {
@@ -180,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btnGuardar').style.display = 'inline-block';
     }
 
-    // --- 8. GUARDAR Y EMPAQUETAR JSON ---
     document.getElementById('btnGuardar').addEventListener('click', async (e) => {
         e.preventDefault();
 

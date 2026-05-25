@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nombreUsuarioTop = document.querySelector('.fw-bold.text-dark');
     if(nombreUsuarioTop) nombreUsuarioTop.textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
-    // LÓGICA DE IMAGEN (Alta)
     const imageInput = document.getElementById('family-image-input');
     const uploadTrigger = document.getElementById('family-upload-trigger');
     const uploadText = document.getElementById('upload-text');
@@ -18,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (imageInput.files[0]) uploadText.textContent = `Imagen: ${imageInput.files[0].name}`;
     });
 
-    // LÓGICA DE IMAGEN (Edición)
     const editImageInput = document.getElementById('edit-family-image-input');
     const editUploadTrigger = document.getElementById('edit-family-upload-trigger');
     const editUploadText = document.getElementById('edit-upload-text');
@@ -29,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     cargarFamilias();
 
-    // 1. CARGAR EL LISTADO COMPLETO
     async function cargarFamilias() {
         try {
             const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
@@ -70,12 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 contenedor.insertAdjacentHTML('beforeend', filaHTML);
             });
 
-            // Enlazar clics de edición
             document.querySelectorAll('.btn-abrir-editar').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const target = e.currentTarget;
                     
-                    // Llenamos el formulario del modal de edición
                     document.getElementById('edit-family-id').value = target.getAttribute('data-id');
                     document.getElementById('edit-family-name').value = target.getAttribute('data-nombre');
                     document.getElementById('edit-family-order').value = target.getAttribute('data-orden');
@@ -83,9 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('edit-family-desc').value = target.getAttribute('data-desc');
                     
                     editUploadText.textContent = "Cambiar Foto de Evidencia (Opcional)";
-                    editImageInput.value = ""; // Reseteamos archivos previos
+                    editImageInput.value = "";
 
-                    // Abrimos el modal con Bootstrap
                     const modal = new bootstrap.Modal(document.getElementById('editFamilyModal'));
                     modal.show();
                 });
@@ -96,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. DISPARAR POST (ALTA TRADICIONAL)
     const addFamilyForm = document.getElementById('add-family-form');
     if(addFamilyForm) {
         addFamilyForm.addEventListener('submit', async (e) => {
@@ -132,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. DISPARAR PUT (ACTUALIZACIÓN COMPLETA CON FORM DATA)
     const editFamilyForm = document.getElementById('edit-family-form');
     editFamilyForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -150,16 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('tamano', document.getElementById('edit-family-size').value.trim());
         formData.append('descripcion', document.getElementById('edit-family-desc').value.trim());
         
-        // Si el usuario eligió una nueva foto, la adjuntamos; si no, el backend mantendrá la de Cloudinary actual
         if (editImageInput.files.length > 0) {
             formData.append('imagen', editImageInput.files[0]);
         }
 
         try {
             const res = await fetch(`https://deepbug-backend.onrender.com/api/familias/${fId}`, {
-                method: 'PUT', // Método HTTP oficial para mutaciones
+                method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` },
-                body: formData // Multipart/form-data automático
+                body: formData
             });
 
             if (res.ok) {

@@ -1,6 +1,4 @@
-// frontend/zonas.js
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. SEGURIDAD
     const token = localStorage.getItem('token');
     if (!token) {
         window.location.replace('login.html');
@@ -19,13 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. CARGA DE ZONAS
     cargarZonas();
 
     async function cargarZonas() {
         try {
             
-            //const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
             const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -67,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 contenedor.insertAdjacentHTML('beforeend', filaHTML);
             });
 
-            // Asignar eventos a los botones de Editar
             document.querySelectorAll('.btn-editar-zona').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const zonaId = e.currentTarget.getAttribute('data-id');
@@ -75,7 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            // Asignar eventos a los botones de Eliminar
             document.querySelectorAll('.btn-eliminar-zona').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const zonaId = e.currentTarget.getAttribute('data-id');

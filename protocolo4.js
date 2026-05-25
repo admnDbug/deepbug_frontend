@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario');
     if (!token) return window.location.replace('login.html');
@@ -16,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const estacionId = urlParams.get('id');
     if (!estacionId) return window.location.href = 'inicio.html';
 
-    // --- 2. PREPARAR EL HTML PARA CONECTARLO AL BACKEND ---
     const inputsPct = document.querySelectorAll('.habitat-item .habitat-pct');
     if(inputsPct[0]) inputsPct[0].id = 'porcentaje_h1';
     if(inputsPct[1]) inputsPct[1].id = 'porcentaje_h2';
@@ -35,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtObservaciones = document.querySelector('#collapseObs textarea');
     if(txtObservaciones) txtObservaciones.id = 'observaciones';
 
-    // --- 3. GENERAR FAUNA Y ESTIMACIÓN ---
     const llavesFauna = ['Perifiton', 'Algas filament.', 'Macrófitas', 'Macroinvertebrados', 'Peces', 'Porífera'];
     const llavesEstimacion = ['Gasteropoda', 'Bivalvia', 'Turbellaria', 'Oligochaeta', 'Hirudinea', 'Diptera', 'Amphipoda', 'Isopoda', 'Cangrejo', 'Camarón', 'Ephemeroptera', 'Plecoptera', 'Odonata', 'Hemiptera', 'Megaloptera', 'Trichoptera', 'Lepidoptera', 'Coleoptera'];
     
@@ -71,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     generarSliders('#collapseFauna .protocolOne-accordion-body', llavesFauna, 'slider-fauna');
     generarSliders('#collapseEstimacion .protocolOne-accordion-body', llavesEstimacion, 'slider-estimacion');
 
-    // --- 4. LÓGICA DE INTERFAZ VISUAL ---
     const btnModificar = document.getElementById('btnModificar');
     const btnGuardar = document.getElementById('btnGuardar');
 
@@ -92,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- 5. CARGAR NOMBRE DEL PROYECTO ---
     cargarNombreEstacion();
     
     async function cargarNombreEstacion() {
@@ -113,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 6. CARGAR DATOS DESDE EL BACKEND ---
     cargarProtocolo();
 
     async function cargarProtocolo() {
@@ -131,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (rolUsuario === 'Responsable' && btnModificar) btnModificar.style.display = 'inline-block';
             }
 
-            // Aplicar Roles
             document.querySelectorAll("[data-role]").forEach(el => {
                 const rolesPermitidos = el.getAttribute("data-role").split(" ");
                 if (!rolesPermitidos.includes(rolUsuario) && !rolesPermitidos.includes(rolUsuario.toLowerCase())) {
@@ -144,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function llenarFormulario(form) {
         if(!form) return;
 
-        // 1. Llenar Textos Fijos y Otros
         if (form.textos) {
             ['porcentaje_h1', 'porcentaje_h2', 'porcentaje_h3', 'porcentaje_h4', 'porcentaje_h5', 
              'arrastre_h1', 'arrastre_h2', 'arrastre_h3', 'arrastre_h4', 'arrastre_h5', 
@@ -157,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 2. Llenar Fauna
         if (form.fauna_asociada) {
             document.querySelectorAll('.slider-fauna').forEach(slider => {
                 const key = slider.getAttribute('data-key');
@@ -168,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // 3. Llenar Estimación
         if (form.estimacion_preliminar) {
             document.querySelectorAll('.slider-estimacion').forEach(slider => {
                 const key = slider.getAttribute('data-key');
@@ -180,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 7. HABILITAR EDICIÓN ---
     function habilitarEdicion() {
         document.getElementById('estado-texto').textContent = "Modo Edición";
         document.querySelectorAll('#protocolFourAccordion input, #protocolFourAccordion textarea').forEach(el => el.disabled = false);
@@ -191,7 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnModificar) btnModificar.addEventListener('click', habilitarEdicion);
 
-    // --- 8. GUARDAR Y EMPAQUETAR JSON ---
     if (btnGuardar) {
         btnGuardar.addEventListener('click', async (e) => {
             e.preventDefault();

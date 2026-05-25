@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
     window.addEventListener('pageshow', (event) => {
         if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
             window.location.reload();
         }
     });
-    // --- 1. SEGURIDAD ---
     const token = localStorage.getItem('token');
     const rolUsuario = localStorage.getItem('rolUsuario'); 
     if (!token) return window.location.replace('login.html');
@@ -16,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const estacionId = urlParams.get('id');
     if (!estacionId) return window.location.href = 'inicio.html';
 
-    // --- 2. TEXTOS Y DATOS (Flutter + Desire) ---
     let tipoGradiente = 'Alto';
     let puntajesAlto = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0, p6: 0, p7: 0, p8Izq: 0, p8Der: 0, p9Izq: 0, p9Der: 0, p10Izq: 0, p10Der: 0 };
     let puntajesBajo = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0, p6: 0, p7: 0, p8Izq: 0, p8Der: 0, p9Izq: 0, p9Der: 0, p10Izq: 0, p10Der: 0 };
@@ -36,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         10: { alto: "10. Amplitud de la vegetación ribereña (Márgenes)", bajo: "10. Amplitud de la vegetación ribereña (Márgenes)" }
     };
 
-    // Textos de Desire para el Modal
     const descripciones = {
         p1: {
             alto: {
@@ -138,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- 3. DIBUJAR LA TABLA CON EL DISEÑO DE DESIRE ---
     const contenedor = document.getElementById('contenedor-parametros');
     for (let i = 1; i <= 10; i++) {
         const esMargen = i >= 8;
@@ -165,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
     }
 
-    // --- 4. CÁLCULO DE COLORES Y PUNTOS ---
     function obtenerCategoria(valor) {
         if (valor >= 16) return { texto: 'ÓPTIMO', color: '#2196F3' }; 
         if (valor >= 11) return { texto: 'SUBÓPTIMO', color: '#4CAF50' }; 
@@ -178,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let total = 0;
 
         for (let i = 1; i <= 10; i++) {
-            // Títulos dinámicos
             document.getElementById(`titulo-p${i}`).textContent = tipoGradiente === 'Alto' ? nombresParametros[i].alto : nombresParametros[i].bajo;
 
             const esMargen = i >= 8;
@@ -198,17 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             total += sumaFila;
 
-            // Actualizar etiqueta de nivel
             const cat = obtenerCategoria(sumaFila);
             const lbl = document.getElementById(`lvl-p${i}`);
             lbl.textContent = cat.texto;
             lbl.style.color = cat.color;
         }
 
-        // Total
         document.getElementById('totalScore').textContent = total;
         
-        // Color del Badge General (usando los mismos colores)
         const pctTotal = total / 200;
         const badge = document.getElementById('badgeTotal');
         badge.className = 'badge-total shadow-sm mb-0 px-4 py-2 rounded-pill fw-bold text-white';
@@ -218,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else badge.style.backgroundColor = '#F44336';
     }
 
-    // Eventos de escritura
     document.querySelectorAll('.score-input').forEach(input => {
         input.addEventListener('input', (e) => {
             let val = parseFloat(e.target.value) || 0;
@@ -237,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
         recalcularUI();
     });
 
-    // --- 5. LÓGICA DEL MODAL ---
     window.mostrarModal = function(num) {
         const paramId = `p${num}`;
         const pts = getPuntajesActuales();
@@ -246,7 +233,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const cat = obtenerCategoria(score);
         const dataParam = descripciones[paramId] || descripciones.default;
         
-        // MAGIA: Si el parámetro tiene sub-descripciones por gradiente, elige la correcta
         const gradientKey = tipoGradiente.toLowerCase();
         const levelKey = cat.texto.toLowerCase().replace('ó', 'o');
         
@@ -264,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         new bootstrap.Modal(document.getElementById('modalDetalle')).show();
     }
 
-    // --- NUEVO: CARGAR NOMBRE DEL PROYECTO ---
     cargarNombreEstacion();
     
     async function cargarNombreEstacion() {
@@ -275,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (res.ok) {
                 const estacion = await res.json();
                 document.getElementById('nombre-estacion-nav').textContent = estacion.nombre_estacion;
-                // Le asignamos el link dinámico para volver a la pantalla de verestacion
                 document.getElementById('link-estacion-top').href = `verestacion.html?id=${estacionId}`;
             } else {
                 document.getElementById('nombre-estacion-nav').textContent = "Estacion Desconocida";
@@ -286,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- 6. CARGA DE DATOS ---
     cargarProtocolo();
     async function cargarProtocolo() {
         try {
@@ -311,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (rolUsuario === 'Responsable') {
                     document.getElementById('btnModificar').style.display = 'inline-block';
-                    document.getElementById('tipo_gradiente').disabled = true; // Se desbloquea al modificar
+                    document.getElementById('tipo_gradiente').disabled = true; 
                 }
             }
 
@@ -321,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) { console.error("Error:", error); }
     }
 
-    // --- 7. EDICIÓN Y GUARDADO ---
     document.getElementById('btnModificar').addEventListener('click', habilitarEdicion);
 
     function habilitarEdicion() {
