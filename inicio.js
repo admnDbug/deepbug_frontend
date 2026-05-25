@@ -26,8 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mapaDash) mapaDash.remove();
         // preferCanvas es OBLIGATORIO para que html2pdf exporte los puntos
         mapaDash = L.map('mapa-dashboard', { preferCanvas: true }).setView([19.4326, -99.1332], 5);
+        
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors', maxZoom: 18
+            attribution: '© OpenStreetMap contributors', 
+            maxZoom: 18,
+            crossOrigin: true
         }).addTo(mapaDash);
         
         marcadoresCapa = L.layerGroup().addTo(mapaDash);
