@@ -124,3 +124,14 @@
     .sidebar { width: 0; overflow: hidden; }
     .main-content { margin-left: 0; width: 100%; }
 }
+@media print {
+    #reporte-mapa-exportar {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+}
+/* Evita que los elementos de tabla se corten a la mitad en la impresión */
+tr, td, th, tbody, thead {
+    page-break-inside: avoid !important;
+}

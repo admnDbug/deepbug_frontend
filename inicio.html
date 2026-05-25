@@ -6,9 +6,6 @@
     <title>Inicio</title>
     <script src="head-loader.js"></script>
     <link rel="stylesheet" href="css/inicio.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -34,17 +31,11 @@
             <h4 class="mb-0 text-primary fw-bold">Mis Estaciones</h4>
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
-                    <button 
-                        class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
+                    <button class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle fa-lg text-primary"></i>
                         <span class="fw-bold text-dark" id="nombreUsuarioTop">Usuario</span>
                         <i class="fas fa-chevron-down text-primary"></i>
                     </button>
-
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="perfil.html"><i class="fas fa-user-edit fa-lg text-primary me-2"></i>Mi perfil</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -54,61 +45,15 @@
             </div>
         </div>
 
-        <div class="zone-header-actions d-flex justify-content-between align-items-center w-100 mb-3 px-1">
-            <button type="button" id="btn-descargar-mapa" class="btn btn-sm btn-danger rounded-pill fw-bold px-3">
-                <i class="fas fa-file-pdf me-1"></i> Descargar Reporte
-            </button>
-
+        <div class="zone-header-actions d-flex justify-content-end align-items-center w-100 mb-4 px-1">
             <button type="button" class="btn btn-outline-primary fw-bold px-3 py-2 border-2" data-bs-toggle="modal" data-bs-target="#downloadAppModal" style="border-radius: 8px;">
                 <i class="fas fa-mobile-alt me-2"></i>Descargar App Móvil
             </button>
         </div>
-        
-        <div id="reporte-mapa-exportar" class="bg-white p-3 rounded-4 shadow-sm mb-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0"><i class="fas fa-map-marked-alt me-2 text-primary"></i>Mapa de Estaciones</h5>
-            </div>
-
-            <div class="row g-2 mb-3">
-                <div class="col-md-4">
-                    <label class="small fw-bold text-muted">Filtrar por Zona</label>
-                    <select id="filtro-zona" class="form-select form-select-sm rounded-pill">
-                        <option value="todas">Todas las zonas</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="small fw-bold text-muted">Filtrar por Estación</label>
-                    <select id="filtro-estacion" class="form-select form-select-sm rounded-pill" disabled>
-                        <option value="todas">Todas las estaciones</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="mapa-dashboard" style="height: 450px; border-radius: 12px; z-index: 1; border: 1px solid #dee2e6;"></div>
-
-            <div class="mt-4">
-                <h6 class="fw-bold text-primary mb-2">Índices BMWP/MEX de las estaciones mostradas</h6>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover text-center align-middle small">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Estación</th>
-                                <th>Zona</th>
-                                <th>Coordenadas</th>
-                                <th>BMWP</th>
-                                <th>Calidad</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-mapa-body">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
         <div class="d-flex justify-content-center mb-5">
             <button class="btn btn-join" data-bs-toggle="modal" data-bs-target="#joinProjectModal">
-                <i class="fas fa-folder-plus me-2"></i> Unirme a una Estacion
+                <i class="fas fa-folder-plus me-2"></i> Unirme a una Estación
             </button>
         </div>
 
@@ -119,7 +64,7 @@
                         <div class="Nueva-estacion"> 
                             <div class="d-flex align-items-center mb-2">
                                 <i class="fas fa-file-medical nuevaestacion-icon me-2"></i>
-                                <span class="nuevaestacion-card-title">Nueva Estacion</span>
+                                <span class="nuevaestacion-card-title">Nueva Estación</span>
                             </div>
                         </div>
                     </a>                
@@ -137,7 +82,7 @@
                 <p class="text-muted small mb-4">Por favor ingrese su código de invitación</p>
                 <div class="text-start">
                     <label class="index-modal-label">Ingresa el código</label>
-                    <input type="text" class="index-modal-input" placeholder="Codigo" id="codigoInvitacionInput"/>
+                    <input type="text" class="index-modal-input" placeholder="Código" id="codigoInvitacionInput"/>
                 </div>
                 <button type="button" class="index-modal-btn" id="btnUnirseEstacion">Ingresar</button>
             </div>
@@ -152,21 +97,13 @@
                 <h4 class="modal-title fw-bold text-primary mb-0" style="font-size: 1.3rem;">Obtén la App Móvil</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
             <div class="modal-body text-center p-0">
                 <p class="text-muted small mb-4">Escanea el código QR con la cámara de tu celular o haz clic sobre él para descargar el instalador de <strong>Deep Bug</strong>.</p>
-                
                 <div class="p-3 bg-light rounded-4 d-inline-block shadow-sm border mb-3">
                     <a href="https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="Clic para ir al enlace de descarga">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" 
-                             alt="Código QR Deep Bug" 
-                             class="img-fluid" 
-                             style="max-width: 200px; cursor: pointer; transition: transform 0.2s;"
-                             onmouseover="this.style.transform='scale(1.03)'" 
-                             onmouseout="this.style.transform='scale(1)'">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" alt="Código QR Deep Bug" class="img-fluid" style="max-width: 200px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
                     </a>
                 </div>
-
                 <div class="mt-2">
                     <a href="https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm w-100 py-2 fw-bold" style="border-radius: 8px;">
                         <i class="fas fa-external-link-alt me-2"></i>Ir al enlace de descarga
@@ -177,7 +114,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 <script src="roles.js"></script>
 <script src="inicio.js"></script>
 </body>
