@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             container.appendChild(card);
         });
+        totalBMWP = parseFloat(totalBMWP.toFixed(2));
 
         document.getElementById('totalBmwpLabel').innerText = `BMWP/MX: ${totalBMWP}`;
         document.getElementById('totalQualityBox').innerText = `Total de índice BMWP/Mex: ${totalBMWP}`;
@@ -331,7 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!confirmar) return;
             }
 
-            const totalBMWP = addedFamilies.reduce((sum, f) => sum + f.valor_bmwp, 0);
+            const totalCrudo = addedFamilies.reduce((sum, f) => sum + f.valor_bmwp, 0);
+            const totalBMWP = parseFloat(totalCrudo.toFixed(2));
 
             const datos_protocolo_5 = {
                 familias_encontradas: addedFamilies.map(f => ({
@@ -341,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     imagen_url: f.foto_url,
                     foto_base64: f.foto_base64 
                 })),
-                sumatoria_total_bmwp: totalBMWP
+                "sumatoria_total_bmwp": double.parse((provider.puntajeTotal).toStringAsFixed(2)),
             };
 
             const paqueteSincronizacion = {
