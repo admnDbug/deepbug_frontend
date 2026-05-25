@@ -29,24 +29,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 4. Inicializar el mapa de Leaflet
-    const map = L.map('mapa-consultas').setView([23.6345, -102.5528], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    const searchInput = document.querySelector('.table-info-search-input');
-    const containerTabla = document.querySelector('.container-fluid.px-4');
-
-    function getColorBMWP(bmwp) {
-        if (bmwp === null || bmwp === undefined) return '#808080';
-        if (bmwp > 100) return '#00008B';
-        if (bmwp >= 61 && bmwp <= 100) return '#ADD8E6';
-        if (bmwp >= 36 && bmwp <= 60) return '#008000';
-        if (bmwp >= 16 && bmwp <= 35) return '#FFFF00';
-        if (bmwp >= 11 && bmwp <= 15) return '#FFA500';
-        return '#FF0000';
-    }
 
     // 5. Cargar proyectos
     async function cargarProyectos() {
@@ -100,38 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
             containerTabla.appendChild(row);
-        });
-    }
-
-    function renderizarMapa(proyectos) {
-        proyectos.forEach(proyecto => {
-            if (proyecto.zona_id && proyecto.zona_id.coordenadas) {
-                const coordsArray = proyecto.zona_id.coordenadas.split(',').map(c => parseFloat(c.trim()));
-                
-                if (coordsArray.length === 2 && !isNaN(coordsArray[0]) && !isNaN(coordsArray[1])) {
-                    const colorPunto = getColorBMWP(proyecto.bmwp_total);
-                    
-                    const marker = L.circleMarker(coordsArray, {
-                        radius: 8,
-                        fillColor: colorPunto,
-                        color: '#000',
-                        weight: 1,
-                        opacity: 1,
-                        fillOpacity: 0.9
-                    }).addTo(map);
-                    
-                    const estadoTexto = proyecto.bmwp_total !== null ? `Puntaje: ${proyecto.bmwp_total}` : 'Aún sin evaluación';
-                    marker.bindPopup(`
-                        <div style="text-align: center;">
-                            <strong>${proyecto.nombre_proyecto}</strong><br>
-                            <span style="font-size: 12px; color: #555;">${proyecto.zona_id.nombre}</span><br>
-                            <span style="display: inline-block; margin-top: 5px; padding: 3px 8px; border-radius: 4px; background: ${colorPunto}; color: ${colorPunto === '#FFFF00' || colorPunto === '#ADD8E6' ? '#000' : '#fff'};">
-                                BMWP: ${estadoTexto}
-                            </span>
-                        </div>
-                    `);
-                }
-            }
         });
     }
 
