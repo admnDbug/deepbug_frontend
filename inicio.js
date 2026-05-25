@@ -150,19 +150,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bounds.length > 0) mapaDash.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
     }
 
-    // Exportación a PDF
+    // Exportación a PDF (Versión protegida)
     const btnDescargarMapa = document.getElementById('btn-descargar-mapa');
     if(btnDescargarMapa) {
         btnDescargarMapa.addEventListener('click', () => {
+            if (dataEstacionesGlobal.length === 0) {
+                alert("Aún no hay datos cargados en el mapa para descargar.");
+                return;
+            }
+            
             const elemento = document.getElementById('reporte-mapa-exportar');
+            
+            // Añadimos un pequeño texto al botón para indicar que está procesando
+            btnDescargarMapa.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Generando PDF...';
+            btnDescargarMapa.disabled = true;
+
             const opt = {
                 margin:       10,
                 filename:     'Reporte_Geografico_DeepBug.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(elemento).save();
+            
+            html2pdf().set(opt).from(elemento).save().then(() => {
+                btnDescargarMapa.innerHTML = '<i class="fas fa-file-pdf me-1"></i> Descargar Reporte';
+                btnDescargarMapa.disabled = false;
+            }).catch(err => {
+                console.error("Error generando PDF:", err);
+                alert("Ocurrió un error al generar el PDF.");
+                btnDescargarMapa.innerHTML = '<i class="fas fa-file-pdf me-1"></i> Descargar Reporte';
+                btnDescargarMapa.disabled = false;
+            });
         });
     }
 
