@@ -177,14 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     useCORS: true, 
                     allowTaint: true,
                     ignoreElements: (node) => {
-                        // Mantenemos las exclusiones anteriores para que no crashee
                         if (node.classList && node.classList.contains('leaflet-control-zoom')) return true;
                         if (node.tagName && node.tagName.toLowerCase() === 'select') return true;
                         return false;
                     }
                 },
-                // CAMBIO AQUÍ: Cambiamos 'portrait' por 'landscape'
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                // AGREGAMOS ESTA LÍNEA MÁGICA:
+                pagebreak:    { mode: ['css', 'avoid-all'] }
             };
             
             html2pdf().set(opt).from(elemento).save().then(() => {

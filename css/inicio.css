@@ -52,3 +52,7 @@
         margin: 0;
     }
 }
+/* Evita que los elementos de tabla se corten a la mitad en la impresión */
+tr, td, th, tbody, thead {
+    page-break-inside: avoid !important;
+}
