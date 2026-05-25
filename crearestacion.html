@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Proyecto</title>
+    <title>Crear Estacion</title>
     
     <script src="head-loader.js"></script>
 
-    <link rel="stylesheet" href="css/crearproyecto.css">
+    <link rel="stylesheet" href="css/crearestacion.css">
 </head>
 <body>
 
@@ -20,7 +20,7 @@
         </div>
         
         <nav class="nav flex-column mt-4">
-            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Estaciones</a>
             <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
             <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
             <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
@@ -30,7 +30,7 @@
     <div class="main-content w-100">
         
         <div class="top-header">
-            <h4 class="mb-0 text-primary fw-bold">Crear Proyecto</h4>
+            <h4 class="mb-0 text-primary fw-bold">Crear Estacion</h4>
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
                     <button 
@@ -66,10 +66,10 @@
                                     <i class="fas fa-leaf fa-2x"></i> 
                                 </div>
                                 <h3 class="fw-bold">Nueva estacion</h3>
-                                <p class="text-muted">Inicia un nuevo proyecto asignando su zona de estudio.</p>
+                                <p class="text-muted">Inicia una nueva estacion asignando su zona de estudio.</p>
                             </div>
 
-                            <form id="formCrearProyecto">
+                            <form id="formCrearEstacion">
                                 
                                 <div class="mb-4">
                                     <label class="form-label fw-bold text-dark">Zona de Estudio</label>
@@ -82,12 +82,12 @@
                                 </div>
 
                                 <div class="mb-5">
-                                    <label class="form-label fw-bold text-dark">Nombre del Proyecto</label>
-                                    <input type="text" id="nombreProyecto" class="form-control form-control-lg border-2 shadow-none" placeholder="Ej. Evaluación Río Bravo 2026" autocomplete="off" required>
+                                    <label class="form-label fw-bold text-dark">Nombre de la Estacion</label>
+                                    <input type="text" id="nombreEstacion" class="form-control form-control-lg border-2 shadow-none" placeholder="Ej. Evaluación Río Bravo 2026" autocomplete="off" required>
                                 </div>
 
                                 <button type="submit" id="btnGuardarFinal" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold disabled" style="pointer-events: none;">
-                                    <i class="fas fa-rocket me-2"></i> Crear Proyecto
+                                    <i class="fas fa-rocket me-2"></i> Crear Estacion
                                 </button>
                                 
                             </form>
@@ -103,6 +103,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="roles.js"></script>
-<script src="crearproyecto.js"></script>
+<script src="crearestacion.js"></script>
 </body>
 </html>

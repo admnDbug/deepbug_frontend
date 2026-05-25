@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nombreUsuarioTop').textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
-    if (!proyectoId) return window.location.href = 'inicio.html';
+    const estacionId = urlParams.get('id');
+    if (!estacionId) return window.location.href = 'inicio.html';
 
     let esModoEdicion = false;
 
@@ -94,14 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-add-tecnico').addEventListener('click', () => agregarTecnicoHTML());
     document.getElementById('btn-add-insumo').addEventListener('click', () => agregarOtroInsumo());
 
-    cargarNombreProyecto();
-    async function cargarNombreProyecto() {
+    cargarNombreEstacion();
+    async function cargarNombreEstacion() {
         try {
-            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const res = await fetch(`https://deepbug-backend-staging.onrender.com/api/estaciones/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (res.ok) {
-                const proyecto = await res.json();
-                document.getElementById('nombre-proyecto-nav').textContent = proyecto.nombre_estacion || 'Estación';
-                document.getElementById('link-proyecto-top').href = `verproyecto.html?id=${proyectoId}`;
+                const estacion = await res.json();
+                document.getElementById('nombre-estacion-nav').textContent = estacion.nombre_estacion || 'Estación';
+                document.getElementById('link-estacion-top').href = `verestacion.html?id=${estacionId}`;
             }
         } catch (error) {}
     }
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarProtocolo();
     async function cargarProtocolo() {
         try {
-            const respuesta = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const respuesta = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const protocolos = await respuesta.json();
             const protocolo1 = protocolos.find(p => p.protocolo_numero == 1 && p.estado === 'aprobado');
 
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (nom) datos_formulario.verificacion_materiales.otros_insumos.push({ nombre: nom, cantidad: cant });
         });
 
-        const paqueteSincronizacion = { protocolos: [{ biomonitoreo_id: proyectoId, protocolo_numero: 1, datos_formulario: datos_formulario }] };
+        const paqueteSincronizacion = { protocolos: [{ biomonitoreo_id: estacionId, protocolo_numero: 1, datos_formulario: datos_formulario }] };
 
         try {
             document.getElementById('btnGuardar').innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';

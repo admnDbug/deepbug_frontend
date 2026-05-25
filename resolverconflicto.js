@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Leer parámetros de la URL
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
+    const estacionId = urlParams.get('id');
     const numProtocolo = urlParams.get('protocolo');
 
-    if (!proyectoId || !numProtocolo) {
+    if (!estacionId || !numProtocolo) {
         alert("Faltan datos para resolver el conflicto.");
         window.location.href = 'inicio.html';
         return;
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarConflictos() {
         try {
-            const respuesta = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${proyectoId}`, {
+            const respuesta = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${estacionId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (respuesta.ok) {
                 alert("¡Conflicto resuelto exitosamente!");
-                window.location.href = `verproyecto.html?id=${proyectoId}`;
+                window.location.href = `verestacion.html?id=${estacionId}`;
             } else {
                 alert(`Error: ${data.mensaje}`);
             }

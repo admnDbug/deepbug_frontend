@@ -21,7 +21,7 @@
         </div>
         
         <nav class="nav flex-column mt-4">
-            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Estaciones</a>
             <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
             <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
             <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
@@ -31,7 +31,7 @@
     <div class="main-content w-100">
         
         <div class="top-header">
-            <h4 class="mb-0 text-primary fw-bold">Mis Proyectos</h4>
+            <h4 class="mb-0 text-primary fw-bold">Mis Estaciones</h4>
             <div class="d-flex align-items-center gap-2">
                 <div class="dropdown">
                     <button 
@@ -102,20 +102,20 @@
 
         <div class="d-flex justify-content-center mb-5">
             <button class="btn btn-join" data-bs-toggle="modal" data-bs-target="#joinProjectModal">
-                <i class="fas fa-folder-plus me-2"></i> Unirme a un Proyecto
+                <i class="fas fa-folder-plus me-2"></i> Unirme a una Estacion
 
             </button>
         </div>
 
         <div class="container-fluid">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="contenedorProyectos">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="contenedorEstaciones">
                 
                 <div class="col" data-role="Responsable">
-                    <a class="linknuevoproyecto" href="crearproyecto.html">
-                        <div class="Nuevo-proyecto"> 
+                    <a class="linknuevaestacion" href="crearestacion.html">
+                        <div class="Nueva-estacion"> 
                             <div class="d-flex align-items-center mb-2">
-                                <i class="fas fa-file-medical nuevoproyecto-icon me-2"></i>
-                                <span class="nuevoproyecto-card-title">Nuevo Proyecto</span>
+                                <i class="fas fa-file-medical nuevaestacion-icon me-2"></i>
+                                <span class="nuevaestacion-card-title">Nueva Estacion</span>
                             </div>
                         </div>
                     </a>                
@@ -126,13 +126,13 @@
     </div>
 </div>
 
-<!-- POP UP de unirte a un proyecto -->
+<!-- POP UP de unirte a una estacion -->
 <div class="modal fade" id="joinProjectModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content index-modal-content p-4">
             <div class="modal-body text-center">
                 
-                <h3 class="index-modal-title mb-2">Unirse a un proyecto</h3>
+                <h3 class="index-modal-title mb-2">Unirse a una estacion</h3>
                 
                 <p class="text-muted small mb-4">Por favor ingrese su código de invitación</p>
                 <!-- agregar funcion de validar codigo -->
@@ -141,7 +141,7 @@
                     <input type="text" class="index-modal-input" placeholder="Codigo" id="codigoInvitacionInput"/> <!-- value="codiguito=)" -->
                 </div>
 
-                <button type="button" class="index-modal-btn" id="btnUnirseProyecto">Ingresar</button>
+                <button type="button" class="index-modal-btn" id="btnUnirseEstacion">Ingresar</button>
                 
             </div>
         </div>

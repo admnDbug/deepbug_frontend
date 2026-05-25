@@ -93,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectEstacion.disabled = false;
                 const filtradas = dataEstacionesGlobal.filter(est => est.zona_id && est.zona_id._id === zonaId);
                 filtradas.forEach(est => {
-                    // Prevenir fallback si en BD aún dice nombre_proyecto
-                    const nombre = est.nombre_estacion || est.nombre_proyecto;
+                    // Prevenir fallback si en BD aún dice nombre_estacion
+                    const nombre = est.nombre_estacion || est.nombre_estacion;
                     selectEstacion.insertAdjacentHTML('beforeend', `<option value="${est._id}">${nombre}</option>`);
                 });
                 renderizarMapaYTabla(filtradas);
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const lngTexto = est.longitud ? est.longitud.toFixed(5) : 'N/A';
             const color = getColorBMWP(est.bmwp_total);
             const calidad = obtenerCalidadBMWP(est.bmwp_total);
-            const nombreMostrado = est.nombre_estacion || est.nombre_proyecto || 'Sin Nombre';
+            const nombreMostrado = est.nombre_estacion || est.nombre_estacion || 'Sin Nombre';
 
             tbody.insertAdjacentHTML('beforeend', `
                 <tr>
@@ -169,45 +169,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 3. CARGA DE TARJETAS DE ESTACIONES
     // ==========================================
-    async function cargarProyectos() {
+    async function cargarEstaciones() {
         try {
             const respuesta = await fetch('https://deepbug-backend-staging.onrender.com/api/estaciones', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            if (!respuesta.ok) throw new Error('Error al obtener los proyectos');
+            if (!respuesta.ok) throw new Error('Error al obtener las estaciones');
 
-            const proyectos = await respuesta.json();
-            const contenedor = document.getElementById('contenedorProyectos');
+            const estaciones = await respuesta.json();
+            const contenedor = document.getElementById('contenedorEstaciones');
             
-            // Mantenemos solo el primer hijo (El botón de "Nuevo Proyecto") y limpiamos el resto
+            // Mantenemos solo el primer hijo (El botón de "Nueva Estacion") y limpiamos el resto
             const tarjetasAisladas = contenedor.querySelectorAll('.col:not(:first-child)');
             tarjetasAisladas.forEach(t => t.remove());
 
-            proyectos.forEach(proyecto => {
-                const fechaStr = proyecto.fecha_creacion 
-                    ? new Date(proyecto.fecha_creacion).toLocaleDateString('es-MX') 
+            estaciones.forEach(estacion => {
+                const fechaStr = estacion.fecha_creacion 
+                    ? new Date(estacion.fecha_creacion).toLocaleDateString('es-MX') 
                     : 'Sin fecha';
                 
-                const nombreZona = (proyecto.zona_id && proyecto.zona_id.nombre) 
-                    ? proyecto.zona_id.nombre 
+                const nombreZona = (estacion.zona_id && estacion.zona_id.nombre) 
+                    ? estacion.zona_id.nombre 
                     : 'Zona no especificada';
 
-                const estadoP1 = (proyecto.estado_protocolos && proyecto.estado_protocolos.protocolo1) || 0;
+                const estadoP1 = (estacion.estado_protocolos && estacion.estado_protocolos.protocolo1) || 0;
                 let alertaHTML = '';
                 if (estadoP1 === 0) {
                     alertaHTML = `<div class="alert alert-danger p-2 mb-3 text-center rounded-3 shadow-sm" style="font-size: 0.8rem; font-weight: bold;"><i class="fas fa-exclamation-triangle me-1"></i> Llenar Protocolo 1 antes de campo</div>`;
                 }
 
-                const nombreMostrar = proyecto.nombre_estacion || proyecto.nombre_proyecto;
+                const nombreMostrar = estacion.nombre_estacion || estacion.nombre_estacion;
 
                 const tarjetaHTML = `
                 <div class="col">
                     <div class="project-card">
                         <div class="d-flex align-items-center mb-3">
                             <i class="fas fa-file-alt card-icon me-2"></i>
-                            <a class="card-title text-truncate" href="verproyecto.html?id=${proyecto._id}">${nombreMostrar}</a>
+                            <a class="card-title text-truncate" href="verestacion.html?id=${estacion._id}">${nombreMostrar}</a>
                         </div>
                         ${alertaHTML}
                         <div class="info-text">
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <strong>Fecha de creación:</strong> ${fechaStr}
                         </div>
                         <div class="info-text">
-                            <strong>Código:</strong> ${proyecto.codigo_invitacion || 'N/A'}
+                            <strong>Código:</strong> ${estacion.codigo_invitacion || 'N/A'}
                         </div>
                     </div>
                 </div>
@@ -228,14 +228,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error:', error);
-            alert('No se pudieron cargar tus proyectos.');
+            alert('No se pudieron cargar tus estaciones.');
         }
     }
 
     // ==========================================
     // 4. ACCIONES GENERALES (UNIRSE Y SALIR)
     // ==========================================
-    const btnUnirse = document.getElementById('btnUnirseProyecto');
+    const btnUnirse = document.getElementById('btnUnirseEstacion');
     if (btnUnirse) {
         btnUnirse.addEventListener('click', async () => {
             const codigo = document.getElementById('codigoInvitacionInput').value;
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error(error);
-                alert('Error al intentar unirse al proyecto.');
+                alert('Error al intentar unirse a la estacion.');
             }
         });
     }
@@ -278,6 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         inicializarMapaDashboard();
         cargarDatosMapa();
-        cargarProyectos();
+        cargarEstaciones();
     }, 200); // Pequeño retraso para que los divs se rendericen correctamente
 });

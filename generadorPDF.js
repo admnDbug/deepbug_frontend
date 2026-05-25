@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const token = localStorage.getItem('token');
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
+    const estacionId = urlParams.get('id');
 
     btnPDF.addEventListener('click', async () => {
         try {
@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPDF.disabled = true;
 
             // 1. Info Básica de la Pantalla
-            const nombreProyecto = document.getElementById('vp-nombre-proyecto').textContent;
-            const nombreZona = document.getElementById('vp-zona-proyecto').textContent;
+            const nombreEstacion = document.getElementById('vp-nombre-estacion').textContent;
+            const nombreZona = document.getElementById('vp-zona-estacion').textContent;
             const fechaCreacion = document.getElementById('vp-fecha-creacion').textContent;
             const responsable = document.getElementById('vp-responsable-nombre').textContent;
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
             // 2. Extraer Protocolos de BD
-            const resProtocolos = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` }});
+            const resProtocolos = await fetch(`https://deepbug-backend-staging.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
             const p1 = protocolos.find(p => p.protocolo_numero === 1 && p.estado === 'aprobado');
@@ -241,8 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
-                            <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Proyecto:</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreProyecto}</td>
+                            <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Estacion:</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreEstacion}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Zona de Estudio:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreZona}</td>
                         </tr>
@@ -727,14 +727,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="margin-top: 30px; border-top: 2px solid #dee2e6; padding-top: 12px; font-size: 9px; color: #6c757d; display: flex; justify-content: space-between; page-break-inside: avoid;">
                     <span>Deep Bug &mdash; Sistema de Biomonitoreo de Macroinvertebrados</span>
                     <span>Generado el: ${new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    <span>Proyecto: ${nombreProyecto}</span>
+                    <span>Estacion: ${nombreEstacion}</span>
                 </div>
             `;
 
             // 4. Parámetros y descarga
             const opcionesConfig = {
                 margin: 10,
-                filename: `Reporte_${nombreProyecto.replace(/\s+/g, '_')}.pdf`,
+                filename: `Reporte_${nombreEstacion.replace(/\s+/g, '_')}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }

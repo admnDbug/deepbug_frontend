@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 3. VALIDACIÓN EN TIEMPO REAL (Botón dinámico) ---
-    const inputNombre = document.getElementById('nombreProyecto');
+    const inputNombre = document.getElementById('nombreEstacion');
     const selectZona = document.getElementById('zonaSelect');
     const btnGuardarFinal = document.getElementById('btnGuardarFinal');
 
@@ -56,9 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     selectZona.addEventListener('change', revisarFormulario);
 
     // --- 4. GUARDAR EN MONGODB ---
-    const formCrearProyecto = document.getElementById('formCrearProyecto');
+    const formCrearEstacion = document.getElementById('formCrearEstacion');
     
-    formCrearProyecto.addEventListener('submit', async (e) => {
+    formCrearEstacion.addEventListener('submit', async (e) => {
         e.preventDefault(); // Evita que la página recargue
         
         // Animación de carga en el botón
@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         btnGuardarFinal.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creando...';
         btnGuardarFinal.style.pointerEvents = "none";
 
-        const nuevoProyecto = {
-            nombre_proyecto: inputNombre.value.trim(),
+        const nuevoEstacion = {
+            nombre_estacion: inputNombre.value.trim(),
             zona_id: selectZona.value
         };
 
@@ -78,14 +78,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(nuevoProyecto)
+                body: JSON.stringify(nuevoEstacion)
             });
 
             const data = await respuesta.json();
 
             if (respuesta.ok) {
-                const codigo = data.proyecto.codigo_invitacion;
-                alert(`¡Proyecto creado exitosamente!\n\nEl código de invitación para tu equipo es: ${codigo}\n\nGuárdalo bien.`);
+                const codigo = data.estacion.codigo_invitacion;
+                alert(`¡Estacion creada exitosamente!\n\nEl código de invitación para tu equipo es: ${codigo}\n\nGuárdalo bien.`);
                 window.location.href = 'inicio.html';
             } else {
                 alert(`Error: ${data.mensaje}`);
@@ -93,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 btnGuardarFinal.style.pointerEvents = "auto";
             }
         } catch (error) {
-            console.error("Error al crear proyecto:", error);
-            alert("Error de conexión al crear el proyecto.");
+            console.error("Error al crear estacion:", error);
+            alert("Error de conexión al crear la estacion.");
             btnGuardarFinal.innerHTML = textoOriginal;
             btnGuardarFinal.style.pointerEvents = "auto";
         }
