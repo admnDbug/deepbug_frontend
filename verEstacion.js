@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nombreUsuarioTop) nombreUsuarioTop.textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
 
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
+    const estacionId = urlParams.get('id');
 
-    if (!proyectoId) {
-        alert("No se especificó un proyecto.");
+    if (!estacionId) {
+        alert("No se especificó un estacion.");
         window.location.href = 'inicio.html';
         return;
     }
@@ -33,23 +33,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Arrancamos el motor
     aplicarRoles();
-    cargarVistaProyecto();
+    cargarVistaEstacion();
 
     // --- 2. CARGAR DATOS (PETICIONES SEPARADAS PARA EVITAR CRASHEOS) ---
-    async function cargarVistaProyecto() {
+    async function cargarVistaEstacion() {
         try {
-            // Petición 1: Proyecto
-            const resProyecto = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}`, {
+            // Petición 1: Estacion
+            const resEstacion = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
-            if (!resProyecto.ok) throw new Error('No se pudo cargar la información general del proyecto.');
-            const proyecto = await resProyecto.json();
+            if (!resEstacion.ok) throw new Error('No se pudo cargar la información general de la estacion.');
+            const estacion = await resEstacion.json();
 
             // Petición 2: Protocolos (Protegida por si el backend bloquea al colaborador)
             let protocolos = [];
             try {
-                const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, {
+                const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (resProtocolos.ok) protocolos = await resProtocolos.json();
@@ -58,33 +58,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Llenar info general
-            document.getElementById('vp-nombre-proyecto').textContent = proyecto.nombre_proyecto;
-            document.getElementById('vp-zona-proyecto').textContent = proyecto.zona_id?.nombre || 'Sin Zona';
-            document.getElementById('vp-fecha-creacion').textContent = new Date(proyecto.fecha_creacion).toLocaleDateString('es-MX');
+            document.getElementById('vp-nombre-estacion').textContent = estacion.nombre_estacion || 'Estación sin nombre';
+            document.getElementById('vp-zona-estacion').textContent = estacion.zona_id?.nombre || 'Sin Zona';
+            document.getElementById('vp-fecha-creacion').textContent = new Date(estacion.fecha_creacion).toLocaleDateString('es-MX');
             
             // Protección por si responsable_id viene vacío
-            if (proyecto.responsable_id && proyecto.responsable_id.length > 0) {
-                document.getElementById('vp-responsable-nombre').textContent = proyecto.responsable_id[0].nombre || 'Desconocido';
+            if (estacion.responsable_id && estacion.responsable_id.length > 0) {
+                document.getElementById('vp-responsable-nombre').textContent = estacion.responsable_id[0].nombre || 'Desconocido';
             }
             
             // Mostrar la alerta del Protocolo 1
             const alertaContainer = document.getElementById('vp-alerta-protocolo1');
-            const estadoP1 = (proyecto.estado_protocolos && proyecto.estado_protocolos.protocolo1) || 0;
+            const estadoP1 = (estacion.estado_protocolos && estacion.estado_protocolos.protocolo1) || 0;
             if (estadoP1 === 0) {
                 alertaContainer.innerHTML = `<div class="alert alert-danger fw-bold shadow-sm rounded-4"><i class="fas fa-exclamation-triangle me-2"></i> ¡Atención! Debes llenar el Protocolo 1 en esta web antes de salir a campo.</div>`;
             } else {
                 alertaContainer.innerHTML = `<div class="alert alert-info fw-bold shadow-sm rounded-4"><i class="fas fa-mobile-alt me-2"></i> Recordatorio: Dile a tus colaboradores que sincronicen su app móvil antes de ir a campo.</div>`;
             }
             
-            document.getElementById('vp-codigo-invitacion').textContent = proyecto.codigo_invitacion || '------';
+            document.getElementById('vp-codigo-invitacion').textContent = estacion.codigo_invitacion || '------';
 
             // Dibujar partes dinámicas
-            dibujarColaboradores(proyecto.colaboradores_id);
+            dibujarColaboradores(estacion.colaboradores_id);
             dibujarProtocolos(protocolos);
 
         } catch (error) {
             console.error(error);
-            alert("Ocurrió un error al cargar el proyecto: " + error.message);
+            alert("Ocurrió un error al cargar e la estacion: " + error.message);
         }
     }
 
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.btn-eliminar-colab').forEach(btn => {
             btn.addEventListener('click', async function() {
                 const colabId = this.getAttribute('data-id');
-                if (confirm('¿Eliminar a este colaborador del proyecto?')) {
+                if (confirm('¿Eliminar a este colaborador de la estacion?')) {
                     await removerColaborador(colabId);
                 }
             });
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function removerColaborador(colaborador_id) {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}/remover-colaborador`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}/remover-colaborador`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify({ colaborador_id })
             });
-            if (res.ok) cargarVistaProyecto();
+            if (res.ok) cargarVistaEstacion();
             else alert("Error al remover colaborador.");
         } catch (error) { console.error(error); }
     }
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         contenedor.innerHTML = '';
 
         const titulos = {
-            1: "Datos Generales y Cuerpo de Agua",
+            1: "Datos Generales",
             2: "Hábitat y Entorno",
             3: "Parámetros Fisicoquímicos",
             4: "Muestra Biológica",
@@ -216,11 +216,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (estado === 'conflicto' && rolUsuario === 'Responsable') {
-                    window.location.href = `resolverconflicto.html?id=${proyectoId}&protocolo=${numero}`;
+                    window.location.href = `resolverconflicto.html?id=${estacionId}&protocolo=${numero}`;
                     return;
                 }
 
-                window.location.href = `protocolo${numero}.html?id=${proyectoId}`;
+                window.location.href = `protocolo${numero}.html?id=${estacionId}`;
             });
         });
     }
@@ -237,71 +237,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     // --- 6. LÓGICA PARA ELIMINAR EL PROYECTO ---
-    const btnEliminarProyecto = document.getElementById('btn-eliminar-proyecto');
-    if (btnEliminarProyecto) {
-        btnEliminarProyecto.addEventListener('click', async () => {
+    const btnEliminarEstacion = document.getElementById('btn-eliminar-estacion');
+    if (btnEliminarEstacion) {
+        btnEliminarEstacion.addEventListener('click', async () => {
             // Doble confirmación por seguridad
-            const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro de que deseas ELIMINAR este proyecto?\n\nEsta acción borrará todos los protocolos, fotos y datos asociados. NO se puede deshacer.");
+            const confirmacion = confirm("⚠️ ¿Estás absolutamente seguro de que deseas ELIMINAR este estacion?\n\nEsta acción borrará todos los protocolos, fotos y datos asociados. NO se puede deshacer.");
             if (!confirmacion) return;
 
             try {
                 // Cambiamos la interfaz para mostrar que está procesando
-                btnEliminarProyecto.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Eliminando todo...';
-                btnEliminarProyecto.disabled = true;
+                btnEliminarEstacion.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Eliminando todo...';
+                btnEliminarEstacion.disabled = true;
 
-                const res = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (res.ok) {
-                    alert("Proyecto eliminado con éxito.");
+                    alert("Estacion eliminada con éxito.");
                     window.location.href = 'inicio.html'; // Lo mandamos de regreso al dashboard
                 } else {
                     const data = await res.json();
                     alert(`Error: ${data.mensaje}`);
                     // Restauramos el botón si falla
-                    btnEliminarProyecto.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Eliminar Proyecto Definitivamente';
-                    btnEliminarProyecto.disabled = false;
+                    btnEliminarEstacion.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Eliminar Estacion Definitivamente';
+                    btnEliminarEstacion.disabled = false;
                 }
             } catch (error) {
                 console.error(error);
-                alert("Error de conexión al intentar eliminar el proyecto.");
-                btnEliminarProyecto.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Eliminar Proyecto Definitivamente';
-                btnEliminarProyecto.disabled = false;
+                alert("Error de conexión al intentar eliminar la estacion.");
+                btnEliminarEstacion.innerHTML = '<i class="fas fa-trash-alt me-2"></i> Eliminar Estacion Definitivamente';
+                btnEliminarEstacion.disabled = false;
             }
         });
     }
     // --- 7. LÓGICA PARA SALIR DEL PROYECTO (COLABORADOR) ---
-    const btnSalirProyecto = document.getElementById('btn-salir-proyecto');
-    if (btnSalirProyecto) {
-        btnSalirProyecto.addEventListener('click', async () => {
-            const confirmacion = confirm("¿Estás seguro de que deseas salir de este proyecto? Ya no podrás ver ni editar los protocolos a menos que te vuelvan a invitar.");
+    const btnSalirEstacion = document.getElementById('btn-salir-estacion');
+    if (btnSalirEstacion) {
+        btnSalirEstacion.addEventListener('click', async () => {
+            const confirmacion = confirm("¿Estás seguro de que deseas salir de esta estacion? Ya no podrás ver ni editar los protocolos a menos que te vuelvan a invitar.");
             if (!confirmacion) return;
 
             try {
-                btnSalirProyecto.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saliendo...';
-                btnSalirProyecto.disabled = true;
+                btnSalirEstacion.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saliendo...';
+                btnSalirEstacion.disabled = true;
 
-                const res = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}/salir`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}/salir`, {
                     method: 'PUT',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 
                 if (res.ok) {
-                    alert("Has salido del proyecto exitosamente.");
+                    alert("Has salido de la estacion exitosamente.");
                     window.location.href = 'inicio.html'; // Lo mandamos al dashboard
                 } else {
                     const data = await res.json();
                     alert(`Error: ${data.mensaje}`);
-                    btnSalirProyecto.innerHTML = '<i class="fas fa-sign-out-alt me-2"></i> Salir del Proyecto';
-                    btnSalirProyecto.disabled = false;
+                    btnSalirEstacion.innerHTML = '<i class="fas fa-sign-out-alt me-2"></i> Salir de la Estacion';
+                    btnSalirEstacion.disabled = false;
                 }
             } catch (error) {
                 console.error(error);
-                alert("Error de conexión al intentar salir del proyecto.");
-                btnSalirProyecto.innerHTML = '<i class="fas fa-sign-out-alt me-2"></i> Salir del Proyecto';
-                btnSalirProyecto.disabled = false;
+                alert("Error de conexión al intentar salir de la estacion.");
+                btnSalirEstacion.innerHTML = '<i class="fas fa-sign-out-alt me-2"></i> Salir de la Estacion';
+                btnSalirEstacion.disabled = false;
             }
         });
     }

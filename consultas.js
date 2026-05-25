@@ -1,25 +1,16 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Detectar si la página se está cargando desde la caché al usar el botón "Atrás"
-    window.addEventListener('pageshow', (event) => {
-        if (event.persisted) {
-            // Si viene de la caché, forzamos una recarga completa para que valide el token de verdad
-            window.location.reload();
-        }
-    });
-    // 1. VERIFICACIÓN DE SEGURIDAD
+    // 1. SEGURIDAD
     const token = localStorage.getItem('token');
     if (!token) {
-        alert('Debes iniciar sesión para ver esta página.');
         window.location.replace('login.html');
         return;
     }
 
-    // 2. ACTUALIZAR INTERFAZ CON DATOS DEL USUARIO
+    // 2. ACTUALIZAR INTERFAZ
     const nombreUsuario = localStorage.getItem('nombreUsuario') || 'Usuario';
     const spanUsuario = document.getElementById('nombreUsuarioTop');
     if (spanUsuario) spanUsuario.textContent = nombreUsuario;
 
-    // 3. CERRAR SESIÓN
     const btnCerrar = document.getElementById('btnCerrarSesion');
     if (btnCerrar) {
         btnCerrar.addEventListener('click', (e) => {
@@ -29,121 +20,67 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // 4. Inicializar el mapa de Leaflet
-    const map = L.map('mapa-consultas').setView([23.6345, -102.5528], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+    // 3. CARGAR ESTACIONES (Ruta corregida hacia el nuevo backend)
+    const containerTabla = document.getElementById('contenedor-consultas'); // Asegúrate que este sea el ID en tu HTML
 
-    const searchInput = document.querySelector('.table-info-search-input');
-    const containerTabla = document.querySelector('.container-fluid.px-4');
-
-    function getColorBMWP(bmwp) {
-        if (bmwp === null || bmwp === undefined) return '#808080';
-        if (bmwp > 100) return '#00008B';
-        if (bmwp >= 61 && bmwp <= 100) return '#ADD8E6';
-        if (bmwp >= 36 && bmwp <= 60) return '#008000';
-        if (bmwp >= 16 && bmwp <= 35) return '#FFFF00';
-        if (bmwp >= 11 && bmwp <= 15) return '#FFA500';
-        return '#FF0000';
-    }
-
-    // 5. Cargar proyectos
-    async function cargarProyectos() {
+    async function cargarEstaciones() {
         try {
-            const response = await fetch('https://deepbug-backend.onrender.com/api/biomonitoreos/consultas/todos', {
+            // CAMBIO: Ahora usamos la ruta base de estaciones
+            const response = await fetch('https://deepbug-backend.onrender.com/api/estaciones', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            // MEJORA: Leer el error exacto que manda el backend
-            if (!response.ok) {
-                const errorInfo = await response.json().catch(() => ({}));
-                throw new Error(errorInfo.mensaje || `Error HTTP: ${response.status}`);
-            }
+            if (!response.ok) throw new Error('Error al conectar con la API');
 
-            const proyectos = await response.json();
-            renderizarTabla(proyectos);
-            renderizarMapa(proyectos);
+            const estaciones = await response.json();
+            
+            // Limpiamos tabla
+            containerTabla.innerHTML = '';
 
+            estaciones.forEach(estacion => {
+                const row = document.createElement('div');
+                row.className = 'table-info-data-row';
+
+                const fechaStr = estacion.fecha_creacion ? new Date(estacion.fecha_creacion).toLocaleDateString('es-MX') : 'S/F';
+                const respNombre = (estacion.responsable_id && estacion.responsable_id.length > 0) 
+                    ? estacion.responsable_id[0].nombre 
+                    : 'Sin responsable';
+                const zonaNombre = estacion.zona_id ? estacion.zona_id.nombre : 'Sin zona';
+                const ubicacion = estacion.zona_id && estacion.zona_id.ubicacion ? estacion.zona_id.ubicacion : 'N/A';
+
+                row.innerHTML = `
+                    <div class="table-info-col-name table-info-text" data-label="Estación">${estacion.nombre_estacion}</div>
+                    <div class="table-info-col-resp table-info-text" data-label="Responsable">${respNombre}</div>
+                    <div class="table-info-col-zona table-info-text" data-label="Zona">${zonaNombre}</div>
+                    <div class="table-info-col-ubic table-info-text" data-label="Ubicación">${ubicacion}</div>
+                    <div class="table-info-col-date table-info-text" data-label="Fecha">${fechaStr}</div>
+                    <div class="table-info-col-act">
+                        <a class="table-info-btn-view" href="verestacion.html?id=${estacion._id}">Ver Estación</a>
+                    </div>
+                `;
+                containerTabla.appendChild(row);
+            });
         } catch (error) {
-            console.error('Detalle técnico del error:', error);
-            alert(`No se pudieron cargar los proyectos. Razón: ${error.message}`);
+            console.error(error);
+            containerTabla.innerHTML = '<p class="text-center text-danger mt-4">Error al cargar las estaciones.</p>';
         }
     }
 
-    function renderizarTabla(proyectos) {
-        document.querySelectorAll('.table-info-data-row').forEach(row => row.remove());
-
-        proyectos.forEach(proyecto => {
-            const row = document.createElement('div');
-            row.className = 'table-info-data-row';
-            
-            const fechaStr = new Date(proyecto.fecha_creacion).toLocaleDateString('es-MX');
-            const respNombre = proyecto.responsable_id && proyecto.responsable_id.length > 0 
-                                ? proyecto.responsable_id[0].nombre 
-                                : 'Sin responsable';
-            const zonaNombre = proyecto.zona_id ? proyecto.zona_id.nombre : 'Sin zona';
-            const ubicacion = proyecto.zona_id && proyecto.zona_id.ubicacion ? proyecto.zona_id.ubicacion : 'N/A';
-
-            row.innerHTML = `
-                <div class="table-info-col-name table-info-text" data-label="Proyecto">${proyecto.nombre_proyecto}</div>
-                <div class="table-info-col-resp table-info-text" data-label="Responsable">${respNombre}</div>
-                <div class="table-info-col-zona table-info-text" data-label="Zona">${zonaNombre}</div>
-                <div class="table-info-col-ubic table-info-text" data-label="Ubicación">${ubicacion}</div>
-                <div class="table-info-col-date table-info-text" data-label="Fecha">${fechaStr}</div>
-                <div class="table-info-col-act">
-                    <a class="table-info-btn-view" href="verproyecto.html?id=${proyecto._id}">Ver Proyecto</a>
-                </div>
-            `;
-            containerTabla.appendChild(row);
+    // 4. BUSCADOR
+    const searchInput = document.getElementById('search-consultas'); // Asegúrate de tener este ID en tu HTML
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('.table-info-data-row');
+            rows.forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(searchTerm) ? 'flex' : 'none';
+            });
         });
     }
 
-    function renderizarMapa(proyectos) {
-        proyectos.forEach(proyecto => {
-            if (proyecto.zona_id && proyecto.zona_id.coordenadas) {
-                const coordsArray = proyecto.zona_id.coordenadas.split(',').map(c => parseFloat(c.trim()));
-                
-                if (coordsArray.length === 2 && !isNaN(coordsArray[0]) && !isNaN(coordsArray[1])) {
-                    const colorPunto = getColorBMWP(proyecto.bmwp_total);
-                    
-                    const marker = L.circleMarker(coordsArray, {
-                        radius: 8,
-                        fillColor: colorPunto,
-                        color: '#000',
-                        weight: 1,
-                        opacity: 1,
-                        fillOpacity: 0.9
-                    }).addTo(map);
-                    
-                    const estadoTexto = proyecto.bmwp_total !== null ? `Puntaje: ${proyecto.bmwp_total}` : 'Aún sin evaluación';
-                    marker.bindPopup(`
-                        <div style="text-align: center;">
-                            <strong>${proyecto.nombre_proyecto}</strong><br>
-                            <span style="font-size: 12px; color: #555;">${proyecto.zona_id.nombre}</span><br>
-                            <span style="display: inline-block; margin-top: 5px; padding: 3px 8px; border-radius: 4px; background: ${colorPunto}; color: ${colorPunto === '#FFFF00' || colorPunto === '#ADD8E6' ? '#000' : '#fff'};">
-                                BMWP: ${estadoTexto}
-                            </span>
-                        </div>
-                    `);
-                }
-            }
-        });
-    }
-
-    searchInput.addEventListener('input', () => {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const projectRows = document.querySelectorAll('.table-info-data-row');
-
-        projectRows.forEach(row => {
-            const textContent = row.textContent.toLowerCase();
-            row.style.display = textContent.includes(searchTerm) ? 'flex' : 'none';
-        });
-    });
-
-    cargarProyectos();
+    cargarEstaciones();
 });

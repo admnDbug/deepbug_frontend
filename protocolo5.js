@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.getElementById('nombreUsuarioTop').textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
-    if (!proyectoId) return window.location.href = 'inicio.html';
+    const estacionId = urlParams.get('id');
+    if (!estacionId) return window.location.href = 'inicio.html';
 
     let isEditing = false;
     let addedFamilies = [];
@@ -253,35 +253,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- NUEVO: CARGAR PROYECTO Y CATÁLOGO DE LA ZONA ---
-    cargarProyectoYCatalogo();
+    cargarEstacionYCatalogo();
     
-    async function cargarProyectoYCatalogo() {
+    async function cargarEstacionYCatalogo() {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}`, { 
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, { 
                 headers: { 'Authorization': `Bearer ${token}` } 
             });
             if (res.ok) {
-                const proyecto = await res.json();
-                document.getElementById('nombre-proyecto-nav').textContent = proyecto.nombre_proyecto;
-                document.getElementById('link-proyecto-top').href = `verproyecto.html?id=${proyectoId}`;
+                const estacion = await res.json();
+                document.getElementById('nombre-estacion-nav').textContent = estacion.nombre_estacion;
+                document.getElementById('link-estacion-top').href = `verestacion.html?id=${estacionId}`;
                 
-                if(proyecto.zona_id && proyecto.zona_id.catalogo_familias) {
-                    catalogo = proyecto.zona_id.catalogo_familias;
+                if(estacion.zona_id && estacion.zona_id.catalogo_familias) {
+                    catalogo = estacion.zona_id.catalogo_familias;
                 }
                 cargarProtocolo();
             } else {
-                document.getElementById('nombre-proyecto-nav').textContent = "Proyecto Desconocido";
+                document.getElementById('nombre-estacion-nav').textContent = "Estacion Desconocida";
             }
         } catch (error) {
-            console.error("Error al obtener el proyecto:", error);
-            document.getElementById('nombre-proyecto-nav').textContent = "Error de conexión";
+            console.error("Error al obtener la estacion:", error);
+            document.getElementById('nombre-estacion-nav').textContent = "Error de conexión";
         }
     }
 
     // --- 8. CARGA DESDE EL BACKEND ---
     async function cargarProtocolo() {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const protocolos = await res.json();
             const protocolo5 = protocolos.find(p => p.protocolo_numero == 5 && p.estado === 'aprobado');
 
@@ -346,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const paqueteSincronizacion = {
                 protocolos: [{ 
-                    biomonitoreo_id: proyectoId, 
+                    estacion_id: estacionId, 
                     protocolo_numero: 5, 
                     datos_formulario: null,
                     datos_protocolo_5: datos_protocolo_5 

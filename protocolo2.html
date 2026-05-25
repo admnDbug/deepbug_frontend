@@ -31,7 +31,7 @@
             <span class="brand-text">Deep Bug</span>
         </div>
         <nav class="nav flex-column mt-4">
-            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+            <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Estaciones</a>
             <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
             <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
             <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
@@ -44,8 +44,8 @@
             <div>
                 <h4 class="mb-0 text-primary fw-bold d-flex align-items-center">
                         Protocolo 2
-                        <a href="#" id="link-proyecto-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar al Proyecto">
-                            <i class="fas fa-arrow-left"></i> <span id="nombre-proyecto-nav">Cargando...</span>
+                        <a href="#" id="link-estacion-top" class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-50 text-decoration-none text-truncate ms-3 d-flex align-items-center gap-1 hover-shadow" style="font-size: 0.55em; max-width: 250px; font-weight: 500; transition: 0.2s;" title="Regresar a la Estacion">
+                            <i class="fas fa-arrow-left"></i> <span id="nombre-estacion-nav">Cargando...</span>
                         </a>
                     </h4>
                 <small class="text-primary fw-bold" id="estado-texto">Caracterización visual y fisicoquímica</small>
@@ -87,6 +87,7 @@
 
                         <div class="chip-container mb-4 pb-2" id="chips-nav" style="overflow-x: auto; white-space: nowrap;">
                             <div class="protocol-chip active" data-target="sec1">Datos Generales</div>
+                            <div class="protocol-chip" data-target="sec_insitu">Parámetros In Situ</div>
                             <div class="protocol-chip" data-target="sec3">Condiciones Climáticas</div>
                             <div class="protocol-chip" data-target="sec5">Cuerpo de Agua</div>
                             <div class="protocol-chip" data-target="sec6">Cobertura Boscosa</div>
@@ -113,7 +114,7 @@
                                     <div class="col-md-4"><label class="small fw-bold">Distrito</label><input type="text" class="form-control proto-input txt-dinamico" id="distrito" disabled></div>
                                     <div class="col-md-4"><label class="small fw-bold">Corregimiento</label><input type="text" class="form-control proto-input txt-dinamico" id="corregimiento" disabled></div>
                                     <div class="col-md-6"><label class="small fw-bold">Localidad</label><input type="text" class="form-control proto-input txt-dinamico" id="localidad" disabled></div>
-                                    <div class="col-md-6"><label class="small fw-bold">Proyecto</label><input type="text" class="form-control proto-input txt-dinamico" id="proyecto" disabled></div>
+                                    <div class="col-md-6"><label class="small fw-bold">Estacion</label><input type="text" class="form-control proto-input txt-dinamico" id="estacion" disabled></div>
                                     <div class="col-md-6"><label class="small fw-bold">Altura (msnm)</label><input type="number" class="form-control proto-input txt-dinamico" id="altura" disabled></div>
                                     <div class="col-md-6"><label class="small fw-bold">Llenado por</label><input type="text" class="form-control proto-input txt-dinamico" id="llenado_por" disabled></div>
                                     
@@ -214,6 +215,18 @@
                                         <div class="mb-3"><label class="small fw-bold">Especies dominantes</label><input type="text" class="form-control proto-input txt-dinamico" id="esp_dominantes" disabled></div>
                                         <div><label class="small fw-bold">% de cobertura</label><input type="number" class="form-control proto-input txt-dinamico" id="porcentaje_veg" disabled></div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="protocol-section" id="sec_insitu">
+                                <h5 class="section-header-title">Parámetros In Situ</h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4"><label class="small fw-bold">Conductividad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_cond" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">pH</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_ph" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Temperatura (°C)</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_temp" disabled></div>
+                                    
+                                    <div class="col-md-4"><label class="small fw-bold">Oxígeno disuelto</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_od" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Salinidad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_salinidad" disabled></div>
+                                    <div class="col-md-4"><label class="small fw-bold">Turbiedad</label><input type="text" class="form-control proto-input txt-dinamico" id="pi_turb" disabled></div>
                                 </div>
                             </div>
 

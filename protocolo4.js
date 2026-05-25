@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.querySelector('.fw-bold.text-dark').textContent = localStorage.getItem('nombreUsuario') || 'Usuario';
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
-    if (!proyectoId) return window.location.href = 'inicio.html';
+    const estacionId = urlParams.get('id');
+    if (!estacionId) return window.location.href = 'inicio.html';
 
     // --- 2. PREPARAR EL HTML PARA CONECTARLO AL BACKEND ---
     const inputsPct = document.querySelectorAll('.habitat-item .habitat-pct');
@@ -93,23 +93,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 5. CARGAR NOMBRE DEL PROYECTO ---
-    cargarNombreProyecto();
+    cargarNombreEstacion();
     
-    async function cargarNombreProyecto() {
+    async function cargarNombreEstacion() {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/biomonitoreos/${proyectoId}`, { 
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, { 
                 headers: { 'Authorization': `Bearer ${token}` } 
             });
             if (res.ok) {
-                const proyecto = await res.json();
-                document.getElementById('nombre-proyecto-nav').textContent = proyecto.nombre_proyecto;
-                document.getElementById('link-proyecto-top').href = `verproyecto.html?id=${proyectoId}`;
+                const estacion = await res.json();
+                document.getElementById('nombre-estacion-nav').textContent = estacion.nombre_estacion;
+                document.getElementById('link-estacion-top').href = `verestacion.html?id=${estacionId}`;
             } else {
-                document.getElementById('nombre-proyecto-nav').textContent = "Proyecto Desconocido";
+                document.getElementById('nombre-estacion-nav').textContent = "Estacion Desconocida";
             }
         } catch (error) {
-            console.error("Error al obtener el proyecto:", error);
-            document.getElementById('nombre-proyecto-nav').textContent = "Error de conexión";
+            console.error("Error al obtener el estacion:", error);
+            document.getElementById('nombre-estacion-nav').textContent = "Error de conexión";
         }
     }
 
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarProtocolo() {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const protocolos = await res.json();
             const protocolo4 = protocolos.find(p => p.protocolo_numero == 4 && p.estado === 'aprobado');
 
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const datos_formulario = { textos, fauna_asociada, estimacion_preliminar };
             const paqueteSincronizacion = {
-                protocolos: [{ biomonitoreo_id: proyectoId, protocolo_numero: 4, datos_formulario: datos_formulario }]
+                protocolos: [{ estacion_id: estacionId, protocolo_numero: 4, datos_formulario: datos_formulario }]
             };
 
             try {

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizar Proyecto</title>
+    <title>Visualizar Estacion</title>
     <script src="head-loader.js"></script>
-    <link rel="stylesheet" href="css/verproyecto.css">
+    <link rel="stylesheet" href="css/verestacion.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
             </div>
 
             <nav class="nav flex-column mt-4">
-                <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Proyectos</a>
+                <a class="nav-link" href="inicio.html"><i class="fas fa-folder"></i> Mis Estaciones</a>
                 <a class="nav-link" href="consultas.html"><i class="fas fa-search"></i> Consultas</a>
                 <a class="nav-link" href="familias.html" data-role="Responsable"><i class="fas fa-layer-group"></i> Familias</a>
                 <a class="nav-link" href="zonas.html" data-role="Responsable"><i class="fas fa-map-marked-alt"></i> Zonas</a>
@@ -27,7 +27,7 @@
 
         <div class="main-content w-100">
             <div class="top-header">
-                <h4 class="mb-0 text-primary fw-bold">Visualizar Proyecto</h4>
+                <h4 class="mb-0 text-primary fw-bold">Visualizar Estacion</h4>
                 <div class="d-flex align-items-center gap-2">
                     <div class="dropdown">
                         <button class="btn d-flex align-items-center gap-2 p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,8 +51,8 @@
                         <div class="card shadow-sm border-0 rounded-4 mb-4">
                             <div class="card-body p-4">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h3 class="fw-bold text-primary mb-0" id="vp-nombre-proyecto">Cargando proyecto...</h3>
-                                    <span class="badge bg-success rounded-pill px-3 py-2" id="vp-zona-proyecto">Zona</span>
+                                    <h3 class="fw-bold text-primary mb-0" id="vp-nombre-estacion">Cargando estacion...</h3>
+                                    <span class="badge bg-success rounded-pill px-3 py-2" id="vp-zona-estacion">Zona</span>
                                 </div>
                                 <p class="text-muted mb-1"><i class="far fa-calendar-alt me-2"></i>Creado el: <strong id="vp-fecha-creacion">--/--/----</strong></p>
                                 <p class="text-muted mb-0"><i class="fas fa-user-tie me-2"></i>Responsable: <strong id="vp-responsable-nombre">Cargando...</strong></p>
@@ -63,23 +63,21 @@
 
                         <h5 class="visualizer-section-title fw-bold mb-3"><i class="fas fa-clipboard-list me-2"></i>Estado de los Protocolos</h5>
 
-                        <div class="row g-3" id="contenedor-protocolos">
-                            </div>
+                        <div class="row g-3" id="contenedor-protocolos"></div>
 
                         <div class="d-flex flex-column gap-3 mt-4">
-    <button class="btn btn-outline-primary w-100 rounded-pill fw-bold py-2 shadow-sm" id="btn-descargar-pdf">
-        <i class="fas fa-file-pdf me-2"></i> Descargar Reporte PDF
-    </button>
+                            <button class="btn btn-outline-primary w-100 rounded-pill fw-bold py-2 shadow-sm" id="btn-descargar-pdf">
+                                <i class="fas fa-file-pdf me-2"></i> Descargar Reporte PDF
+                            </button>
     
-    <button class="btn btn-warning w-100 rounded-pill fw-bold py-2 shadow-sm text-dark" id="btn-salir-proyecto" data-role="Colaborador">
-        <i class="fas fa-sign-out-alt me-2"></i> Salir del Proyecto
-    </button>
+                            <button class="btn btn-warning w-100 rounded-pill fw-bold py-2 shadow-sm text-dark" id="btn-salir-estacion" data-role="Colaborador">
+                                <i class="fas fa-sign-out-alt me-2"></i> Salir de la Estacion
+                            </button>
 
-    <button class="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm" id="btn-eliminar-proyecto" data-role="Responsable">
-        <i class="fas fa-trash-alt me-2"></i> Eliminar Proyecto Definitivamente
-    </button>
-</div>
-
+                            <button class="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm" id="btn-eliminar-estacion" data-role="Responsable">
+                                <i class="fas fa-trash-alt me-2"></i> Eliminar Estacion Definitivamente
+                            </button>
+                        </div>      
                     </div>
 
                     <div class="col-lg-4 mt-4 mt-lg-0">
@@ -109,7 +107,7 @@
     </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="verProyecto.js"></script>
+<script src="verEstacion.js"></script>
 <script src="generadorPDF.js"></script> </body>
 </body>
 </html>

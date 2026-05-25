@@ -104,8 +104,8 @@
             color: white;
         }
 
-        /* Tarjetas de Proyecto */
-        .Nuevo-proyecto {
+        /* Tarjetas de Estacion */
+        .Nueva-estacion {
             display: flex;
             text-align: center;
             justify-content: center;
@@ -119,15 +119,15 @@
             height: 239.8px;
         }
 
-        .Nuevo-proyecto:hover {
+        .Nueva-estacion:hover {
             transform: translateY(-5px);
         }
 
-        .nuevoproyecto-icon {
+        .nuevaestacion-icon {
             color: #4CAF50;
         }
 
-        .nuevoproyecto-card-title {
+        .nuevaestacion-card-title {
             color: #4CAF50;
             font-weight: bold;
             font-size: 1rem;

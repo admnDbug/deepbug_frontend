@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const token = localStorage.getItem('token');
     const urlParams = new URLSearchParams(window.location.search);
-    const proyectoId = urlParams.get('id');
+    const estacionId = urlParams.get('id');
 
     btnPDF.addEventListener('click', async () => {
         try {
@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPDF.disabled = true;
 
             // 1. Info Básica de la Pantalla
-            const nombreProyecto = document.getElementById('vp-nombre-proyecto').textContent;
-            const nombreZona = document.getElementById('vp-zona-proyecto').textContent;
+            const nombreEstacion = document.getElementById('vp-nombre-estacion').textContent;
+            const nombreZona = document.getElementById('vp-zona-estacion').textContent;
             const fechaCreacion = document.getElementById('vp-fecha-creacion').textContent;
             const responsable = document.getElementById('vp-responsable-nombre').textContent;
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
             // 2. Extraer Protocolos de BD
-            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${proyectoId}`, { headers: { 'Authorization': `Bearer ${token}` }});
+            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
             const p1 = protocolos.find(p => p.protocolo_numero === 1 && p.estado === 'aprobado');
@@ -37,11 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- EXTRACCIÓN DE DATOS P1 ---
             const d1 = p1 ? p1.datos_formulario : {};
             const d1_gen = d1.datos_generales || {};
-            const d1_est = d1.identificacion?.estaciones || [];
-            const d1_par = d1.parametros_in_situ || {};
             const d1_res = d1.responsables || {};
             const d1_mat = d1.verificacion_materiales || {};
-            const listParametrosInSitu = ['Conductividad', 'pH', 'Temperatura', 'Oxígeno disuelto', 'Salinidad', 'Turbiedad'];
+            const otrosInsumos = d1_mat.otros_insumos || [];
             const listEquipos = ['Flujómetro', 'Termómetro', 'Conductivímetro', 'Multiparámetros', 'GPS', 'Cámara fotográfica'];
             const listInsumos = ['Red tipo D', 'Envases plásticos', 'Caja de Herramienta', 'R. Triangular', 'Frascos fisicoq.', 'Tijeras', 'Celular', 'Cinta métrica', 'Bolsas herméticas', 'Lápices', 'C. fluorescentes', 'Tabla anot.', 'Lupas', 'Viales de plásticos', 'Alcohol', 'Tamices', 'Pilotos indelebles', 'C. adhesiva', 'Etiquetas', 'Pinzas entomol.', 'Guantes', 'Bandejas blancas', 'Mascarillas', 'Botellas de lavado'];
 
@@ -64,13 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const olor = getActives(d2_form.olor);
             const color = getActives(d2_form.color);
 
-            // HTML de la Fotografía del P2
+            // HTML de la Fotografía del P2 (Blindado contra tamaños dinámicos)
             const imgP2Html = d2_form.foto_url
-                ? `<div style="text-align: center; margin: 15px 0;">
-                     <img src="${d2_form.foto_url}" style="max-height: 250px; border-radius: 8px; border: 1px solid #dee2e6; object-fit: contain;">
-                     <div style="font-size: 11px; color: #666; margin-top: 5px;">Código de Fotografía: <b>${d2.codigo_foto || 'Sin código'}</b></div>
+                ? `<div class="avoid-break" style="text-align: center; margin: 15px 0; padding: 10px; background: #fff; border: 1px solid #dee2e6; border-radius: 8px;">
+                     <div style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                        <img src="${d2_form.foto_url}" style="max-height: 100%; max-width: 100%; object-fit: contain; display: block;">
+                     </div>
+                     <div style="font-size: 11px; color: #666; margin-top: 10px;">Código de Fotografía: <b>${d2.codigo_foto || 'Sin código'}</b></div>
                    </div>`
-                : `<div style="text-align: center; margin: 15px 0; padding: 30px; background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; font-size: 12px; color: #6c757d;">
+                : `<div class="avoid-break" style="text-align: center; margin: 15px 0; padding: 30px; background-color: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; font-size: 12px; color: #6c757d;">
                      <i class="fas fa-camera" style="font-size: 20px; display: block; margin-bottom: 5px;"></i> Sin fotografía registrada en el sitio
                    </div>`;
 
@@ -95,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 10: { alto: "10. Amplitud de la vegetación ribereña", bajo: "10. Amplitud de la vegetación ribereña" }
             };
 
-            // Función generadora de tablas del P3
             function generarTablaP3(tipo, puntajesObj, puntajeTotal) {
                 let rowsHTML = '';
                 for (let i = 1; i <= 10; i++) {
@@ -123,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 return `
-                    <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                    <div class="avoid-break" style="margin-bottom: 20px;">
                         <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">Matriz de Gradiente ${tipo}</h3>
                         <table style="width: 100%; border-collapse: collapse; font-size: 10px; text-align: center;">
                             <tr style="background: #e9ecef;">
@@ -150,14 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const llavesFauna = ['Perifiton', 'Algas filament.', 'Macrófitas', 'Macroinvertebrados', 'Peces', 'Porífera'];
             const llavesEstimacion = ['Gasteropoda', 'Bivalvia', 'Turbellaria', 'Oligochaeta', 'Hirudinea', 'Diptera', 'Amphipoda', 'Isopoda', 'Cangrejo', 'Camarón', 'Ephemeroptera', 'Plecoptera', 'Odonata', 'Hemiptera', 'Megaloptera', 'Trichoptera', 'Lepidoptera', 'Coleoptera'];
 
-            // Etiqueta de abundancia según escala 0–4
             const etiquetaAbundancia = (val) => {
                 const v = parseInt(val) || 0;
                 const etiquetas = ['Ausente', 'Rara (1-3)', 'Común (3-9)', 'Abundante (>10)', 'Dominante (>50)'];
                 return etiquetas[v] || '--';
             };
 
-            // Parsear "otros hábitats" del formato "Nombre:valor, Nombre2:valor2"
             const otrosHabitatRows = (() => {
                 const raw = d4_textos['otros_habitat'] || '';
                 if (!raw.trim()) return '';
@@ -172,9 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).join('');
             })();
 
-            // Generar filas de tabla para fauna/estimación.
-            // Cada fila es su propio <tbody> con page-break-inside:avoid para que html2pdf
-            // nunca corte el contenido visual de una fila, pero sí permita saltos ENTRE filas.
             function generarFilasMetrica(llaves, dataObj) {
                 return llaves.map(llave => {
                     const val = parseInt(dataObj[llave]) || 0;
@@ -183,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         `<td style="width:25%;padding:3px;border:1px solid #fff;background-color:${i < val ? barColor : '#f8f9fa'};"></td>`
                     ).join('');
                     return `
-                        <tbody style="page-break-inside:avoid;">
+                        <tbody class="avoid-break">
                             <tr>
                                 <td style="padding:5px 4px;border:1px solid #dee2e6;font-weight:bold;">${llave}</td>
                                 <td style="padding:5px 4px;border:1px solid #dee2e6;text-align:center;font-weight:bold;color:#2b5c8f;">${val}</td>
@@ -198,20 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // --- EXTRACCIÓN DE DATOS P5 ---
-            // --- EXTRACCIÓN DE DATOS P5 ---
-            // Modificado para leer la nueva estructura de producción de MongoDB y Cloudinary
             const d5_protocolo = p5 ? p5.datos_protocolo_5 : {};
             const scoreBMWP    = d5_protocolo ? (d5_protocolo.sumatoria_total_bmwp || 0) : 0;
             const familiasRaw  = d5_protocolo ? (d5_protocolo.familias_encontradas || []) : [];
 
-            // Mapeamos al formato original para que tus tablas sigan dibujándose idénticas
             const familias = familiasRaw.map(f => ({
                 nombre: f.nombre_familia,
                 cantidad: f.cantidad,
                 valor_bmwp: f.valor_bmwp
             }));
 
-            // Tabla de clasificación BMWP/MEX completa
             const tablaBMWP = [
                 { min: 69, max: Infinity, categoria: 'Excelente', calidad: 'Aguas no contaminadas', color: '#0d6efd', rangoTxt: '> 68' },
                 { min: 53, max: 68,       categoria: 'Muy buena', calidad: 'Aguas no alteradas de manera sensible', color: '#0dcaf0', rangoTxt: '52 — 68' },
@@ -220,16 +210,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 { min: 13, max: 26,       categoria: 'Mala',      calidad: 'Aguas muy contaminadas', color: '#fd7e14', rangoTxt: '13 — 26' },
                 { min: 0,  max: 12,       categoria: 'Pésima',    calidad: 'Aguas extremadamente contaminadas', color: '#dc3545', rangoTxt: '< 13' },
             ];
-            const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max)
-                              || tablaBMWP[tablaBMWP.length - 1];
+            const clasifActual = tablaBMWP.find(r => scoreBMWP >= r.min && scoreBMWP <= r.max) || tablaBMWP[tablaBMWP.length - 1];
 
             // 3. CONSTRUCCIÓN DEL DOCUMENTO HTML COMPLETO
             const docHTML = document.createElement('div');
-            docHTML.style.padding = '10px 30px'; // Ajuste de padding para maximizar área de impresión
+            docHTML.style.padding = '0px'; 
             docHTML.style.fontFamily = 'Arial, sans-serif';
             docHTML.style.color = '#333';
 
             docHTML.innerHTML = `
+                <style>
+                    /* Forzamos reglas modernas y antiguas para evitar cortes */
+                    .avoid-break, tr, td, th, thead, tbody, img { 
+                        page-break-inside: avoid !important; 
+                        break-inside: avoid-page !important;
+                    }
+                    h1, h2, h3 { 
+                        page-break-after: avoid !important; 
+                        break-after: avoid-page !important;
+                    }
+                </style>
+
                 <div style="border-bottom: 3px solid #0d6efd; padding-bottom: 15px; margin-bottom: 25px;">
                     <h1 style="margin: 0; color: #0d6efd; font-size: 24px; font-weight: bold;">DEEP BUG - REPORTE TÉCNICO OFICIAL</h1>
                     <p style="margin: 5px 0 0 0; color: #6c757d; font-size: 11px; letter-spacing: 1px;">SISTEMA DE BIOMONITOREO DE MACROINVERTEBRADOS</p>
@@ -237,12 +238,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-001. PLAN DE MUESTREO</h2>
                 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div class="avoid-break" style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
-                            <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Proyecto:</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreProyecto}</td>
+                            <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Estacion:</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreEstacion}</td>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 15%;">Zona de Estudio:</td>
                             <td style="padding: 4px; border: 1px solid #dee2e6; width: 35%;">${nombreZona}</td>
                         </tr>
@@ -259,61 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Identificación (Estaciones)</h3>
-                    <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
-                        <tr style="background: #e9ecef;">
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">N° Control</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Lugar</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Tipo Muestra</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Fecha</th>
-                            <th style="padding: 4px; border: 1px solid #dee2e6;">Hora</th>
-                        </tr>
-                        ${d1_est.length > 0 ? d1_est.map(e => `
-                        <tr>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.control || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.lugar || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.tipo_muestra || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.fecha || '--'}</td>
-                            <td style="padding: 4px; border: 1px solid #dee2e6;">${e.hora || '--'}</td>
-                        </tr>
-                        `).join('') : '<tr><td colspan="5" style="padding: 4px; border: 1px solid #dee2e6; text-align: center;">Sin estaciones registradas</td></tr>'}
-                    </table>
-                </div>
-
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Parámetros a evaluar (In Situ)</h3>
-                    <table style="width: 100%; border-collapse: collapse; font-size: 9px; margin-bottom: 15px; text-align: center; table-layout: fixed; word-wrap: break-word;">
-                        <thead style="display: table-row-group;">
-                            <tr style="background: #e9ecef;">
-                                <th style="border: 1px solid #dee2e6; border-bottom: none; text-align: left; width: 18%; vertical-align: top;"><div style="margin-top: 8px; margin-left: 4px;">Parámetro</div></th>
-                                <th style="border: 1px solid #dee2e6; border-bottom: none; width: 10%; vertical-align: top;"><div style="margin-top: 8px;">Unidad</div></th>
-                                <th colspan="8" style="padding: 4px; border: 1px solid #dee2e6; vertical-align: middle;">Estaciones de Muestreo</th>
-                                <th style="border: 1px solid #dee2e6; border-bottom: none; text-align: left; width: 32%; vertical-align: top;"><div style="margin-top: 8px; margin-left: 4px;">Obs.</div></th>
-                            </tr>
-                            <tr style="background: #e9ecef;">
-                                <th style="border: 1px solid #dee2e6; border-top: none; padding: 4px;"></th>
-                                <th style="border: 1px solid #dee2e6; border-top: none; padding: 4px;"></th>
-                                ${[1,2,3,4,5,6,7,8].map(i => `<th style="padding: 4px; border: 1px solid #dee2e6; width: 5%; vertical-align: middle;">${i}</th>`).join('')}
-                                <th style="border: 1px solid #dee2e6; border-top: none; padding: 4px;"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${listParametrosInSitu.map(param => {
-                                const dataP = d1_par[param] || {};
-                                return `<tr style="line-height: 1.1;">
-                                    <td style="padding: 4px; border: 1px solid #dee2e6; text-align: left; font-weight: bold; word-break: break-word;">${param}</td>
-                                    <td style="padding: 4px; border: 1px solid #dee2e6; word-break: break-word;">${dataP.unidad || '--'}</td>
-                                    ${[1,2,3,4,5,6,7,8].map(i => `<td style="padding: 4px; border: 1px solid #dee2e6; word-break: break-word;">${dataP[`e${i}`] || '--'}</td>`).join('')}
-                                    <td style="padding: 4px; border: 1px solid #dee2e6; text-align: left;">${dataP.obs || '--'}</td>
-                                </tr>`;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Responsables</h3>
+                <div class="avoid-break" style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Responsables</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
                             <td style="padding: 4px; font-weight: bold; background: #f8f9fa; border: 1px solid #dee2e6; width: 25%;">Conductor:</td>
@@ -332,8 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Verificación de Materiales</h3>
+                <div class="avoid-break" style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Verificación de Materiales</h3>
                     <div style="font-size: 10px; margin-bottom: 8px;">
                         <strong>a) Equipos y Herramientas:</strong><br>
                         <div style="display: flex; flex-wrap: wrap; margin-top: 5px;">
@@ -354,17 +302,25 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${listInsumos.map(ins => `<div style="width: 25%; border-bottom: 1px dotted #ccc; padding-bottom: 2px; margin-bottom: 4px; padding-right: 10px;"><strong>${ins}:</strong> ${d1_mat.insumos?.[ins] || '--'}</div>`).join('')}
                         </div>
                     </div>
+                    ${otrosInsumos.length > 0 ? `
+                    <div style="font-size: 10px;">
+                        <strong>c) Otros Insumos:</strong><br>
+                        <ul style="margin-top: 5px; padding-left: 20px;">
+                            ${otrosInsumos.map(oi => `<li>${oi.nombre}: <b>${oi.cantidad}</b></li>`).join('')}
+                        </ul>
+                    </div>
+                    ` : ''}
                 </div>
 
                 <div class="html2pdf__page-break"></div>
 
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; margin-bottom: 15px; border-radius: 4px;">P-002. CARACTERIZACIÓN VISUAL Y FISICOQUÍMICA</h2>
                 
-                <div style="page-break-inside: avoid; margin-bottom: 15px; text-align: center;">
+                <div class="avoid-break" style="margin-bottom: 15px; text-align: center;">
                     ${imgP2Html}
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div class="avoid-break" style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Datos Generales y Localización</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -394,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div class="avoid-break" style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Clima y Cuerpo de Agua</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr>
@@ -412,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div class="avoid-break" style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Cobertura Boscosa y Usos de la Tierra</h3>
                     <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px; background: #fafafa;">
@@ -428,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
+                <div class="avoid-break" style="margin-bottom: 20px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">4. Descargas y Modificaciones</h3>
                     <div style="display: flex; gap: 10px; font-size: 10px; margin-bottom: 15px;">
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
@@ -438,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <strong style="color: #2b5c8f;">Especies/Cobertura:</strong> ${d2.esp_dominantes || '--'} / ${d2.porcentaje_veg || '--'}%
                         </div>
                         <div style="flex: 1; border: 1px solid #dee2e6; padding: 8px; border-radius: 4px;">
-                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong>br>
+                            <strong style="color: #2b5c8f;">Modificaciones al Cuerpo:</strong><br>
                             Residuos: ${d2_form.residuos||'--'} | Canalizado: ${d2_form.canalizado||'--'} | Presas: ${d2_form.presas||'--'}<br>
                             Rectificación: ${d2_form.rectificacion||'--'} | Aceites: ${d2_form.aceites||'--'} | Extracciones: ${d2_form.extracciones||'--'}<br>
                             <strong style="color: #2b5c8f; margin-top: 5px; display: inline-block;">Erosión Local:</strong> ${d2_form.erosion || '--'}
@@ -446,8 +402,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 20px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Calidad del Agua (In Situ P2)</h3>
+                <div class="avoid-break" style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Parámetros In Situ (P2)</h3>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
+                        <tr style="background: #e9ecef;">
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">Conductividad</th>
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">pH</th>
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">Temp (°C)</th>
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">Ox. Disuelto</th>
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">Salinidad</th>
+                            <th style="padding: 4px; border: 1px solid #dee2e6;">Turbiedad</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_cond || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_ph || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_temp || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_od || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_salinidad || '--'}</td>
+                            <td style="padding: 4px; border: 1px solid #dee2e6;">${d2.pi_turb || '--'}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="avoid-break" style="margin-bottom: 20px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">6. Calidad del Agua</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
                         <tr style="background: #e9ecef;">
                             <th style="padding: 4px; border: 1px solid #dee2e6;">Temp (°C)</th><th style="padding: 4px; border: 1px solid #dee2e6;">TDS</th>
@@ -476,8 +454,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 15px;">
-                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">6. Mediciones Estructurales</h3>
+                <div class="avoid-break" style="margin-bottom: 15px;">
+                    <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">7. Mediciones Estructurales</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
                         <tr style="background: #2b5c8f; color: white;">
                             <th style="padding: 4px; border: 1px solid #dee2e6;">Dimensión</th>
@@ -537,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-004. MUESTREO MULTIHÁBITAT</h2>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Tipos de Hábitat y Porcentajes</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
                         <tr style="background: #e9ecef;">
@@ -575,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">2. Número de Arrastres por Hábitat</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px; text-align: center;">
                         <tr style="background: #e9ecef;">
@@ -599,7 +577,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <div style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Fauna Asociada</h3>
-                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
+                    <div class="avoid-break" style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
@@ -617,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <div style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px; page-break-before: auto;">4. Estimación Preliminar en Campo (Macroinvertebrados)</h3>
-                    <div style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; page-break-inside: avoid;">
+                    <div class="avoid-break" style="font-size: 9px; color: #555; margin-bottom: 8px; padding: 4px 8px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">
                         Escala de abundancia: &nbsp; <b>0</b> = Ausente &nbsp;|&nbsp; <b>1</b> = Rara (1-3) &nbsp;|&nbsp; <b>2</b> = Común (3-9) &nbsp;|&nbsp; <b>3</b> = Abundante (&gt;10) &nbsp;|&nbsp; <b>4</b> = Dominante (&gt;50)
                     </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 15px;">
@@ -634,7 +612,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 ${d4_textos['observaciones'] ? `
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">5. Observaciones o Comentarios</h3>
                     <div style="font-size: 10px; border: 1px solid #dee2e6; padding: 10px; border-radius: 4px; background: #fafafa; white-space: pre-wrap;">${d4_textos['observaciones']}</div>
                 </div>
@@ -644,7 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <h2 style="color: white; background-color: #2b5c8f; padding: 6px; font-size: 14px; margin-top: 0; border-radius: 4px; margin-bottom: 15px;">P-005. IDENTIFICACIÓN DE MACROINVERTEBRADOS (BMWP-RBTC)</h2>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">1. Familias de Macroinvertebrados Registradas</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 5px;">
                         <thead>
@@ -678,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </p>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 12px;">2. Resultado BMWP-RBTC y Calidad Biológica</h3>
                     <div style="border: 2px solid ${clasifActual.color}; border-radius: 8px; padding: 14px 18px; display: flex; align-items: center; gap: 20px;">
                         <div style="flex: 0 0 auto; text-align: center; min-width: 90px;">
@@ -693,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
 
-                <div style="page-break-inside: avoid; margin-bottom: 25px;">
+                <div class="avoid-break" style="margin-bottom: 25px;">
                     <h3 style="color: #2b5c8f; border-bottom: 1px solid #dee2e6; padding-bottom: 2px; font-size: 12px; margin-bottom: 8px;">3. Escala de Clasificación BMWP-RBTC</h3>
                     <table style="width: 100%; border-collapse: collapse; font-size: 10px;">
                         <thead>
@@ -707,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <tbody>
                             ${tablaBMWP.map(r => {
                                 const esActual = (scoreBMWP >= r.min && scoreBMWP <= r.max);
-                                const rango = r.rangoTxt; // <-- Aquí tomamos el texto directo
+                                const rango = r.rangoTxt;
                                 return `
                                 <tr style="background-color: ${esActual ? r.color + '22' : 'transparent'}; font-weight: ${esActual ? 'bold' : 'normal'};">
                                     <td style="padding: 5px 8px; border: 1px solid #dee2e6; color: ${r.color}; font-weight: bold;">
@@ -724,20 +702,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     </table>
                 </div>
 
-                <div style="margin-top: 30px; border-top: 2px solid #dee2e6; padding-top: 12px; font-size: 9px; color: #6c757d; display: flex; justify-content: space-between; page-break-inside: avoid;">
+                <div class="avoid-break" style="margin-top: 30px; border-top: 2px solid #dee2e6; padding-top: 12px; font-size: 9px; color: #6c757d; display: flex; justify-content: space-between;">
                     <span>Deep Bug &mdash; Sistema de Biomonitoreo de Macroinvertebrados</span>
                     <span>Generado el: ${new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                    <span>Proyecto: ${nombreProyecto}</span>
+                    <span>Estacion: ${nombreEstacion}</span>
                 </div>
             `;
 
-            // 4. Parámetros y descarga
+            // 4. Parámetros y descarga (¡Reglas CSS estrictas y scroll reseteado!)
             const opcionesConfig = {
-                margin: 10,
-                filename: `Reporte_${nombreProyecto.replace(/\s+/g, '_')}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
+                margin:       [10, 15, 15, 15], // [Arriba, Derecha, Abajo, Izquierda] en mm
+                filename:     `Reporte_${nombreEstacion.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    scrollY: 0 // <-- ESTO EVITA QUE EL TÍTULO SALGA HASTA ABAJO
+                },
+                jsPDF:        { unit: 'mm', format: 'letter', orientation: 'portrait' },
+                pagebreak:    { 
+                    mode: ['css', 'legacy'], 
+                    avoid: ['.avoid-break', 'tr', 'h2', 'h3'] // Bloqueo estricto por etiqueta
+                } 
             };
 
             await html2pdf().set(opcionesConfig).from(docHTML).save();

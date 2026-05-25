@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarZonas() {
         try {
+            
+            //const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
             const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function eliminarZona(zonaId) {
-        const confirmar = confirm("¿Estás seguro de que deseas eliminar esta zona? Los proyectos asociados podrían quedarse sin catálogo.");
+        const confirmar = confirm("¿Estás seguro de que deseas eliminar esta zona? Las estaciones asociados podrían quedarse sin catálogo.");
         if (!confirmar) return;
 
         try {

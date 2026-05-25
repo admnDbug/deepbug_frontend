@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function cargarFamiliasGlobales() {
         try {
             // Hacemos GET a tu ruta de familias (debe ser la que definiste en index.js, ej. /api/familias)
+        
             const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
