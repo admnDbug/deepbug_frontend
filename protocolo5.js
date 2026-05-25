@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     imagen_url: f.foto_url,
                     foto_base64: f.foto_base64 
                 })),
-                sumatoria_total_bmwp: Number(provider.puntajeTotal.toFixed(2)),
+                sumatoria_total_bmwp: totalBMWP,
             };
 
             const paqueteSincronizacion = {
