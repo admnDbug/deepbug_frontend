@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors', 
             maxZoom: 18,
-            crossOrigin: true
+            crossOrigin: 'anonymous'
         }).addTo(mapaDash);
         
         marcadoresCapa = L.layerGroup().addTo(mapaDash);
@@ -172,7 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 margin:       10,
                 filename:     'Reporte_Geografico_DeepBug.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    allowTaint: true, // Permite procesar el mapa aunque los tiles sean externos
+                    ignoreElements: (node) => {
+                        // Ignora los botones de zoom del mapa para evitar que crashee html2canvas
+                        return node.classList && node.classList.contains('leaflet-control-zoom');
+                    }
+                },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
