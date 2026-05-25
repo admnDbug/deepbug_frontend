@@ -50,13 +50,20 @@
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#" id="btnCerrarSesion"><i class="fas fa-door-closed fa-lg text-primary me-2"></i>Cerrar sesión</a></li>
                     </ul>
-                    </div>
-                <!-- Cambiar para que se actualice el usuario automaticamente y cierre sesion funcional-->
+                </div>
             </div>
         </div>
-        <button class="btn btn-sm btn-danger rounded-pill fw-bold px-3" id="btn-descargar-mapa">
-            <i class="fas fa-file-pdf me-1"></i> Descargar Reporte
-        </button>
+
+        <div class="zone-header-actions d-flex justify-content-between align-items-center w-100 mb-3 px-1">
+            <button type="button" id="btn-descargar-mapa" class="btn btn-sm btn-danger rounded-pill fw-bold px-3">
+                <i class="fas fa-file-pdf me-1"></i> Descargar Reporte
+            </button>
+
+            <button type="button" class="btn btn-outline-primary fw-bold px-3 py-2 border-2" data-bs-toggle="modal" data-bs-target="#downloadAppModal" style="border-radius: 8px;">
+                <i class="fas fa-mobile-alt me-2"></i>Descargar App Móvil
+            </button>
+        </div>
+        
         <div id="reporte-mapa-exportar" class="bg-white p-3 rounded-4 shadow-sm mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold mb-0"><i class="fas fa-map-marked-alt me-2 text-primary"></i>Mapa de Estaciones</h5>
@@ -67,7 +74,7 @@
                     <label class="small fw-bold text-muted">Filtrar por Zona</label>
                     <select id="filtro-zona" class="form-select form-select-sm rounded-pill">
                         <option value="todas">Todas las zonas</option>
-                        </select>
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <label class="small fw-bold text-muted">Filtrar por Estación</label>
@@ -92,7 +99,7 @@
                                 <th>Calidad</th>
                             </tr>
                         </thead>
-                            <tbody id="tabla-mapa-body">
+                        <tbody id="tabla-mapa-body">
                         </tbody>
                     </table>
                 </div>
@@ -102,13 +109,11 @@
         <div class="d-flex justify-content-center mb-5">
             <button class="btn btn-join" data-bs-toggle="modal" data-bs-target="#joinProjectModal">
                 <i class="fas fa-folder-plus me-2"></i> Unirme a una Estacion
-
             </button>
         </div>
 
         <div class="container-fluid">
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="contenedorEstaciones">
-                
                 <div class="col" data-role="Responsable">
                     <a class="linknuevaestacion" href="crearestacion.html">
                         <div class="Nueva-estacion"> 
@@ -119,29 +124,54 @@
                         </div>
                     </a>                
                 </div>
-                
-                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- POP UP de unirte a una estacion -->
 <div class="modal fade" id="joinProjectModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content index-modal-content p-4">
             <div class="modal-body text-center">
-                
-                <h3 class="index-modal-title mb-2">Unirse a una estacion</h3>
-                
+                <h3 class="index-modal-title mb-2">Unirse a una de las estaciones</h3>
                 <p class="text-muted small mb-4">Por favor ingrese su código de invitación</p>
-                <!-- agregar funcion de validar codigo -->
                 <div class="text-start">
                     <label class="index-modal-label">Ingresa el código</label>
-                    <input type="text" class="index-modal-input" placeholder="Codigo" id="codigoInvitacionInput"/> <!-- value="codiguito=)" -->
+                    <input type="text" class="index-modal-input" placeholder="Codigo" id="codigoInvitacionInput"/>
+                </div>
+                <button type="button" class="index-modal-btn" id="btnUnirseEstacion">Ingresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="downloadAppModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content p-4 shadow-lg border-0" style="border-radius: 16px; background-color: #ffffff;">
+            <div class="modal-header border-0 p-0 d-flex justify-content-between align-items-center mb-3">
+                <h4 class="modal-title fw-bold text-primary mb-0" style="font-size: 1.3rem;">Obtén la App Móvil</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body text-center p-0">
+                <p class="text-muted small mb-4">Escanea el código QR con la cámara de tu celular o haz clic sobre él para descargar el instalador de <strong>Deep Bug</strong>.</p>
+                
+                <div class="p-3 bg-light rounded-4 d-inline-block shadow-sm border mb-3">
+                    <a href="https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" target="_blank" rel="noopener noreferrer" title="Clic para ir al enlace de descarga">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" 
+                             alt="Código QR Deep Bug" 
+                             class="img-fluid" 
+                             style="max-width: 200px; cursor: pointer; transition: transform 0.2s;"
+                             onmouseover="this.style.transform='scale(1.03)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                    </a>
                 </div>
 
-                <button type="button" class="index-modal-btn" id="btnUnirseEstacion">Ingresar</button>
-                
+                <div class="mt-2">
+                    <a href="https://drive.google.com/file/d/1bTASjiBkjBnRmZ0pxy4ec8G381c_SW-T/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm w-100 py-2 fw-bold" style="border-radius: 8px;">
+                        <i class="fas fa-external-link-alt me-2"></i>Ir al enlace de descarga
+                    </a>
+                </div>
             </div>
         </div>
     </div>
