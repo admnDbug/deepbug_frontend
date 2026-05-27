@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarZonas() {
         try {
-            const respuesta = await fetch(' /api/zonas', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const zonas = await respuesta.json();
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const respuesta = await fetch(' /api/estaciones', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/estaciones', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

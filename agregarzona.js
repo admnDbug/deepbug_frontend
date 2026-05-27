@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function cargarFamiliasGlobales() {
         try {
         
-            const respuesta = await fetch(' /api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnGuardarZona.textContent = "Guardando...";
             btnGuardarZona.style.pointerEvents = "none";
 
-            const respuesta = await fetch(' /api/zonas', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/zonas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

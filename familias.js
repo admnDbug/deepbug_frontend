@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarFamilias() {
         try {
-            const respuesta = await fetch(' /api/familias', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const familias = await respuesta.json();
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append('imagen', imageInput.files[0]);
 
             try {
-                const res = await fetch(' /api/familias', {
+                const res = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const res = await fetch(` /api/familias/${fId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/familias/${fId}`, {
                 method: 'PUT',
                 headers: { 'Authorization': `Bearer ${token}` },
                 body: formData

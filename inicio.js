@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarEstaciones() {
         try {
-            const respuesta = await fetch(' /api/estaciones', {
+            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/estaciones', {
                 method: 'GET',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!codigo) return alert('Ingresa un código');
 
             try {
-                const respuesta = await fetch(' /api/auth/validar-codigo', {
+                const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/validar-codigo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                     body: JSON.stringify({ codigo })

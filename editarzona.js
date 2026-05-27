@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function cargarCatálogoGlobal() {
         try {
-            const res = await fetch(' /api/familias', {
+            const res = await fetch('https://deepbug-backend.onrender.com/api/familias', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             catalogoGlobalFamilias = await res.json();
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function precargarDatosZona() {
         try {
-            const res = await fetch(` /api/zonas/${zonaId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if (!res.ok) throw new Error("No se pudo obtener la información de la zona");
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!confirmar) return;
 
             try {
-                const res = await fetch(` /api/zonas/${zonaId}/familias/${nombre}`, {
+                const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias/${nombre}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnRegistrarFamilia.textContent = "Guardando...";
             btnRegistrarFamilia.disabled = true;
 
-            const res = await fetch(` /api/zonas/${zonaId}/familias`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}/familias`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnActualizarZona.textContent = "Actualizando...";
             btnActualizarZona.style.pointerEvents = "none";
 
-            const res = await fetch(` /api/zonas/${zonaId}`, {
+            const res = await fetch(`https://deepbug-backend.onrender.com/api/zonas/${zonaId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
