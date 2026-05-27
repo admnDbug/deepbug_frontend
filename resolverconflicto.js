@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cargarConflictos() {
         try {
-            const respuesta = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, {
+            const respuesta = await fetch(` /api/protocolos/${estacionId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirmar) return;
 
         try {
-            const respuesta = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/resolver/${idProtocoloEnConflicto}`, {
+            const respuesta = await fetch(` /api/protocolos/resolver/${idProtocoloEnConflicto}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

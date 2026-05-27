@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarNombreEstacion();
     async function cargarNombreEstacion() {
         try {
-            const res = await fetch(`https://deepbug-backend.onrender.com/api/estaciones/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const res = await fetch(` /api/estaciones/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             if (res.ok) {
                 const estacion = await res.json();
                 document.getElementById('nombre-estacion-nav').textContent = estacion.nombre_estacion || 'Estación';
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarProtocolo();
     async function cargarProtocolo() {
         try {
-            const respuesta = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+            const respuesta = await fetch(` /api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` } });
             const protocolos = await respuesta.json();
             const protocolo1 = protocolos.find(p => p.protocolo_numero == 1 && p.estado === 'aprobado');
 
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('btnGuardar').innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';
             document.getElementById('btnGuardar').disabled = true;
 
-            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/protocolos/sincronizar', {
+            const respuesta = await fetch(' /api/protocolos/sincronizar', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(paqueteSincronizacion)

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function cargarDatosMapaYTabla() {
         try {
-            const res = await fetch('https://deepbug-backend.onrender.com/api/estaciones/mapa-datos', {
+            const res = await fetch(' /api/estaciones/mapa-datos', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(!res.ok) throw new Error("Error en ruta mapa-datos");

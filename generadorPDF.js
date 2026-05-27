@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#contenedor-colaboradores .fw-bold').forEach(el => listaColabs.push(el.textContent));
             const colaboradoresTexto = listaColabs.length > 0 ? listaColabs.join(', ') : 'Sin colaboradores asignados';
 
-            const resProtocolos = await fetch(`https://deepbug-backend.onrender.com/api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` }});
+            const resProtocolos = await fetch(` /api/protocolos/${estacionId}`, { headers: { 'Authorization': `Bearer ${token}` }});
             const protocolos = await resProtocolos.json();
 
             const p1 = protocolos.find(p => p.protocolo_numero === 1 && p.estado === 'aprobado');

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const respuesta = await fetch('https://deepbug-backend.onrender.com/api/auth/registro', {
+            const respuesta = await fetch(' /api/auth/registro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
